@@ -1,0 +1,52 @@
+.colonDivider {
+    margin-top: -15px;
+}
+.card {
+    width: 50rem;
+}
+.narrow {
+    margin-top: -25px;
+    margin-bottom: -35px;
+}
+:host ::ng-deep  .myChipDark {
+    border: 1px solid var(--primary-500) !important;
+    background: var(--blue-900) !important;
+    padding-right: 0px !important;
+}
+:host ::ng-deep  .myChipLight {
+    border: 1px solid var(--blue-100) !important;
+    background: var(--blue-100) !important;
+    padding-right: 0px !important;
+}
+:host ::ng-deep .p-panel .p-panel-content {
+    padding: 0 !important;
+}
+
+.bottomPanel {
+    margin-bottom: -10px;
+}
+div#allgmaes:not(:has(.card)) {
+    display: none;
+}
+// :host ::ng-deep .p-panel .p-panel-content div.col-4{
+//     padding: 0 !important;
+// }//
+
+// :host ::ng-deep .custom-toast  {
+//     display: flex;
+//     background: red;
+//     width: 500px; // whatever width you need
+// }
+// .custom-toast .ui-toast {
+//     position: fixed;
+//     top: 20%;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+//     width: 50%;
+//   }
+
+//   // adjusts font, color and other elements of the toast window if needed
+//   .custom-toast .ui-toast-message-content {
+//     font-family: 'Courier New', Courier, monospace;
+//     background: #FFD07B;
+//   }

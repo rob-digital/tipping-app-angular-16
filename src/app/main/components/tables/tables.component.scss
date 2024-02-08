@@ -1,0 +1,59 @@
+.teamForm-UP-light {
+    fill: white;
+}
+.teamForm-DOWN-light {
+    fill: white;
+    transform: rotate(90deg);
+}
+.groupTable {
+    margin-bottom: 3rem;
+    // min-width: 300px;
+    // border: 1px solid red;
+}
+.tableColor-0 {
+    border: 1px solid var(--pink-500);
+    border-radius: 8px;
+
+}
+.tableColor-1 {
+    border: 1px solid var(--orange-500);
+    border-radius: 8px;
+
+}
+.tableColor-2 {
+    border: 1px solid var(--purple-500);
+    border-radius: 8px;
+
+}
+.tableColor-3 {
+    border: 1px solid var(--teal-500);
+    border-radius: 8px;
+
+}
+.tableColor-4 {
+    border: 1px solid var(--cyan-500);
+    border-radius: 8px;
+
+}
+.tableColor-5 {
+    border: 1px solid var(--yellow-500);
+    border-radius: 8px;
+
+}
+.tableColor-6 {
+    border: 1px solid var(--green-500);
+    border-radius: 8px;
+
+}
+.tableColor-7 {
+    border: 1px solid var(--blue-500);
+    border-radius: 8px;
+
+}
+:host ::ng-deep .p-datatable-wrapper, :host ::ng-deep .p-datatable-footer {
+    border-radius: 8px;
+}
+
+:host ::ng-deep .p-card-body, :host ::ng-deep .p-card-content {
+    padding: 0px !important;
+}

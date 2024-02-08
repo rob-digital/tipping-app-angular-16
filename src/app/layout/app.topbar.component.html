@@ -1,0 +1,126 @@
+<div class="layout-topbar">
+
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+    <div class="flex justify-content-evenly w-full">
+        <span *ngIf="username != null && username != '' " class=" align-content-center flex-wrap flex">Hi, {{ username }}</span>
+        <span class="justify-content-center flex">
+            <i class="pi pi-file mr-4 p-text-secondary cursor-pointer" [ngClass]="{'zoomin': slipItems.length == 1}"  (click)="openSlipDialog()" pBadge style="font-size: 2rem" value="{{ slipItems.length }}"></i>
+        </span>
+    </div>
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+
+    <!-- <p-overlayPanel #op2 [showCloseIcon]="true" [style]="{width: '450px'}">
+        <ng-template pTemplate>
+            <p-table [value]="slipItems" selectionMode="single" header="Your fixtures to submit"  [paginator]="true" [rows]="5" responsiveLayout="scroll">
+                <div>Your fixtures to submit</div>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width:12rem" pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
+                        <th style="min-width:5rem">Image</th>
+                        <th style="min-width:8rem" pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-slipItem>
+                    <tr [pSelectableRow]="rowData">
+                        <td>{{ slipItem.homeTeam.name }} - {{ slipItem.awayTeam.name }}</td>
+                        <td> {{ slipItem.homeTeam.goals }} : {{ slipItem.awayTeam.goals }}</td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-template>
+    </p-overlayPanel> -->
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <!-- <button class="p-link layout-topbar-button">
+            <i class="pi pi-calendar"></i>
+            <span>Calendar</span>
+        </button> -->
+        <button class="p-link layout-topbar-button" [routerLink]="'/rules'">
+            <i class="pi pi-cog"></i>
+            <span>Settings</span>
+        </button>
+        <button class="p-link layout-topbar-button" (click)="logout()">
+            <i class="pi pi-sign-out"></i>
+            <span>Sign out</span>
+        </button>
+    </div>
+</div>
+
+<!-- <form [formGroup]="slipForm"> -->
+    <p-dialog
+    [(visible)]="slipDialog"
+    [style]="{ 'min-width': '450px'}"
+    header="Your fixtures to submit"
+    [modal]="true"
+    class="p-fluid shadow-4"
+    >
+        <ng-template  pTemplate>
+            <p-table [value]="slipItems" selectionMode="single" header="Your fixtures to submit"  [paginator]="slipItems.length > 5 ? true : false" [rows]="5" responsiveLayout="scroll">
+                <div>Your fixtures to submit</div>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width:12rem" >Match</th>
+                        <th style="min-width:5rem">Score</th>
+                        <th *ngIf="boosters > 0 && boosters < 4" style="min-width:3rem">Booster</th>
+                        <th style="min-width:8rem" class="flex justify-content-center">Remove</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-slipItem let-rowIndex="rowIndex" $index *ngFor="let k of slipItems">
+                    <tr class="fixtures">
+                        <td>{{ slipItem.homeTeam.name }} - {{ slipItem.awayTeam.name }}</td>
+                        <!-- <td>
+                            <p-tag severity="success" value="Booster"></p-tag>
+                        </td> -->
+                        <!-- <td class="m-0 p-0">
+                            <p-chip
+                            label="Booster"
+                            styleClass="pt-0 pb-0"
+                            [styleClass]=" !darkMode ? 'boosterLight': 'boosterDark'"
+                            [removable]="true"
+                            (onRemove)="boosterRemoved($event)"
+                            ></p-chip>
+                            <p-tag icon="pi pi-times" severity="success" value="Booster" [rounded]="true"></p-tag>
+                        </td> -->
+                        <td>{{ slipItem.homeTeam.goals }} : {{ slipItem.awayTeam.goals }}</td>
+                        <td *ngIf="boosters > 0 && boosters < 4" class="">
+                            <p-inputSwitch
+                              id="k-{{rowIndex}}"
+                              [(ngModel)]="slipItems_Copy[rowIndex].double"
+                              [disabled]="!slipItems_Copy[rowIndex].double && allBoostersUsed"
+                              (onChange)="boosterTriggered(slipItem.gameId)"></p-inputSwitch
+                            >
+                        </td>
+                        <td class="flex justify-content-center">
+                            <!-- <button pButton pRipple icon="pi pi-star" class="p-button-rounded p-button-success mr-2 h-2rem w-2rem" (click)="useBooster(slipItem.gameId)"></button> -->
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning h-3rem w-3rem" (click)="deleteGame(slipItem.gameId, rowIndex)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="closeDialog()"></button>
+            <p-button type="submit" label="Submit" [loading]="inTransit"  (click)="onSubmit()"></p-button>
+        </ng-template>
+    </p-dialog>
+<!-- </form> -->
+
+<p-toast
+  [showTransformOptions]="'translateY(100%)'"
+  [showTransitionOptions]="'500ms'"
+  [hideTransitionOptions]="'500ms'"
+  [showTransformOptions]="'translateX(100%)'"
+></p-toast>
+
+
+
+

@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Demos */
+@import "assets/main/styles/flags/flags.css";
+@import "assets/main/styles/badges.scss";
+@import "assets/main/styles/code.scss";
+
+
+.hiddenElement {
+    display: none;
+}
+.blockElement {
+    display: block;
+}
+.errorMessageUsername, .errorMessagePassword {
+    margin-top: -25px;
+}
+.colonDivider {
+    text-align: center;
+}
+
+.username {
+    text-wrap: nowrap;
+}
+.fixtures {
+    font-size: 16px;
+}
+// .zoomInBadge {
+//     animation: zoom-in-zoom-out .5s ease-in;
+//     // animation: zoom-in-zoom-out .5s cubic-bezier(1, 1, 0, 0);
+//     position: absolute;
+//     // transform: scale(1.5);
+//     // transition: transform .5s;
+// }
+// @keyframes zoom-in-zoom-out {
+//     0% {
+//       transform: scale(1, 1);
+//     }
+//     50% {
+//       transform: scale(1.5, 1.5);
+//     }
+//     100% {
+//       transform: scale(1, 1);
+//     }
+//   }
