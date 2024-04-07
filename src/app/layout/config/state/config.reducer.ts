@@ -1,14 +1,14 @@
 import { createFeatureSelector, createReducer, createSelector, on } from "@ngrx/store";
 import * as ConfigActions from './config.actions';
 
-export interface AppConfig {
-    inputStyle: string;
-    colorScheme: string;
+export interface AppConfig2 {
     darkModeActive: boolean;
-    theme: string;
     ripple: boolean;
-    menuMode: string;
-    scale: number;
+    // inputStyle: string;
+    // colorScheme: string;
+    // theme: string;
+    // menuMode: string;
+    // scale: number;
 }
 
 interface LayoutState {
@@ -19,14 +19,14 @@ interface LayoutState {
     staticMenuMobileActive: boolean;
     menuHoverActive: boolean;
 }
-const config: AppConfig = {
-    ripple: true,
-    inputStyle: 'outlined',
-    menuMode: 'static',
-    colorScheme: 'light',
-    theme: 'lara-light-indigo',
+const config: AppConfig2 = {
     darkModeActive: false,
-    scale: 14,
+    ripple: true,
+    // inputStyle: 'outlined',
+    // menuMode: 'static',
+    // colorScheme: 'light',
+    // theme: 'lara-light-indigo',
+    // scale: 14,
 };
 
 const initialLayoutState: LayoutState = {
@@ -41,13 +41,14 @@ const initialLayoutState: LayoutState = {
 
 export const configReducer = createReducer(
     config,         // setting initial state of store
-    on(ConfigActions.toggleRippleEffect, (state): AppConfig => {
+    on(ConfigActions.toggleRippleEffect, (state): AppConfig2 => {
         return {
             ...state,
             ripple: !state.ripple
         };
     }) ,
-    on(ConfigActions.darkModeActive, (state, action): AppConfig => {
+    on(ConfigActions.darkModeActive, (state, action): AppConfig2 => {
+        console.log('state:', state)
         return {
             ...state,
             darkModeActive: action.darkMode
@@ -58,7 +59,7 @@ export const configReducer = createReducer(
 
 // - selectors get existing state
 // - selectors ------------ should be defined separately for each bit of state
-const getConfigState = createFeatureSelector<AppConfig>('configs');
+const getConfigState = createFeatureSelector<AppConfig2>('configs');
 
 export const getShowRipple = createSelector(
     getConfigState,

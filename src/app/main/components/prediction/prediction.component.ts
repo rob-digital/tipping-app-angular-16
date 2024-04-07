@@ -1,18 +1,19 @@
 import { PredictionService } from './prediction.service';
-import { Component, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { CountryService } from '../../service/country.service';
 import { Router } from '@angular/router';
 import { PredictionPayload } from '../../api/predictionPayload';
 import { AuthService } from '../auth/auth.service';
 import { Store } from '@ngrx/store';
 import * as PredictionActions from  './state/prediction.actions';
-import { AppConfig, getShowDarkMode } from 'src/app/layout/config/state/config.reducer';
+import { AppConfig2, getShowDarkMode } from 'src/app/layout/config/state/config.reducer';
 import * as AllGamesActions from './state/games.actions';
 import { GamesEffect } from './state/games.effect';
 import { Game } from '../../api/game';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { getFullSlipState } from './state/slip-state.reducer';
+import  * as stadiums from '../../../../assets/main/data/stadiums.json';
 
 @Component({
   selector: 'app-prediction',
@@ -20,10 +21,10 @@ import { getFullSlipState } from './state/slip-state.reducer';
   styleUrls: ['./prediction.component.scss'],
   providers: [MessageService]
 })
-export class PredictionComponent {
-    countries: any[] = [];
+export class PredictionComponent implements OnInit, OnDestroy{
+    // countries: any[] = [];
 
-    dropdownItems: any[] = [0,1,2,3,4,5,6,7,8,9];
+    dropdownItems: number[] = [0,1,2,3,4,5,6,7,8,9];
     selectedGoalsTeam1: any[] = []
     selectedGoalsTeam2: any[] = []
     sortedGamesByDate: any[] | null = null;
@@ -35,6 +36,7 @@ export class PredictionComponent {
     showOdds: boolean;
     darkMode: boolean;
     slipGames: PredictionPayload[];
+    subscription!: Subscription;
 
     numberOfElementsInEachArray: number[];
     allDatesWithDays: any[] = [];
@@ -42,6 +44,7 @@ export class PredictionComponent {
     allDates: any[] = [];
 
     gamesOnSlip: any[];
+    stadiums: any;
 
     allGames$: Observable<any>;
 
@@ -49,7 +52,7 @@ export class PredictionComponent {
         private predictionService: PredictionService,
         public router: Router,
         private auth: AuthService,
-        private store: Store<AppConfig>,
+        private store: Store<AppConfig2>,
         private messageService: MessageService,
         private renderer: Renderer2,
         private slipStore: Store<PredictionPayload>,
@@ -62,8 +65,10 @@ export class PredictionComponent {
                 this.onDropdownClear_Away(gameId);
             });
 
-            this.predictionService.getGameIdsSubmitted.subscribe(arr => {
-                arr.forEach((z, i) => renderer.removeChild(document.getElementById('allgames'), document.getElementById(`game-${z}`)));
+            this.subscription = this.predictionService.getGameIdsSubmitted.subscribe(arr => {
+                if (this.router.url == "/dashboard/predict") {
+                    arr.forEach((z, i) => renderer.removeChild(document.getElementById('allgames'), document.getElementById(`game-${z}`)));
+                }
             })
         }
 
@@ -110,10 +115,15 @@ export class PredictionComponent {
         this.predictionService.addPayloadToSlip(predictionCurrentValue_copy);
 
     }
-
+    // prettyPrintJson(json) {
+    //     return JSON ? JSON.stringify(json, null, '  ') : 'your browser doesnt support JSON so cant pretty print';
+    //   }
     ngOnInit() {
         this.store.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode);
         this.inTransit = true
+        // fetch('assets/main/data/stadiums.json').then(res => res.json()).then(data => this.stadiums = data.data)
+
+        this.stadiums = stadiums
 
         this.predictionService.getAllGamesForUser(this.auth.readUserState().id).subscribe({
             // this.gamesEffect.loadAllGames$.subscribe({
@@ -201,5 +211,9 @@ export class PredictionComponent {
     }
     onDropdownClear_Away(gameId) {
         this.selectedGoalsTeam2[gameId -1] = null;
+    }
+
+    ngOnDestroy(): void {
+        this.predictionService.setGameIdsSubmitted([]);
     }
 }

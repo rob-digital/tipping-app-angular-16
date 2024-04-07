@@ -1,0 +1,25 @@
+.knockout, .cardChart {
+    // height: calc(100vh - 9rem);
+    display: flex;
+    flex-direction: column;
+}
+
+:host ::ng-deep .p-organizationchart-node-content {
+    padding: 10px;
+    border-radius: 5px;
+}
+:host ::ng-deep p-card .p-card-content {
+    justify-content: center;
+    display: flex;
+    // margin-top: 10%;
+}
+
+.KoDivider {
+    margin-top: -15px;
+    margin-bottom: -15px;
+}
+.koTeam {
+    margin-top: -15px;
+    margin-bottom: -15px;
+    margin: -15px;
+}

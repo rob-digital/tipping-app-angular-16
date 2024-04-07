@@ -48,6 +48,11 @@ export class PredictionService extends RequestBaseService {
     super(auth, http)
    }
 
+   isPredictionPageActive(isActive) {
+   console.log('isActive:', isActive)
+
+   }
+
    setPredictionState(obj) {
     this.predictionStore.dispatch(PredictionActions.setGameId({ gameId: obj.gameId }));
     this.predictionStore.dispatch(PredictionActions.setHomeTeam({ homeTeam:  obj.homeTeam }));
@@ -97,10 +102,18 @@ export class PredictionService extends RequestBaseService {
     // --- api calls -------------
     getAllGamesForUser(userId: number): Observable<Game[]> {
         return this.http.get<Game[]>(GAMES_API_URL + `/forUser/${userId}`, { headers: this.getHeaders })
-       }
+    }
+
+    getTodaysGames(): Observable<Game[]> {
+        return this.http.get<Game[]>(GAMES_API_URL + "/today", { headers: this.getHeaders });
+    }
 
     getUserPredictions(userId: number): Observable<any[]> {
         return this.http.get<PredictionPayload[]>(PREDICTIONS_API_URL + "/user/" + userId, { headers: this.getHeaders });
+    }
+
+    getCalculatedPredictions(userId: number): Observable<any[]> {
+        return this.http.get<PredictionPayload[]>(PREDICTIONS_API_URL + "/calculated/user/" + userId, { headers: this.getHeaders });
     }
 
     submitPredictions(payload: any[], userId: number): Observable<PredictionPayload[]> {
@@ -138,4 +151,14 @@ export class PredictionService extends RequestBaseService {
 
         return this.http.post<PredictionPayload[]>(PREDICTIONS_API_URL + "/insert", payloadToSubmit, { headers: this.getHeaders });
     }
+
+    // loadStadiumsData() {
+    // //     return this.http.get<any>('assets/main/data/stadiums.json')
+    // //         .toPromise()
+    // //         .then(res => res.data)
+    // //         .then(data => data);
+    // // }
+    // return fetch('assets/main/data/stadiums.json').then(res => res.json())
+
+    // }
 }

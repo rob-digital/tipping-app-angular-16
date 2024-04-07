@@ -1,0 +1,66 @@
+{
+    "data" : [
+        {
+            "Berlin": {
+                "name": "Olympiastadion, Berlin ",
+                "capacity":  74649,
+                "homeTeam": "Hertha Berlin",
+                "gamesScheduled": "Six, including the final"
+                },
+            "Stuttgart": {
+                "name": "MHPArena, Stuttgart",
+                "capacity": 60449,
+                "homeTeam": "VfB Stuttgart",
+                "gamesScheduled": "Five"
+            },
+            "Munich": {
+                "name": "Allianz Arena, Munich",
+                "capacity": 75024,
+                "homeTeam": "Bayern Munich",
+                "gamesScheduled": "Six, including opening match and a semi-fina"
+            },
+            "Dortmund": {
+                "name": "Signal Iduna Park, Dortmund",
+                "capacity": 81365,
+                "homeTeam": "Borussia Dortmund",
+                "gamesScheduled": "Six, including a semi-final"
+            },
+            "Cologne": {
+                "name": "RheinEnergieStadion, Cologne",
+                "capacity": 50000,
+                "homeTeam": "FC Cologne",
+                "gamesScheduled": "Five"
+            },
+            "Frankfurt": {
+                "name": "Deutsche Bank Park, Frankfurt",
+                "capacity": 51500,
+                "homeTeam": "Eintracht Frankfurt",
+                "gamesScheduled": "Five"
+            },
+            "Hamburg": {
+                "name": "Volksparkstadion, Hamburg",
+                "capacity": 57000,
+                "homeTeam": "HSV Hamburg",
+                "gamesScheduled": "Five"
+            },
+            "Gelsenkirchen": {
+                "name": "Veltins Arena, Gelsenkirchen",
+                "capacity":  62271,
+                "homeTeam": "FC Schalke",
+                "gamesScheduled": "Four"
+            },
+            "Leipzig": {
+                "name": "Red Bull Arena, Leipzig",
+                "capacity":  47069,
+                "homeTeam": "RB Leipzig",
+                "gamesScheduled": "Four"
+            },
+             "Dusseldorf": {
+                "name": "Merkur Spiel-Arena, Düsseldorf",
+                "capacity":  54600,
+                "homeTeam": "Fortuna Düsseldorf",
+                "gamesScheduled": "Five"
+            }
+        }
+    ]
+}

@@ -1,0 +1,64 @@
+
+
+<div>
+    <p-card class="flex justify-content-center" header="Leaderboard">
+        <div  *ngIf="inTransit" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+            <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+        </div>
+        <div *ngIf="!inTransit">
+
+            <div *ngIf="allUsers.length > 0">
+                <p-table
+                  #dt
+                  dataKey="id"
+                  [value]="allUsers"
+                  *ngIf="allUsers != null && allUsers.length > 0"
+                  class="justify-content-center flex align-content-center text-center text-xl"
+                  [tableStyle]="{'min-width': '60rem', 'font-size' : '16px'}"
+                  [globalFilterFields]="['username']"
+                >
+                    <ng-template pTemplate="caption">
+                        <div class="flex">
+                            <span class="p-input-icon-left ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Find players" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="text-center"></th>
+                            <th class="">Position</th>
+                            <th class="">Username</th>
+                            <th class="text-center">Points</th>
+                            <th class="text-center"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-user let-rowIndex="rowIndex">
+                        <tr class="text-center row-{{positions[rowIndex]}}">
+                            <td class="w-1rem">
+
+                            </td>
+                            <td class="" >
+                                {{ positions[rowIndex] }}
+                            </td>
+                            <td class="">
+                                <span>{{ user.username }}</span>
+                            </td>
+                            <td class="text-center">
+                                <span>{{ user.points }}</span>
+                            </td>
+                            <td class="text-center w-1rem">
+
+                            </td>
+                        </tr>
+
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="block text-600 font-medium mb-3 text-center" *ngIf="allUsers.length == 0">
+                No data yet
+            </div>
+        </div>
+    </p-card>
+</div>

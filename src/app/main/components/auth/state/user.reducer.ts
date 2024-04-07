@@ -11,6 +11,7 @@ export let appUser: AppUser = {
     username: "",
     points: 11,
     boosters: 7,
+    guestNumberOfGoals: null
 
 }
 

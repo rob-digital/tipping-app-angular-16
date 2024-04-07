@@ -3,6 +3,7 @@
     "compileOnSave": false,
     "compilerOptions": {
       "baseUrl": "./",
+      "resolveJsonModule": true,
       "outDir": "./dist/out-tsc",
       "forceConsistentCasingInFileNames": true,
       "strict": false,
@@ -21,7 +22,8 @@
       "useDefineForClassFields": false,
       "lib": [
         "ES2022",
-        "dom"
+        "dom",
+        "dom.Iterable"
       ]
     },
     "exclude": ["node_modules", "**/node_modules/*"],
@@ -32,4 +34,3 @@
       "strictTemplates": false
     }
   }
-  

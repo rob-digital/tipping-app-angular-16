@@ -1,13 +1,11 @@
-import { darkModeActive } from './../../../layout/config/state/config.actions';
-import { configReducer } from './../../../layout/config/state/config.reducer';
 import {  Component, OnInit, Renderer2 } from '@angular/core';
 import { TablesService } from './tables.service';
 import { Team } from '../../api/team';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { AppConfigComponent } from 'src/app/layout/config/app.config.component';
 import { Store } from '@ngrx/store';
-import { AppConfig, getShowDarkMode } from 'src/app/layout/config/state/config.reducer';
-import { render } from '@fullcalendar/core/preact';
+import { AppConfig2, getShowDarkMode } from 'src/app/layout/config/state/config.reducer';
+
+
 
 @Component({
   selector: 'app-tables',
@@ -19,7 +17,7 @@ export class TablesComponent implements OnInit {
     constructor(
         private tableService: TablesService,
         private layoutService: LayoutService,
-        private store: Store<AppConfig>,
+        private store: Store<AppConfig2>,
         private renderer: Renderer2
         ) {}
 
@@ -48,16 +46,8 @@ export class TablesComponent implements OnInit {
                 const groups = new Set(this.teams.map(z => z.groupName))
                 this.groupNames = [...groups]
 
-                this.allGroupsArray = [
-                  this.teams.filter( (el, i) => el.groupName ==  "Group A").sort((a, b) => a.positionInTable - b.positionInTable),
-                  this.teams.filter( (el, i) => el.groupName ==  "Group B").sort((a, b) => a.positionInTable - b.positionInTable),
-                  this.teams.filter( (el, i) => el.groupName ==  "Group C").sort((a, b) => a.positionInTable - b.positionInTable),
-                  this.teams.filter( (el, i) => el.groupName ==  "Group D").sort((a, b) => a.positionInTable - b.positionInTable),
-                  this.teams.filter( (el, i) => el.groupName ==  "Group E").sort((a, b) => a.positionInTable - b.positionInTable),
-                  this.teams.filter( (el, i) => el.groupName ==  "Group F").sort((a, b) => a.positionInTable - b.positionInTable),
-                //   this.teams.filter( (el, i) => el.groupName ==  "Group G").sort((a, b) => a.positionInTable - b.positionInTable),
-                //   this.teams.filter( (el, i) => el.groupName ==  "Group H").sort((a, b) => a.positionInTable - b.positionInTable),
-                ]
+                this.allGroupsArray = sortIntoTables(this.teams);
+
                 console.log('this.allGroupsArray :', this.allGroupsArray)
                 this.inTransit = false;
 
@@ -91,3 +81,16 @@ export class TablesComponent implements OnInit {
 }
 
 
+export function sortIntoTables(teams: Team[]) {
+
+    return [
+        teams.filter( (el, i) => el.groupName ==  "Group A").sort((a, b) => a.positionInTable - b.positionInTable),
+        teams.filter( (el, i) => el.groupName ==  "Group B").sort((a, b) => a.positionInTable - b.positionInTable),
+        teams.filter( (el, i) => el.groupName ==  "Group C").sort((a, b) => a.positionInTable - b.positionInTable),
+        teams.filter( (el, i) => el.groupName ==  "Group D").sort((a, b) => a.positionInTable - b.positionInTable),
+        teams.filter( (el, i) => el.groupName ==  "Group E").sort((a, b) => a.positionInTable - b.positionInTable),
+        teams.filter( (el, i) => el.groupName ==  "Group F").sort((a, b) => a.positionInTable - b.positionInTable),
+      //   teams.filter( (el, i) => el.groupName ==  "Group G").sort((a, b) => a.positionInTable - b.positionInTable),
+      //   teams.filter( (el, i) => el.groupName ==  "Group H").sort((a, b) => a.positionInTable - b.positionInTable),
+      ]
+}

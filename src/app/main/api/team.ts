@@ -14,6 +14,6 @@ export interface Team {
         belongsToGroup: string;
         countryCode: string;
         positionInTable: number;
-        form: TeamForm;
+        teamForm: TeamForm;
 
 }

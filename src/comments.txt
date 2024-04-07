@@ -1,0 +1,23 @@
+if [(ngModel)] doesn't work you need to add
+            import { FormsModule } from '@angular/forms';
+to this module
+==================================================
+style
+
+[styleClass]=" darkMode ? 'myChipDark': 'myChipLight'"
+[tableStyle]="{'min-width': '50rem'}"
+[style]="{width: '450px'}"
+[class]="{ 'text-white' : darkMode }"
+[ngClass]="{ 'ng-invalid ng-dirty' : !canSubmitPasswordSignIn && canSubmitPasswordSignIn != null }"
+==================================================
+HTML tag
+
+alt="{{ game.city }}
+[type]="selectedGraph != null ? selectedGraph : 'line'"
+=================================================
+
+valueColor="var(--cyan-300)"
+
+=================================================
+remove whole line with specific text:
+^.*dateAdded.*?\n  -> date added

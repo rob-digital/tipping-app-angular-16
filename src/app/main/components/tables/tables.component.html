@@ -11,7 +11,7 @@
           [tableStyle]="{'min-width': '50rem'}"
         >
             <ng-template pTemplate="header">
-                <tr>
+                <tr class="text-lg">
                     <th class="text-center"></th>
                     <th class="text-center">Played</th>
                     <th class="text-center">Win</th>
@@ -23,31 +23,38 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-team *ngFor="let team of group; let j = index">
-                <tr class="text-center">
+                <tr class="text-center text-lg">
                     <td class="flex justify-content-start align-content-center text-center flex-wrap">
                         <img src="assets/main/images/flagsPNG/{{ team.name.split(' ').join('') }}.png" class="" style="width:51px"/>
                         <span class="flex align-items-center ml-3">{{ team.name }}</span></td>
-                    <td class="text-center">3 </td>
+                    <td class="text-center">{{ team.win + team.draw + team.loss }}</td>
                     <td class="text-center">{{ team.win }}</td>
                     <td class="text-center">{{ team.draw }}</td>
                     <td class="text-center">{{ team.loss }}</td>
                     <td class="text-center">{{ team.goalsScored - team.goalsLost }}</td>
                     <td class="text-center">
-                    <p-badge value="{{ team.points }}" size="large" severity="warning"></p-badge>
+                        <p-badge value="{{ team.points }}" size="large" severity="warning"></p-badge>
                     </td>
-                    <td class="">
-
-                        <p-tag *ngIf="darkMode" class="flex justify-content-center w-12" size="large" [severity]="success">
-                            <svg  class="teamForm-UP-dark" xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512"><path d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160zM576 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM448 208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm128 0a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM272 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM144 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM576 336a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm-48-80a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>
+                    <td *ngIf="team.teamForm == 'UP' || team.teamForm == 'DOWN'">
+                        <p-tag [pTooltip]="team.teamForm == 'UP' ? 'On fire' : 'Decline in form'" *ngIf="darkMode" class="flex justify-content-center w-12" size="large" [severity]=" team.teamForm == 'UP' ? 'success' : 'danger' ">
+                            <svg   class="teamForm-{{team.teamForm}}-dark" xmlns="http://www.w3.org/2000/svg" height="20" width="22" viewBox="0 0 576 512"><path d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160zM576 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM448 208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm128 0a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM272 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM144 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM576 336a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm-48-80a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>
                         </p-tag>
-                        <p-tag *ngIf="!darkMode"  class="flex justify-content-center w-12" [severity]="success">
-                            <svg class="teamForm-UP-light" xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512"><path d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160zM576 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM448 208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm128 0a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM272 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM144 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM576 336a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm-48-80a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>
+                        <p-tag [pTooltip]="team.teamForm == 'UP' ? 'On fire' : 'Decline in form'" *ngIf="!darkMode"  class="flex justify-content-center w-12" [severity]=" team.teamForm == 'UP' ? 'success' : 'danger' ">
+                            <svg class="teamForm-{{team.teamForm }}-light" xmlns="http://www.w3.org/2000/svg" height="20" width="22" viewBox="0 0 576 512"><path d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160zM576 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM448 208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm128 0a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM272 384a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48 80a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM144 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM576 336a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm-48-80a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>
+                        </p-tag>
+                    </td>
+                    <td *ngIf="team.teamForm == 'STABLE'">
+                        <p-tag pTooltip="Stable form" *ngIf="!darkMode"  class="flex justify-content-center w-12" [severity]="success">
+                            <i  class="text-2xl pi pi-angle-double-right"></i>
+                        </p-tag>
+                        <p-tag pTooltip="Stable form" *ngIf="darkMode"  class="flex justify-content-center w-12" [severity]="success">
+                            <i  class="text-2xl pi pi-angle-double-right"></i>
                         </p-tag>
                     </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary" pStyleClass=".tableColor-{{i}}" id="hello">
-                <div class="flex align-items-center justify-content-between">
+                <div class="flex align-items-center justify-content-between text-lg">
                     {{ group[2].groupName }}
                 </div>
             </ng-template>

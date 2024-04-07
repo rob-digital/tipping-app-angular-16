@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     canSubmitPasswordSignIn: boolean | null;
     errorMessagePasswordSignIn: string | null;
     errorMessageUsernameSignIn: string | null;
-
+    guestNumberOfGoals: number | null = null;
     // register variables -----
     userRegister: User = new User;
     canSubmitUsernameRegister: boolean | null;
@@ -114,6 +114,7 @@ export class LoginComponent implements OnInit {
                 this.inTransit = true;
 
                 this.auth.register(this.userRegister, this.rememberMeLogin).subscribe(res => {
+                console.log('this.userRegister:', this.userRegister)
 
                         this.userRegister.username = '';
                         this.userRegister.password = '';

@@ -8,6 +8,7 @@ import { TagModule } from 'primeng/tag';
 import { BadgeModule } from 'primeng/badge';
 import {StyleClassModule} from 'primeng/styleclass';
 import { CardModule } from 'primeng/card';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { CardModule } from 'primeng/card';
     TagModule,
     BadgeModule,
     StyleClassModule,
-    CardModule
+    CardModule,
+    TooltipModule
   ],
   declarations: [TablesComponent]
 })

@@ -23,7 +23,7 @@
                 <div class="col-12 align-items-center justify-content-center flex">
 
                         <div class="col-4 flex align-items-center justify-content-end">
-                            <span class="mr-3 text-2xl text-black-alpha-90">{{ game.homeTeam.name }}</span>
+                            <span class="mr-3 mb-1 text-2xl" [class]="{ 'text-white' : darkMode }" [class]="{ 'text-black-alpha-90' : !darkMode }">{{ game.homeTeam.name }}</span>
                             <img src="assets/main/images/flagsPNG/{{ game.homeTeam.name.split(' ').join('')  }}.png" class="" style="width:51px"/>
                         </div>
                         <div class="w-7rem p-fluid">
@@ -31,7 +31,7 @@
                               [options]="dropdownItems"
                               class="col-1 score1 p-fluid"
                               placeholder="?"
-                              [showClear]="true"
+                              [editable]="true"
                               (onClear)="onDropdownClear_Home(game.id)"
                               id="score1"
                               [(ngModel)]="selectedGoalsTeam1[game.id - 1]"
@@ -46,18 +46,17 @@
                               class="col-1 score1 p-fluid"
                               id="score2"
                               placeholder="?"
-                              [showClear]="true"
+                              [editable]="true"
                               (onClear)="onDropdownClear_Away(game.id)"
                               [(ngModel)]="selectedGoalsTeam2[game.id - 1]"
                             ></p-dropdown>
                         </div>
                         <div class="col-4 flex align-items-center justify-content-start">
                             <img src="assets/main/images/flagsPNG/{{ game.awayTeam.name.split(' ').join('')  }}.png" class="" style="width:51px"/>
-                            <span class="ml-3 text-2xl text-black-alpha-90">{{ game.awayTeam.name }}</span>
+                            <span class="ml-3 mb-1 text-2xl" [class]="{ 'text-white' : darkMode }" [class]="{ 'text-black-alpha-90' : !darkMode }">{{ game.awayTeam.name }}</span>
                         </div>
-
-
                 </div>
+
                 <p-panel *ngIf="game.oddsHome && game.oddsDraw && game.oddsAway" header="Show odds" [toggleable]="true" [collapsed]="true" class=" line-height-3 w-12 ml-2 mr-2">
                     <div class="col-12 flex p-0">
                         <div class="col-4 align-items-center justify-content-center">
@@ -107,13 +106,25 @@
                             <span >{{game.stage}}</span>
                         </div>
                         <div>
-                            <a type="link" pLink label="Image" (click)="op1.toggle($event)">Stadium: {{ game.city }} </a>
+                            <a type="link" pLink label="Image" class="cursor-pointer" (click)="op1.toggle($event)">Stadium: {{ game.city }} </a>
                             <p-overlayPanel #op1 [showCloseIcon]="true" [style]="{width: '450px'}">
-                                <img src="assets/demo/images/nature/nature1.jpg" alt="Nature 1" style="width:100%"/>
+                                <img src="assets/main/images/galleria/{{ game.city }}.jpg" alt="{{ game.city }} stadium" style="width:100%"/>
+                                <div class="flex flex-column mt-2">
+                                    <span class="font-bold">{{ stadiums.data[0][game.city].name }}</span>
+                                    <div>
+                                       Home club:  <span class="font-bold">{{ stadiums.data[0][game.city].homeTeam }}</span>
+                                    </div>
+                                    <div>
+                                        Capacity: <span class="font-bold">{{ stadiums.data[0][game.city].capacity }}</span>
+                                    </div>
+                                    <div>
+                                        Games scheduled: <span class="font-bold">{{ stadiums.data[0][game.city].gamesScheduled }}</span>
+                                    </div>
+                                </div>
                             </p-overlayPanel>
                         </div>
                     </div>
-                    <p-button label="Add to slip" icon="pi pi-check" (click)="addToSlip($event, game.id)" id="{{ game.id }}" iconPos="right"></p-button>
+                    <p-button label="Add to slip" (click)="addToSlip($event, game.id)" id="{{ game.id }}" ></p-button>
                 </div>
             </div>
         </div>

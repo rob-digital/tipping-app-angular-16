@@ -38,7 +38,6 @@ export class AuthService {
         const storageUserAsObj = localStorage.getItem('currentUser');
         if (storageUserAsObj) {
             storageUser = JSON.parse(storageUserAsObj);
-            console.log('storageUser:', storageUser)
         }
 
         this.currentUserSubject = new BehaviorSubject<AppUser>(storageUser);
@@ -73,7 +72,8 @@ export class AuthService {
             role: Role.USER,
             username: "",
             points: 0,
-            boosters: 0
+            boosters: 0,
+            guestNumberOfGoals: null
         }
 
         this.store.select(getUserId).subscribe(id => myAppUser.id = id);
@@ -95,6 +95,7 @@ export class AuthService {
                     this.router.navigate(['/dashboard']);
 
                     this.setUserState(response);
+                    console.log('response:', response)
                     this.setSessionUser(this.readUserState());
                 }
             })
@@ -114,20 +115,6 @@ export class AuthService {
             })
         )
     }
-    // setSessionUser2(user: AppUser) {
-    //     localStorage.setItem('currentUser', JSON.stringify(user));
-    //     this.currentUsername = user.username;
-    // }
-
-    // loadSessionUser2() {
-    //     let user  = JSON.parse(localStorage.getItem("currentUser"));
-    //     this.id       = user.id;
-    //     this.username = user.username;
-    //     this.points   = user.points;
-    //     this.boosters = user.boosters;
-    //     this.userRole = user.role;
-    //     this.token    = user.token;
-    // }
 
     setSessionUser(user: AppUser) {
         localStorage.setItem('currentUser', JSON.stringify(user));

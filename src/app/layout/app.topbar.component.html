@@ -14,39 +14,7 @@
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
-
-    <!-- <p-overlayPanel #op2 [showCloseIcon]="true" [style]="{width: '450px'}">
-        <ng-template pTemplate>
-            <p-table [value]="slipItems" selectionMode="single" header="Your fixtures to submit"  [paginator]="true" [rows]="5" responsiveLayout="scroll">
-                <div>Your fixtures to submit</div>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="min-width:12rem" pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
-                        <th style="min-width:5rem">Image</th>
-                        <th style="min-width:8rem" pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData let-slipItem>
-                    <tr [pSelectableRow]="rowData">
-                        <td>{{ slipItem.homeTeam.name }} - {{ slipItem.awayTeam.name }}</td>
-                        <td> {{ slipItem.homeTeam.goals }} : {{ slipItem.awayTeam.goals }}</td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </ng-template>
-    </p-overlayPanel> -->
-
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <!-- <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button> -->
-        <button class="p-link layout-topbar-button" [routerLink]="'/rules'">
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button>
         <button class="p-link layout-topbar-button" (click)="logout()">
             <i class="pi pi-sign-out"></i>
             <span>Sign out</span>
@@ -69,7 +37,7 @@
                     <tr>
                         <th style="min-width:12rem" >Match</th>
                         <th style="min-width:5rem">Score</th>
-                        <th *ngIf="boosters > 0 && boosters < 4" style="min-width:3rem">Booster</th>
+                        <th *ngIf="(boosters > 0 && boosters < 4) || shouldShowBoostersColumn || slipWaitingToBeSubmitted" style="min-width:3rem">Booster</th>
                         <th style="min-width:8rem" class="flex justify-content-center">Remove</th>
                     </tr>
                 </ng-template>
@@ -90,7 +58,7 @@
                             <p-tag icon="pi pi-times" severity="success" value="Booster" [rounded]="true"></p-tag>
                         </td> -->
                         <td>{{ slipItem.homeTeam.goals }} : {{ slipItem.awayTeam.goals }}</td>
-                        <td *ngIf="boosters > 0 && boosters < 4" class="">
+                        <td *ngIf="(boosters > 0 && boosters < 4) || shouldShowBoostersColumn || slipWaitingToBeSubmitted" class="">
                             <p-inputSwitch
                               id="k-{{rowIndex}}"
                               [(ngModel)]="slipItems_Copy[rowIndex].double"

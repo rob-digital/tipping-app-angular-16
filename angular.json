@@ -27,7 +27,7 @@
                         "inlineStyleLanguage": "scss",
                         "aot": true,
                         "assets": [
-                            "src/favicon.ico",
+                            "src/football.png",
                             "src/assets"
                         ],
                         "styles": [

@@ -1,0 +1,81 @@
+
+
+<div>
+    <p-card class="flex justify-content-center" [style]="{ 'min-width': '60rem' }"  header="My hub">
+        <div  *ngIf="inTransit" class="card flex justify-content-center  z-5 align-items-center bg-transparent">
+            <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+        </div>
+
+        <p-table
+          #dt
+          dataKey="id"
+          [value]="allPredictions"
+          *ngIf="allPredictions != null && allPredictions.length > 0"
+          class="justify-content-center flex align-content-center text-center text-xl"
+          [tableStyle]="{'min-width': '60rem', 'font-size' : '16px'}"
+          [globalFilterFields]="['game.homeTeam.name', 'game.awayTeam.name']"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Filter matches" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">Match</th>
+                    <th class="text-center">My prediction</th>
+                    <th class="text-center">Actual score</th>
+                    <th class="text-center">Booster used</th>
+                    <th class="text-center">Points</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-prediction let-rowIndex="rowIndex">
+                <tr class="text-center">
+                    <td class="flex justify-content-start align-content-center text-center flex-wrap">
+                        <span>{{ prediction.game.homeTeam.name }} &nbsp;</span>
+                            <span>  -  </span>
+                        <span>&nbsp; {{ prediction.game.awayTeam.name }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span>{{ prediction.predictionHome }}</span>
+                            <span> : </span>
+                            <span>{{ prediction.predictionAway }}</span>
+                    </td>
+                    <td class="text-center">
+                          <span *ngIf="prediction.game.goalsHomeTeam != null" class="">
+                            {{ prediction.game.goalsHomeTeam }}
+                          </span>
+                          <span *ngIf="prediction.game.goalsHomeTeam != null" class="">
+                            :
+                          </span>
+                          <span *ngIf="prediction.game.goalsAwayTeam != null" class="">
+                            {{ prediction.game.goalsAwayTeam }}
+                          </span>
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="prediction.boostScoreXTimes == 1">{{ prediction.boostScoreXTimes == 2 ? 'Yes' : 'No' }}</span>
+                        <span *ngIf="prediction.boostScoreXTimes == 2"><b>{{ prediction.boostScoreXTimes == 2 ? 'Yes' : 'No' }}</b></span>
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="prediction.game.status == 'CALCULATED'" class="">
+                            {{ prediction.points }}
+                          </span>
+                    </td>
+                </tr>
+                <tr class="bg-gray-100" *ngIf=" allPredictions?.length - 1  == rowIndex ">
+                    <td class="font-bold">Total</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-center font-bold">{{ totalPoints }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+
+    </p-card>
+</div>

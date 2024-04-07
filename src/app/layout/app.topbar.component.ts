@@ -10,7 +10,7 @@ import { PredictionPayload } from '../main/api/predictionPayload';
 import { getFullSlipState } from '../main/components/prediction/state/slip-state.reducer';
 import { AppUser } from '../main/api/user';
 import { getBoosters, getUserId, getUsername } from '../main/components/auth/state/user.reducer';
-import { AppConfig, getShowDarkMode } from './config/state/config.reducer';
+import { AppConfig2, getShowDarkMode } from './config/state/config.reducer';
 import * as SlipStateActions from '../main/components/prediction/state/slip-state.actions';
 
 @Component({
@@ -38,7 +38,7 @@ export class AppTopBarComponent implements OnInit {
     slipItems: PredictionPayload[];
     slipDialog: boolean = false;
     submitted: boolean = false;
-
+    slipWaitingToBeSubmitted: boolean;
     // created for the inputSwitch [(ngModel)]="slipItems_Copy[rowIndex].double"
     slipItems_Copy: PredictionPayload[];
 
@@ -48,6 +48,7 @@ export class AppTopBarComponent implements OnInit {
     userId: number;
     boosters: number;
     allBoostersUsed: boolean;
+    shouldShowBoostersColumn: boolean = true;
 
 
     @ViewChild('menubutton') menuButton!: ElementRef;
@@ -62,7 +63,7 @@ export class AppTopBarComponent implements OnInit {
         public router: Router,
         private messageService: MessageService,
         private predictionService: PredictionService,
-        private configStore: Store<AppConfig>,
+        private configStore: Store<AppConfig2>,
         private userStore: Store<AppUser>,
         public renderer: Renderer2,
         private slipStateStore: Store<PredictionPayload>) {
@@ -90,6 +91,7 @@ export class AppTopBarComponent implements OnInit {
     openSlipDialog() {
         if (this.slipItems.length == 0) return;
 
+        if (this.boosters == 0) this.shouldShowBoostersColumn = false;
         this.slipItems_Copy = JSON.parse(JSON.stringify(this.slipItems));
         console.log('this.slipItems_Copy:', this.slipItems_Copy)
         this.submitted = false;
@@ -132,6 +134,8 @@ export class AppTopBarComponent implements OnInit {
     closeDialog() {
         this.slipDialog = false;
         this.inTransit = false;
+        this.slipWaitingToBeSubmitted = true;
+        console.log('slipWaitingToBeSubmitted:', this.slipWaitingToBeSubmitted)
     }
 
     onSubmit() {
@@ -142,6 +146,7 @@ export class AppTopBarComponent implements OnInit {
             console.log('response:', response)
 
                 console.log('this.slipItems:', this.slipItems)
+                this.slipWaitingToBeSubmitted = false;
 
                 let submittedIDs = this.slipItems.map(z => z.gameId);
                 console.log('submittedIDs:', submittedIDs)
@@ -149,11 +154,15 @@ export class AppTopBarComponent implements OnInit {
                 let newSessionData = JSON.parse(localStorage.getItem('currentUser'));
                 newSessionData.boosters = this.boosters;
                 localStorage.setItem('currentUser', JSON.stringify(newSessionData));
+                console.log('newSessionData:', newSessionData)
 
                 this.predictionService.setGameIdsSubmitted(submittedIDs);
                 submittedIDs.forEach(z =>  this.predictionService.removePayloadFromSlip(z));
                 this.closeDialog();
                 this.showSuccessToast();
+                this.slipWaitingToBeSubmitted = false;
+                this.predictionService.setGameIdsSubmitted([]);
+
                 // this.initiatePage();
             },
             error: error => console.log("ERROR, can't submit: ", error)

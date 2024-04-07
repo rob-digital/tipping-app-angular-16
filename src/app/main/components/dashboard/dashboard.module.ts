@@ -1,3 +1,4 @@
+import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +11,13 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-
+import { DropdownModule } from 'primeng/dropdown';
+import { dashboardReducer } from './state/dasboard.reducer';
+import { KnobModule } from 'primeng/knob';
+import { TooltipModule } from 'primeng/tooltip';
+import { PaginatorModule } from 'primeng/paginator';
+import { MegaMenuModule } from 'primeng/megamenu';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
     imports: [
@@ -23,7 +30,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         PanelMenuModule,
         ButtonModule,
         ProgressSpinnerModule,
-        DashboardsRoutingModule
+        DashboardsRoutingModule,
+        DropdownModule,
+        KnobModule,
+        TooltipModule,
+        PaginatorModule,
+        MegaMenuModule,
+        RadioButtonModule,
+        StoreModule.forFeature('chartType', dashboardReducer),
     ],
     declarations: [DashboardComponent]
 })

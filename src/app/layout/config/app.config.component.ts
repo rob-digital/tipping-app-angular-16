@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { LayoutService } from "../service/app.layout.service";
 import { MenuService } from "../app.menu.service";
 import { Store } from '@ngrx/store';
-import { AppConfig, getShowRipple } from './state/config.reducer';
+import { AppConfig2, getShowRipple } from './state/config.reducer';
 import * as ConfigActions from '../config/state/config.actions';
 import { LightOrDarkMode } from '../api/lightOrDarkMode';
 
@@ -18,7 +18,7 @@ export class AppConfigComponent {
 
     scales: number[] = [12, 13, 14, 15, 16];
 
-    constructor(private store: Store<AppConfig>, public layoutService: LayoutService, public menuService: MenuService) { }
+    constructor(private store: Store<AppConfig2>, public layoutService: LayoutService, public menuService: MenuService) { }
 
     get visible(): boolean {
         return this.layoutService.state.configSidebarVisible;

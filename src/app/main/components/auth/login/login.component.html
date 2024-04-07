@@ -72,7 +72,7 @@
 
         <div
           id="box2"
-          style="border-radius:16px; padding:0.3rem; background: linear-gradient(180deg, red, 10%, rgba(47, 33, 243, 0) 30%);"
+          style="border-radius:16px; max-width: 570px; padding:0.3rem; background: linear-gradient(180deg, red, 10%, rgba(47, 33, 243, 0) 30%);"
           [ngClass]="{'flipright fadeout animation-duration-0 animation-iteration-1 ': isBackwards}"
           [ngClass]="{'flipright fadein animation-duration-1000 animation-iteration-1 ': !isBackwards}"
 
@@ -83,7 +83,6 @@
             <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:13px">
                 <div class="text-center mb-5">
                     <div class="text-900 text-3xl font-medium mb-3">Registration</div>
-                    <span class="text-600 font-medium">Register here</span>
                 </div>
 
                 <div>
@@ -116,6 +115,8 @@
                     ></p-password>
                     <small class="block p-error absolute errorMessagePassword">{{ errorMessagePasswordRegister }}</small>
 
+                    <label for="usernameReg" class="block text-900 text-lg font-medium mb-2">How many goals will be scored in the entire tournament? Give us your best guess.</label>
+                    <p-inputNumber [(ngModel)]="userRegister.guestNumberOfGoals" inputId="minmax" mode="decimal" [min]="0" [max]="10000"> </p-inputNumber>
                     <div class="flex align-items-center justify-content-between mb-5 gap-5">
                         <div class="flex align-items-center">
                             <p-checkbox

@@ -1,243 +1,323 @@
     <div class="grid">
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-600 font-medium mb-3">Your points</span>
-                        <div class="text-900 font-medium text-xl">{{ points }}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-wallet text-blue-500 text-xl"></i>
-                    </div>
-                </div>
-                <span class="text-green-500 font-medium">24 new </span>
-                <span class="text-500">since last visit</span>
-            </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-600 font-medium mb-3">Available Boosters</span>
-                        <div class="text-900 font-medium text-xl">{{ boosters }}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-star text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-                <span class="text-green-500 font-medium">%52+ </span>
-                <span class="text-500">since last week</span>
-            </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-600 font-medium mb-3">Current leader</span>
-                        <div class="text-900 font-medium text-xl">Mike Tyson de Souzza 14</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-user text-cyan-500 text-xl"></i>
-                    </div>
-                </div>
-                <span class="text-green-500 font-medium">520  </span>
-                <span class="text-500">newly registered</span>
-            </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-600 font-medium mb-3">Loss to leader</span>
-                        <div class="text-900 font-medium text-xl">152 Unread</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-telegram text-purple-500 text-xl"></i>
-                    </div>
-                </div>
-                <span class="text-green-500 font-medium">85 </span>
-                <span class="text-500">responded</span>
-            </div>
-        </div>
+        <div class="flex flex-wrap justify-content-evenly w-full">
 
-        <div class="col-12 xl:col-6">
-            <div class="card">
-                <h5>Recent Sales</h5>
-                <p-table  [paginator]="true" [rows]="5" responsiveLayout="scroll">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Image</th>
-                            <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                            <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                            <th>View</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-product>
-                        <tr>
-                            <td style="width: 15%; min-width: 5rem;">
-                                <img src="assets/demo/images/product/{{product.image}}" class="shadow-4" alt="{{product.name}}" width="50">
-                            </td>
-                            <td style="width: 35%; min-width: 7rem;">{{product.name}}</td>
-                            <td style="width: 35%; min-width: 8rem;">{{product.price | currency:'USD'}}</td>
-                            <td style="width: 15%;">
-                                <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only"></button>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-            <div class="card">
-                <div class="flex justify-content-between align-items-center mb-5">
-                    <h5>Accuracy</h5>
-                    <div>
-                        <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
-                        <p-menu #menu [popup]="true" [model]="items"></p-menu>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card mb-0 dataCard dataCard1 shadow-1">
+                    <div  *ngIf="inTransit_points" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+                        <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+                    </div>
+                    <div *ngIf="!inTransit_points" >
+                        <div class="flex justify-content-between mb-3">
+                            <div>
+                                <span class="block text-900 font-medium mb-3">Points</span>
+                                <div class="text-900 font-medium text-2xl font-bold">{{ points }}</div>
+                            </div>
+                            <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                <i class="pi pi-wallet text-blue-500 text-xl"></i>
+                            </div>
+                        </div>
+                        <span class="text-green-500 font-medium">24 new </span>
+                        <span class="text-500">since last visit</span>
                     </div>
                 </div>
-                <ul class="list-none p-0 m-0">
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Space T-Shirt</span>
-                            <div class="mt-1 text-600">Clothing</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-orange-500 h-full" [ngStyle]="{width: '50%'}"></div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card mb-0 dataCard dataCard2 shadow-1">
+                    <div  *ngIf="inTransit_booster" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+                        <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+                    </div>
+                    <div *ngIf="!inTransit_booster">
+                        <div class="flex justify-content-between mb-3">
+                            <div>
+                                <span class="block text-900 font-medium mb-3">Boosters</span>
+                                <div class="text-900 font-medium text-2xl font-bold">{{ userData.boosters }}</div>
                             </div>
-                            <span class="text-orange-500 ml-3 font-medium">%50</span>
-                        </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Portal Sticker</span>
-                            <div class="mt-1 text-600">Accessories</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-cyan-500 h-full" [ngStyle]="{width: '16%'}"></div>
+                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                <i class="pi pi-star text-orange-500 text-xl"></i>
                             </div>
-                            <span class="text-cyan-500 ml-3 font-medium">%16</span>
                         </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Supernova Sticker</span>
-                            <div class="mt-1 text-600">Accessories</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-pink-500 h-full" [ngStyle]="{width: '67%'}"></div>
+                        <span class="text-green-500 font-medium">%52+ </span>
+                        <span class="text-500">since last week</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card mb-0 dataCard dataCard3 shadow-1">
+                    <div  *ngIf="inTransit_leaders" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+                        <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+                    </div>
+                    <div *ngIf="!inTransit_leaders">
+                        <div *ngIf="currentLeaders.length > 0">
+                            <div  class="flex justify-content-between mb-3">
+                                <div>
+                                    <span *ngIf="currentLeaders.length == 1 && lossToLeader > 0" class="block text-900 font-medium mb-3">Current leader</span>
+                                    <p-megaMenu *ngIf="currentLeaders.length > 1 && lossToLeader > 0" [model]="megaMenuItems"></p-megaMenu>
+                                    <span *ngIf="lossToLeader == 0" class="block text-900 font-medium mb-3">You're the leader</span>
+                                    <div *ngIf="currentLeaders.length == 1 && lossToLeader > 0" class="text-900 font-medium text-2xl font-bold">{{ currentLeaders[0].username }}</div>
+                                    <div *ngIf="lossToLeader == 0" class="text-900 font-medium text-2xl font-bold">well done!</div>
+                                </div>
+                                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                    <i class="pi pi-user text-cyan-500 text-xl"></i>
+                                </div>
                             </div>
-                            <span class="text-pink-500 ml-3 font-medium">%67</span>
+                            <span *ngIf="currentLeaders.length > 1 && lossToLeader > 0" class="text-green-500 font-medium">neck to neck</span>
+
                         </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Wonders Notebook</span>
-                            <div class="mt-1 text-600">Office</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-green-500 h-full" [ngStyle]="{width: '35%'}"></div>
+                        <div class="flex justify-content-between mb-3 text-900 font-medium mb-3" *ngIf="currentLeaders.length == 0">
+                            <span>Current leader</span>
+                            <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                <i class="pi pi-user text-cyan-500 text-xl"></i>
                             </div>
-                            <span class="text-green-500 ml-3 font-medium">%35</span>
                         </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Mat Black Case</span>
-                            <div class="mt-1 text-600">Accessories</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-purple-500 h-full" [ngStyle]="{width: '75%'}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card mb-0 dataCard dataCard4 shadow-1">
+                    <div  *ngIf="inTransit_leaders" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+                        <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+                    </div>
+                    <div *ngIf="!inTransit_leaders">
+                        <div *ngIf="currentLeaders.length > 0">
+                            <div  class="flex justify-content-between mb-3">
+                                <div>
+                                    <span *ngIf="lossToLeader > 0" class="block text-900 font-medium mb-3">Loss to leader</span>
+                                    <span *ngIf="lossToLeader == 0" class="block text-900 font-medium mb-3">You're ahead</span>
+                                    <div *ngIf="lossToLeader > 0" class="text-900 font-medium text-2xl font-bold">- {{ lossToLeader }} points</div>
+                                    <div *ngIf="lossToLeader == 0" class="text-900 font-medium text-2xl font-bold">+ {{ aheadOfPoints }} points</div>
+                                </div>
+                                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                    <i class="pi iconFly pi-telegram text-purple-500 text-xl"></i>
+                                </div>
                             </div>
-                            <span class="text-purple-500 ml-3 font-medium">%75</span>
+                            <span *ngIf="lossToLeader == 0" class="text-green-600 font-medium">85 </span>
                         </div>
-                    </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                        <div>
-                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Robots T-Shirt</span>
-                            <div class="mt-1 text-600">Clothing</div>
-                        </div>
-                        <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
-                                <div class="bg-teal-500 h-full" [ngStyle]="{width: '40%'}"></div>
+                        <div class="flex justify-content-between text-900 font-medium mb-3" *ngIf="currentLeaders.length == 0">
+                            <span>Points difference</span>
+                            <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                <i class="pi iconFly pi-telegram text-purple-500 text-xl"></i>
                             </div>
-                            <span class="text-teal-500 ml-3 font-medium">%40</span>
                         </div>
-                    </li>
-                </ul>
+
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="col-12 xl:col-6">
-            <div class="card relative flex flex-column">
-                <h5>You progress</h5>
-                <div  *ngIf="dataInTransit" class=" absolute flex justify-content-center w-full h-full pr-4 pb-2 align-items-center bg-transparent">
-                    <p-progressSpinner styleClass="w-3rem h-3rem z-5" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+        <div  class="col-12">
+            <div class="card relative flex flex-column progressChart shadow-1">
+                <div  *ngIf="inTransit_graph" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+                    <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
                 </div>
-                <p-chart type="line" [data]="chartData" [options]="chartOptions">
-                </p-chart>
+                <div *ngIf="!inTransit_graph">
+                    <div class="flex justify-content-between" *ngIf="myPoints != null">
+                        <h5>Progress</h5>
+                        <p-dropdown
+                        [options]="graphs"
+                        class="col-1 score1 p-fluid"
+                        id="GraphDropdown"
+                        [(ngModel)]="selectedGraph"
+                        (ngModelChange)="chartValueChanged()"
+                        *ngIf="myPoints != null && myPoints.length > 0"
+                      ></p-dropdown>
+                    </div>
+                    <p-chart id="myGraph"  [data]="chartData" [height]="400" [options]="chartOptions" [type]="chartType">
+                    </p-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-content-evenly w-full">
+
+            <div class="col-12 xl:col-6">
+
+                <div class="card precision shadow-1">
+                    <div  *ngIf="inTransit_precision" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+                        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+                    </div>
+                    <div *ngIf="!inTransit_precision">
+
+                       <div>
+                           <div class="flex justify-content-between align-items-center mb-5">
+                               <h5>Precision<i class=" ml-3 pi pi-info-circle" pTooltip="Precision is only calculated for the matches, for which you have submitted your predictions"></i></h5>
+                               <!-- <h5>Precision
+                                <i class=" ml-3" pTooltip="Precision is only calculated for the matches, for which you have submitted your predictions">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                                </svg>
+                                </i>
+                            </h5> -->
+                           </div>
+                           <ul class="list-none p-0 m-0">
+                               <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                   <div>
+
+                                       <span class="text-900 font-medium mr-2 mb-1 md:mb-0 text-lg">Correct score </span>
+                                       <i class="pi pi-info-circle" pTooltip="(RATIO): all correctly tipped scores / all matches"></i>
+                                       <div class="mt-1 text-600 text-lg">(home, draw, away)</div>
+                                   </div>
+                                   <div class="mt-2 md:mt-0 flex align-items-center">
+                                       <!-- <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
+                                           <div class="bg-orange-500 h-full" [ngStyle]="{width: '50%'}"></div>
+                                       </div> -->
+                                       <p-knob
+                                         [size]="80"
+                                         [(ngModel)]="correctScores_All"
+                                         valueTemplate="{value}%"
+                                         [readonly]="true"
+                                         valueColor="var(--red-500)"
+                                       ></p-knob>
+                                   </div>
+                               </li>
+                               <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                   <div>
+                                       <span class="text-900 text-lg font-medium mr-2 mb-1 md:mb-0">Correct score </span>
+                                       <i class="pi pi-info-circle" pTooltip="(RATIO): correctly tipped scores for home teams / total wins for home teams '<a>ewewew</a>'"></i>
+                                       <div class="mt-1 text-lg text-600">(home)</div>
+                                   </div>
+                                   <div class="mt-2 md:mt-0 flex align-items-center">
+                                       <p-knob
+                                         [size]="80"
+                                         [(ngModel)]="correctScoreHome"
+                                         valueTemplate="{value}%"
+                                         [readonly]="true"
+                                         valueColor="var(--green-500)"
+                                       ></p-knob>
+                                   </div>
+                               </li>
+                               <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                   <div>
+                                       <span class="text-900 font-medium mr-2 mb-1 md:mb-0 text-lg">Correct score </span>
+                                       <i class="pi pi-info-circle" pTooltip="(RATIO): correctly tipped draws / total draws"></i>
+                                       <div class="mt-1 text-600 text-lg">(draw)</div>
+                                   </div>
+                                   <div class="mt-2 md:mt-0 flex align-items-center">
+                                       <p-knob
+                                         [size]="80"
+                                         [(ngModel)]="correctScoreDraw"
+                                         valueTemplate="{value}%"
+                                         [readonly]="true"
+                                         valueColor="var(--pink-500)"
+                                       ></p-knob>
+                                   </div>
+                               </li>
+                               <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                   <div>
+                                       <span class="text-900 font-medium mr-2 mb-1 md:mb-0 text-lg">Correct score </span>
+                                       <i class="pi pi-info-circle" pTooltip="(RATIO): correctly tipped scores for away team / total wins for away teams"></i>
+                                       <div class="mt-1 text-600 text-lg">(away)</div>
+                                   </div>
+                                   <div class="mt-2 md:mt-0 flex align-items-center">
+                                       <p-knob
+                                         [size]="80"
+                                         [(ngModel)]="correctScoreAway"
+                                         valueTemplate="{value}%"
+                                         [readonly]="true"
+                                         valueColor="var(--cyan-500)"
+                                       ></p-knob>
+                                   </div>
+                               </li>
+                               <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                   <div>
+                                       <span class="text-900 font-medium mr-2 mb-1 md:mb-0 text-lg">Goals home</span>
+                                       <i class="pi pi-info-circle" pTooltip="(RATIO): correctly tipped goals for home teams / all matches"></i>
+                                       <div class="mt-1 text-600 text-lg">(total)</div>
+                                   </div>
+                                   <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                                       <p-knob
+                                         [size]="80"
+                                         [(ngModel)]="correctGoalsHome"
+                                         valueTemplate="{value}%"
+                                         [readonly]="true"
+                                         valueColor="var(--orange-500)"
+                                       ></p-knob>
+                                   </div>
+                               </li>
+                               <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                   <div>
+                                       <span class="text-900 font-medium mr-2 mb-1 md:mb-0 text-lg">Goals away</span>
+                                       <i class="pi pi-info-circle" pTooltip="(RATIO): correctly tipped goals for away teams / all matches"></i>
+                                       <div class="mt-1 text-600 text-lg">(total)</div>
+                                   </div>
+                                   <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                                       <p-knob
+                                         [size]="80"
+                                         [(ngModel)]="correctGoalsAway"
+                                         valueTemplate="{value}%"
+                                         [readonly]="true"
+                                         valueColor="var(--purple-500)"
+                                       ></p-knob>
+                                   </div>
+                               </li>
+                           </ul>
+                       </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
-                <div class="flex align-items-center justify-content-between mb-4">
-                    <h5>Notifications</h5>
-                    <div>
-                        <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
-                        <p-menu #menu [popup]="true" [model]="items"></p-menu>
+            <div class="col-12 xl:col-6">
+                <div *ngIf="matchOfTheDay != null" class="px-4 py-5 shadow-1 flex flex-column md:flex-row md:align-items-center justify-content-between mb-5 matchOfTheDay" [ngStyle]="{borderRadius: '1rem'}">
+                    <div  *ngIf="inTransit_MoD" class="card spinnerCard flex justify-content-center w-full z-5 align-items-center bg-transparent">
+                        <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+                    </div>
+                    <div *ngIf="!inTransit_MoD">
+                        <div class="text-white font-medium text-5xl mb-5">Match of the day</div>
+                        <div class="col-12 align-items-center justify-content-center flex w-full">
+
+                            <div class=" flex align-items-center justify-content-end">
+                                <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.homeTeam.name.split(' ').join('')  }}.png" class="" style="width:41px"/>
+                                <span class="ml-3 mb-1 text-2xl text-white" >{{ matchOfTheDay.homeTeam.name }}</span>
+                            </div>
+                            <div class="w-1rem p-fluid">
+                            </div>
+                            <div class="colonDividerMoD w-1rem text-center justify-content-center text-900 text-3xl align text-white">
+                                :
+                            </div>
+                            <div class="w-1rem p-fluid">
+                            </div>
+                            <div class="flex align-items-center justify-content-start">
+                                <span class="mr-3 mb-1 text-2xl text-white" >{{ matchOfTheDay.awayTeam.name }}</span>
+                                <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.awayTeam.name.split(' ').join('')  }}.png" class="" style="width:41px"/>
+                            </div>
+                        </div>
+                        <div class="flex flex-column gap-3">
+                            <div *ngFor="let category of quickFeedback" class="field-checkbox">
+                                <p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory"></p-radioButton>
+                                <label [for]="category.key" class="ml-2">{{ category.name }}</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <span class="block text-600 font-medium mb-3">TODAY</span>
-                <ul class="p-0 mx-0 mt-0 mb-4 list-none">
-                    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
-                        <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                            <i class="pi pi-dollar text-xl text-blue-500"></i>
-                        </div>
-                        <span class="text-900 line-height-3">Richard Jones
-                    <span class="text-700"> has purchased a blue t-shirt for <span class="text-blue-500">79$</span></span>
-                </span>
-                    </li>
-                    <li class="flex align-items-center py-2">
-                        <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
-                            <i class="pi pi-download text-xl text-orange-500"></i>
-                        </div>
-                        <span class="text-700 line-height-3">Your request for withdrawal of <span class="text-blue-500 font-medium">2500$</span> has been initiated.</span>
-                    </li>
-                </ul>
 
-                <span class="block text-600 font-medium mb-3">YESTERDAY</span>
-                <ul class="p-0 m-0 list-none">
-                    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
-                        <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                            <i class="pi pi-dollar text-xl text-blue-500"></i>
-                        </div>
-                        <span class="text-900 line-height-3">Keyser Wick
-                    <span class="text-700"> has purchased a black jacket for <span class="text-blue-500">59$</span></span>
-                </span>
-                    </li>
-                    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
-                        <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-pink-100 border-circle mr-3 flex-shrink-0">
-                            <i class="pi pi-question text-xl text-pink-500"></i>
-                        </div>
-                        <span class="text-900 line-height-3">Jane Davis<span class="text-700"> has posted a new questions about your product.</span></span>
-                    </li>
-                </ul>
+
+
+                <div *ngIf="notifications != null && notifications.length > 0" class="card shadow-1">
+                    <div class="flex align-items-center justify-content-between mb-4">
+                        <h5>Notifications</h5>
+                    </div>
+                    <div class="flex align-items-center py-2 border-top-1 surface-border"></div>
+
+                    <ul *ngFor="let n of notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
+                        <li class=" py-2 surface-border">
+                            <div class="flex align-items-center">
+                                <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-{{ n.colour }}-100 border-circle mr-3 flex-shrink-0">
+                                    <i class="pi {{ n.icon }} text-xl text-{{ n.colour }}-600"></i>
+                                </div>
+                                <span class="text-900 text-lg font-bold line-height-3 block w-full">{{ n.subject }}</span>
+                            </div>
+                            <span class="text-900 ml-7 text-lg line-height-3 block">{{ n.text }}</span>
+                        </li>
+                        <div class="flex align-items-center py-2 border-bottom-1 surface-border"></div>
+                    </ul>
+                </div>
             </div>
 
-            <div class="px-4 py-5 shadow-2 flex flex-column md:flex-row md:align-items-center justify-content-between mb-3" [ngStyle]="{borderRadius: '1rem', background: 'linear-gradient(0deg, rgba(0, 123, 255, 0.5), rgba(0, 123, 255, 0.5)), linear-gradient(92.54deg, #1C80CF 47.88%, #FFFFFF 100.01%)'}">
-           <div>
-               <div class="text-blue-100 font-medium text-xl mt-2 mb-3">TAKE THE NEXT STEP</div>
-               <div class="text-white font-medium text-5xl">Try PrimeBlocks</div>
-           </div>
-           <div class="mt-4 mr-auto md:mt-0 md:mr-0">
-               <a target="_blank" href="https://www.primefaces.org/primeblocks-ng" class="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
-                   Get Started
-               </a>
-           </div>
+
         </div>
-    </div>
+
+
+
+
 </div>
 

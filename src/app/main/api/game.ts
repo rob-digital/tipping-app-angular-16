@@ -8,11 +8,21 @@ export interface Game {
     stage: string
     goalsHomeTeam: number;
     goalsAwayTeam: number;
+    oddsHome: number;
+    oddsDraw: number;
+    oddsAway: number;
     homeTeam: Team;
     awayTeam: Team;
+    status: GameStatus;  // for points calculations
 
-    gameStatus: GameStatus;  // for points calculations
+}
 
+export interface ScorePayload {
+    goalsHome: number;
+    goalsAway: number;
+    status: GameStatus;
+}
 
-
+export interface GameId {
+    gameId: number;
 }
