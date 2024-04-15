@@ -108,6 +108,10 @@ export class PredictionService extends RequestBaseService {
         return this.http.get<Game[]>(GAMES_API_URL + "/today", { headers: this.getHeaders });
     }
 
+    getKnockoutGames(): Observable<Game[]> {
+        return this.http.get<Game[]>(GAMES_API_URL + "/knockout", { headers: this.getHeaders });
+    }
+
     getUserPredictions(userId: number): Observable<any[]> {
         return this.http.get<PredictionPayload[]>(PREDICTIONS_API_URL + "/user/" + userId, { headers: this.getHeaders });
     }
@@ -140,9 +144,9 @@ export class PredictionService extends RequestBaseService {
                 predictionAway: 0,
                 boostScoreXTimes: 0,
             }
-            singlePayload.gameId = payload[i].gameId;
-            singlePayload.predictionHome = payload[i].homeTeam.goals;
-            singlePayload.predictionAway = payload[i].awayTeam.goals;
+            singlePayload.gameId           = payload[i].gameId;
+            singlePayload.predictionHome   = payload[i].homeTeam.goals;
+            singlePayload.predictionAway   = payload[i].awayTeam.goals;
             singlePayload.boostScoreXTimes = payload[i].boostScoreXTimes;
 
             predictions.push(singlePayload);
@@ -152,13 +156,4 @@ export class PredictionService extends RequestBaseService {
         return this.http.post<PredictionPayload[]>(PREDICTIONS_API_URL + "/insert", payloadToSubmit, { headers: this.getHeaders });
     }
 
-    // loadStadiumsData() {
-    // //     return this.http.get<any>('assets/main/data/stadiums.json')
-    // //         .toPromise()
-    // //         .then(res => res.data)
-    // //         .then(data => data);
-    // // }
-    // return fetch('assets/main/data/stadiums.json').then(res => res.json())
-
-    // }
 }

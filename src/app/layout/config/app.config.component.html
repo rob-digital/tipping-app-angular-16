@@ -13,7 +13,7 @@
     </div>
 
     <ng-container *ngIf="!minimal">
-        <h5>Menu Type</h5>
+        <h5 class=" mt-5">Menu Type</h5>
         <div class="field-radiobutton">
             <p-radioButton name="menuMode" value="static" [(ngModel)]="menuMode" inputId="mode1"></p-radioButton>
             <label for="mode1">Static</label>
@@ -25,7 +25,7 @@
     </ng-container>
 
     <ng-container *ngIf="!minimal">
-        <h5>Input Style</h5>
+        <!-- <h5>Input Style</h5>
         <div class="flex">
             <div class="field-radiobutton flex-1">
                 <p-radioButton name="inputStyle" value="outlined" [(ngModel)]="inputStyle" inputId="outlined_input"></p-radioButton>
@@ -35,9 +35,9 @@
                 <p-radioButton name="inputStyle" value="filled" [(ngModel)]="inputStyle" inputId="filled_input"></p-radioButton>
                 <label for="filled_input">Filled</label>
             </div>
-        </div>
+        </div> -->
 
-        <h5>Ripple Effect</h5>
+        <h5 class=" mt-5">Ripple Effect</h5>
         <p-inputSwitch [(ngModel)]="ripple"></p-inputSwitch>
     </ng-container>
 
@@ -132,17 +132,23 @@
         </div>
     </div> -->
 
-    <h5>PrimeOne Design - 2022</h5>
+    <h5 class=" mt-5">Light or dark mode</h5>
     <div class="grid">
         <!-- <div class="col-3">
             <button class="p-link w-2rem h-2rem" (click)="changeTheme('lara-light-indigo', 'light')">
                 <img src="assets/layout/images/themes/lara-light-indigo.png" class="w-2rem h-2rem" alt="Lara Light Indigo">
             </button>
         </div> -->
-        <div class="col-3">
-            <button class="p-link w-2rem h-2rem" (click)="changeTheme('lara-light-blue', 'light')">
-                <img src="assets/layout/images/themes/lara-light-blue.png" class="w-2rem h-2rem" alt="Lara Light Blue">
-            </button>
+        <div class="col-12 flex align-items-center">
+            <button
+              pButton
+              pRipple
+              icon="pi pi-sun"
+              (click)="changeTheme('lara-light-blue', 'light')"
+              class="p-button-rounded p-button-warning font-bold h-3rem w-3rem"
+
+            ></button>
+            <span class=" ml-2">Light mode</span>
         </div>
         <!-- <div class="col-3">
             <button class="p-link w-2rem h-2rem" (click)="changeTheme('lara-light-purple', 'light')">
@@ -169,10 +175,15 @@
                 <img src="assets/layout/images/themes/lara-dark-purple.png" class="w-2rem h-2rem" alt="Lara Dark Purple">
             </button>
         </div> -->
-        <div class="col-3">
-            <button class="p-link w-2rem h-2rem" (click)="changeTheme('lara-dark-teal', 'dark')">
-                <img src="assets/layout/images/themes/lara-dark-teal.png" class="w-2rem h-2rem" alt="Lara Dark Teal">
-            </button>
+        <div class="col-12  flex align-items-center">
+            <button
+              pButton
+              pRipple
+              icon="pi pi-moon"
+              (click)="changeTheme('lara-dark-teal', 'dark')"
+              class="p-button-rounded  h-3rem w-3rem"
+            ></button>
+            <span class=" ml-2">Dark mode</span>
         </div>
     <!-- </div> -->
 

@@ -16,8 +16,9 @@
                                 <i class="pi pi-wallet text-blue-500 text-xl"></i>
                             </div>
                         </div>
-                        <span class="text-green-500 font-medium">24 new </span>
-                        <span class="text-500">since last visit</span>
+                        <!-- <span class="text-green-500 font-medium">24 new </span> -->
+                        <!-- <p-progressBar value="55" [showValue]="true"></p-progressBar> -->
+                        <span class="text-500">{{ randomQuoteForPlayer }}</span>
                     </div>
                 </div>
             </div>
@@ -114,7 +115,7 @@
                         <h5>Progress</h5>
                         <p-dropdown
                         [options]="graphs"
-                        class="col-1 score1 p-fluid"
+                        class="col-2 score1 p-fluid"
                         id="GraphDropdown"
                         [(ngModel)]="selectedGraph"
                         (ngModelChange)="chartValueChanged()"
@@ -160,19 +161,25 @@
                                        <!-- <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">
                                            <div class="bg-orange-500 h-full" [ngStyle]="{width: '50%'}"></div>
                                        </div> -->
-                                       <p-knob
+                                       <!-- <p-knob
                                          [size]="80"
                                          [(ngModel)]="correctScores_All"
                                          valueTemplate="{value}%"
                                          [readonly]="true"
                                          valueColor="var(--red-500)"
-                                       ></p-knob>
-                                   </div>
+                                       ></p-knob> -->
+                                       <div class="mt-2 md:mt-0 flex align-items-center">
+                                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '12px'}">
+                                            <div class="bg-orange-500 h-full" [ngStyle]="{width: '{{correctScores_All}}%'}"></div>
+                                        </div>
+                                        <span class="text-orange-500 ml-3 font-medium">{{ correctScores_All }}%</span>
+                                    </div>
+                                    </div>
                                </li>
                                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                                    <div>
                                        <span class="text-900 text-lg font-medium mr-2 mb-1 md:mb-0">Correct score </span>
-                                       <i class="pi pi-info-circle" pTooltip="(RATIO): correctly tipped scores for home teams / total wins for home teams '<a>ewewew</a>'"></i>
+                                       <i class="pi pi-info-circle" pTooltip="(RATIO): correctly tipped scores for home teams / total wins for home teams"></i>
                                        <div class="mt-1 text-lg text-600">(home)</div>
                                    </div>
                                    <div class="mt-2 md:mt-0 flex align-items-center">
@@ -257,33 +264,39 @@
 
             <div class="col-12 xl:col-6">
                 <div *ngIf="matchOfTheDay != null" class="px-4 py-5 shadow-1 flex flex-column md:flex-row md:align-items-center justify-content-between mb-5 matchOfTheDay" [ngStyle]="{borderRadius: '1rem'}">
-                    <div  *ngIf="inTransit_MoD" class="card spinnerCard flex justify-content-center w-full z-5 align-items-center bg-transparent">
+                    <div *ngIf="inTransit_MoD" class="card spinnerCard flex justify-content-center w-full z-5 align-items-center bg-transparent">
                         <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
                     </div>
-                    <div *ngIf="!inTransit_MoD">
-                        <div class="text-white font-medium text-5xl mb-5">Match of the day</div>
-                        <div class="col-12 align-items-center justify-content-center flex w-full">
+                    <div *ngIf="!inTransit_MoD" class="flex justify-content-evenly w-full">
+                        <div class="flex flex-column align-items-center">
+                            <div class="text-white font-medium text-5xl mb-5">Match of the day</div>
+                            <div class="col-12 align-items-center justify-content-center flex w-full">
 
-                            <div class=" flex align-items-center justify-content-end">
-                                <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.homeTeam.name.split(' ').join('')  }}.png" class="" style="width:41px"/>
-                                <span class="ml-3 mb-1 text-2xl text-white" >{{ matchOfTheDay.homeTeam.name }}</span>
+                                <div class=" flex align-items-center justify-content-end">
+                                    <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.homeTeam.name.split(' ').join('')  }}.png" class="" style="width:41px"/>
+                                    <span class="ml-3 mb-1 text-2xl text-white" >{{ matchOfTheDay.homeTeam.name }}</span>
+                                </div>
+                                <div class="w-1rem p-fluid">
+                                </div>
+                                <div class="colonDividerMoD w-1rem text-center justify-content-center text-900 text-3xl align text-white">
+                                    :
+                                </div>
+                                <div class="w-1rem p-fluid">
+                                </div>
+                                <div class="flex align-items-center justify-content-start">
+                                    <span class="mr-3 mb-1 text-2xl text-white" >{{ matchOfTheDay.awayTeam.name }}</span>
+                                    <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.awayTeam.name.split(' ').join('')  }}.png" class="" style="width:41px"/>
+                                </div>
                             </div>
-                            <div class="w-1rem p-fluid">
-                            </div>
-                            <div class="colonDividerMoD w-1rem text-center justify-content-center text-900 text-3xl align text-white">
-                                :
-                            </div>
-                            <div class="w-1rem p-fluid">
-                            </div>
-                            <div class="flex align-items-center justify-content-start">
-                                <span class="mr-3 mb-1 text-2xl text-white" >{{ matchOfTheDay.awayTeam.name }}</span>
-                                <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.awayTeam.name.split(' ').join('')  }}.png" class="" style="width:41px"/>
-                            </div>
+                            <button pButton pRipple type="button" label="Go to predictions" class="p-button-raised p-button-info mt-5"></button>
+
                         </div>
-                        <div class="flex flex-column gap-3">
+                        <div class="flex flex-column gap-3 ml-3 quickFeedback px-8 py-4 border-round">
+                            <!-- <img src="assets/main/images/galleria/Euro2024LogoGif.gif" class="" style="width:241px"/> -->
+
                             <div *ngFor="let category of quickFeedback" class="field-checkbox">
                                 <p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory"></p-radioButton>
-                                <label [for]="category.key" class="ml-2">{{ category.name }}</label>
+                                <label [for]="category.key" class="ml-2 font-medium text-yellow-100">{{ category.name }}</label>
                             </div>
                         </div>
                     </div>

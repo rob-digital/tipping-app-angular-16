@@ -6,10 +6,7 @@ import { RequestBaseService } from '../../service/request-base.service';
 import { AuthService } from '../auth/auth.service';
 import { UserData2 } from '../../api/userData';
 
-interface UserData {
-    username: string;
-    points: number;
-}
+
 const API_URL: string = environment.BASE_URL + '/api/v1/leaderboard';
 
 @Injectable({

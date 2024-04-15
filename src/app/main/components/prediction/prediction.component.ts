@@ -14,6 +14,7 @@ import { Observable, Subscription } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { getFullSlipState } from './state/slip-state.reducer';
 import  * as stadiums from '../../../../assets/main/data/stadiums.json';
+import { GameStage } from '../../api/gameStage';
 
 @Component({
   selector: 'app-prediction',
@@ -24,7 +25,7 @@ import  * as stadiums from '../../../../assets/main/data/stadiums.json';
 export class PredictionComponent implements OnInit, OnDestroy{
     // countries: any[] = [];
 
-    dropdownItems: number[] = [0,1,2,3,4,5,6,7,8,9];
+    dropdownItems: any[] = [0,1,2,3,4,5,6,7,8,9];
     selectedGoalsTeam1: any[] = []
     selectedGoalsTeam2: any[] = []
     sortedGamesByDate: any[] | null = null;
@@ -118,6 +119,11 @@ export class PredictionComponent implements OnInit, OnDestroy{
     // prettyPrintJson(json) {
     //     return JSON ? JSON.stringify(json, null, '  ') : 'your browser doesnt support JSON so cant pretty print';
     //   }
+
+    // checkInput(e) {
+    // console.log('e:', e)
+
+    // }
     ngOnInit() {
         this.store.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode);
         this.inTransit = true
@@ -128,16 +134,25 @@ export class PredictionComponent implements OnInit, OnDestroy{
         this.predictionService.getAllGamesForUser(this.auth.readUserState().id).subscribe({
             // this.gamesEffect.loadAllGames$.subscribe({
             next: response => {
-                    this.allGames = response
-                    console.log('this.allGames:', this.allGames)
-                    this.inTransit = false
-                    const uniqueDates = new Set(this.allGames.map(el => el.matchDatetime.slice(0, -9)))
-                    let allUniqueDates = [...uniqueDates]
+                    this.allGames = response;
+                    this.allGames.forEach(z => z.stage == GameStage.GROUP
+                                                    ? z.stage = 'Group stage'
+                                                    : z.stage == GameStage.ROUND_16
+                                                        ? z.stage = 'Round of 16'
+                                                        : z.stage == GameStage.QUARTERFINAL
+                                                            ? z.stage = 'Quarterfinal'
+                                                            : z.stage == GameStage.SEMIFINAL
+                                                                ? z.stage = 'Semi final'
+                                                                : z.stage = 'Final');
+                    console.log('this.allGames:', this.allGames);
+                    this.inTransit = false;
+                    const uniqueDates = new Set(this.allGames.map(el => el.matchDatetime.slice(0, -9)));
+                    let allUniqueDates = [...uniqueDates];
 
-                    this.allDates = allUniqueDates
+                    this.allDates = allUniqueDates;
 
                     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                    this.allDatesWithDays = []
+                    this.allDatesWithDays = [];
 
                     let sortedGamesByDate = [];
                     for(let i=0;i<allUniqueDates.length;i++){
@@ -146,9 +161,9 @@ export class PredictionComponent implements OnInit, OnDestroy{
                     let date = allUniqueDates[i].split('-').reverse().join('.');
                     let obj = {};
 
-                    Object.assign(obj, { day: day, date: date})
+                    Object.assign(obj, { day: day, date: date});
 
-                    this.allDatesWithDays.push(obj)
+                    this.allDatesWithDays.push(obj);
                 }
 
                 for(let i = 0; i < sortedGamesByDate.length; i++) {

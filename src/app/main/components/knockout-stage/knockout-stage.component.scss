@@ -13,13 +13,31 @@
     display: flex;
     // margin-top: 10%;
 }
+:host ::ng-deep p-card .p-organizationchart-node-content {
+    // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: none;
+}
 
 .KoDivider {
     margin-top: -15px;
     margin-bottom: -15px;
 }
 .koTeam {
-    margin-top: -15px;
-    margin-bottom: -15px;
     margin: -15px;
+}
+.scoreBox {
+    width: 25px;
+}
+.largeFlag {
+    width: 51px;
+}
+.mediumFlag {
+    width: 41px;
+}
+.smallFlag {
+    width: 31px;
+}
+.asterisks {
+    top: -19px;
+    right: -18px;
 }

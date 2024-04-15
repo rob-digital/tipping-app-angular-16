@@ -37,12 +37,7 @@ export class TablesComponent implements OnInit {
 
             (response: Team[]) => {
                 this.teams = response;
-                console.log('this.teams:', this.teams)
-                this.teams.forEach(z => {
-                  Array.from(z.name).join(" ").replace(/ /g, '')
-                });
-                console.log('this.teams:', this.teams)
-
+               
                 const groups = new Set(this.teams.map(z => z.groupName))
                 this.groupNames = [...groups]
 

@@ -1,15 +1,16 @@
+import { PredictionService } from './../prediction/prediction.service';
 import { Component, OnInit } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { Team } from '../../api/team';
-import { TablesService } from '../tables/tables.service';
-import { sortIntoTables } from '../tables/tables.component';
+import { Game, YesOrNo } from '../../api/game';
+import { KnockoutStageGame } from '../../api/knockoutStageGame';
 
-interface KnockoutTeam {
-    name: string;
-    goals: number | null;
-    isWinner: boolean;
-    isConfirmed: boolean;
-}
+// interface KnockoutTeam {
+//     name: string;
+//     goals: number | null;
+//     isWinner: boolean;
+//     isConfirmed: boolean;
+// }
 @Component({
   selector: 'app-knockout-stage',
   templateUrl: './knockout-stage.component.html',
@@ -17,55 +18,11 @@ interface KnockoutTeam {
 })
 export class KnockoutStageComponent implements OnInit{
 
-    constructor(private tableService: TablesService) {}
+    constructor(private predictionService: PredictionService) {}
 
     teams: Team[] | null;
-    groups: any[] = null;
+    knockoutGames: Game[] | null = null;
 
-    // roundOf16_game1_homeTeam: KnockoutTeam | null = null;
-    // roundOf16_game1_awayTeam: KnockoutTeam | null = null;
-
-    // roundOf16_game2_homeTeam: KnockoutTeam | null = null;
-    // roundOf16_game2_awayTeam: KnockoutTeam | null = null;
-
-    // roundOf16_game3_homeTeam: KnockoutTeam | null = null;
-    // roundOf16_game3_awayTeam: KnockoutTeam | null = null;
-
-    // roundOf16_game4_homeTeam: KnockoutTeam | null = null;
-    // roundOf16_game4_awayTeam: KnockoutTeam | null = null;
-
-    // roundOf16_game5_homeTeam: KnockoutTeam | null = null;
-    // roundOf16_game5_awayTeam: KnockoutTeam | null = null;
-
-    // roundOf16_game6_homeTeam: KnockoutTeam | null = null;
-    // roundOf16_game6_awayTeam: KnockoutTeam | null = null;
-
-    // roundOf16_game7_homeTeam: KnockoutTeam | null = null;
-    // roundOf16_game7_awayTeam: KnockoutTeam | null = null;
-
-    // roundOf16_game8_homeTeam: KnockoutTeam | null = null;
-    // roundOf16_game8_awayTeam: KnockoutTeam | null = null;
-
-    // quarterFinal_game1_homeTeam: KnockoutTeam | null = null;
-    // quarterFinal_game1_awayTeam: KnockoutTeam | null = null;
-
-    // quarterFinal_game2_homeTeam: KnockoutTeam | null = null;
-    // quarterFinal_game2_awayTeam: KnockoutTeam | null = null;
-
-    // quarterFinal_game3_homeTeam: KnockoutTeam | null = null;
-    // quarterFinal_game3_awayTeam: KnockoutTeam | null = null;
-
-    // quarterFinal_game4_homeTeam: KnockoutTeam | null = null;
-    // quarterFinal_game4_awayTeam: KnockoutTeam | null = null;
-
-    // semiFinal_game1_homeTeam: KnockoutTeam | null = null;
-    // semiFinal_game1_awayTeam: KnockoutTeam | null = null;
-
-    // semiFinal_game2_homeTeam: KnockoutTeam | null = null;
-    // semiFinal_game2_awayTeam: KnockoutTeam | null = null;
-
-    homeTeam: KnockoutTeam | null = null;
-    awayTeam: KnockoutTeam | null = null;
 
     dataSet: TreeNode[] = [
         {
@@ -73,7 +30,7 @@ export class KnockoutStageComponent implements OnInit{
             expanded: true,
             type: 'koStage',
             data: {
-            textSize: 'text-xl',
+            textSize: 'text-3xl',
 
                     homeTeam: { name: 'Winner Match 49', goals: null, isWinner: false, isConfirmed: false},
                     awayTeam: { name: 'Winner Match 50', goals: null, isWinner: false, isConfirmed: false}
@@ -84,7 +41,7 @@ export class KnockoutStageComponent implements OnInit{
                     expanded: true,
                     type: 'koStage',
                     data: {
-                    textSize: 'text-lg',
+                    textSize: 'text-2xl',
 
                         homeTeam: { name: 'Winner Match 45', goals: null, isWinner: false, isConfirmed: false },
                         awayTeam: { name: 'Winner Match 46', goals: null, isWinner: false, isConfirmed: false }
@@ -95,23 +52,22 @@ export class KnockoutStageComponent implements OnInit{
                             expanded: true,
                             type: 'koStage',
                             data: {
-                            textSize: 'text-md',
+                            textSize: 'text-lg',
 
                                 homeTeam: { name: 'Winner Match 39', goals: null, isWinner: false, isConfirmed: false },
                                 awayTeam: { name: 'Winner Match 37', goals: null, isWinner: false, isConfirmed: false }
                             },
                             children: [
-                                {
-
-                                    label: 'Winner Group B vs 3rd Group A/D/E/F',
-                                    type: 'koStage',
-                                        data: {
-                                        textSize: 'text-md',
-
-                                        homeTeam: { name: 'Winner Group B', goals: null, isWinner: false, isConfirmed: false },
-                                        awayTeam: { name: '3rd Group A/D/E/F', goals: null, isWinner: false, isConfirmed: false }
+                                    {
+                                        label: 'Winner Group B vs 3rd Group A/D/E/F',
+                                        type: 'koStage',
+                                            data: {
+                                            textSize: 'text-md',
+                                            // R16-game1
+                                            homeTeam: { name: 'Winner Group B', goals: null, isWinner: false, isConfirmed: false },
+                                            awayTeam: { name: '3rd Group A/D/E/F', goals: null, isWinner: false, isConfirmed: false }
+                                        },
                                     },
-                                },
                                 {
                                     label: 'Winner Group A vs Runner-up Group C',
                                     type: 'koStage',
@@ -128,7 +84,7 @@ export class KnockoutStageComponent implements OnInit{
                             expanded: true,
                             type: 'koStage',
                             data: {
-                                textSize: 'text-md',
+                                textSize: 'text-lg',
                                 homeTeam: { name: 'Winner Match 41', goals: null, isWinner: false, isConfirmed: false },
                                 awayTeam: { name: 'Winner Match 42', goals: null, isWinner: false, isConfirmed: false }
                             },
@@ -160,7 +116,7 @@ export class KnockoutStageComponent implements OnInit{
                     expanded: true,
                     type: 'koStage',
                      data: {
-                        textSize: 'text-lg',
+                        textSize: 'text-2xl',
                             homeTeam: { name: 'Winner Match 47', goals: null, isWinner: false, isConfirmed: false},
                             awayTeam: { name: 'Winner Match 48', goals: null, isWinner: false, isConfirmed: false}
                     },
@@ -170,7 +126,7 @@ export class KnockoutStageComponent implements OnInit{
                             expanded: true,
                             type: 'koStage',
                             data: {
-                                textSize: 'text-md',
+                                textSize: 'text-lg',
                                 homeTeam: { name: 'Winner Match 43', goals: null, isWinner: false, isConfirmed: false },
                                 awayTeam: { name: 'Winner Match 44', goals: null, isWinner: false, isConfirmed: false }
                             },
@@ -200,7 +156,7 @@ export class KnockoutStageComponent implements OnInit{
                             expanded: true,
                             type: 'koStage',
                             data: {
-                                textSize: 'text-md',
+                                textSize: 'text-lg',
                                 homeTeam: { name: 'Winner Match 40', goals: null, isWinner: false, isConfirmed: false },
                                 awayTeam: { name: 'Winner Match 38', goals: null, isWinner: false, isConfirmed: false }
                             },
@@ -232,10 +188,341 @@ export class KnockoutStageComponent implements OnInit{
     ];
 
     ngOnInit(): void {
-        this.tableService.getAllTeams().subscribe({
+        this.predictionService.getKnockoutGames().subscribe({
             next: response => {
-                this.groups = sortIntoTables(response);
-                console.log('this.groups:', this.groups)
+                this.knockoutGames = response;
+                console.log('this.knockoutGames:', this.knockoutGames)
+
+                if (this.knockoutGames != null) {
+
+                    // assign Round of 16
+                    this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1).length == 1
+                        ?   (this.dataSet[0].children[0].children[0].children[0].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[0].children[0].children[0].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].goalsAwayTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                    this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2).length == 1
+                        ?   (this.dataSet[0].children[0].children[0].children[1].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[0].children[0].children[1].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].goalsAwayTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3).length == 1
+                        ?   (this.dataSet[0].children[0].children[1].children[0].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[0].children[1].children[0].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].goalsAwayTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4).length == 1
+                        ?   (this.dataSet[0].children[0].children[1].children[1].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[0].children[1].children[1].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].goalsAwayTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5).length == 1
+                        ?   (this.dataSet[0].children[1].children[0].children[0].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[1].children[0].children[0].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].goalsAwayTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6).length == 1
+                        ?   (this.dataSet[0].children[1].children[0].children[1].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[1].children[0].children[1].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].goalsAwayTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7).length == 1
+                        ?   (this.dataSet[0].children[1].children[1].children[0].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[1].children[1].children[0].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].goalsAwayTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8).length == 1
+                        ?   (this.dataSet[0].children[1].children[1].children[1].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[1].children[1].children[1].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].goalsAwayTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        // assign Quarterfinals
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1).length == 1
+                        ?   (this.dataSet[0].children[0].children[0].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[0].children[0].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].goalsAwayTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2).length == 1
+                        ?   (this.dataSet[0].children[0].children[1].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[0].children[1].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].goalsAwayTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3).length == 1
+                        ?   (this.dataSet[0].children[1].children[0].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].goalsHomeTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[1].children[0].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].goalsAwayTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4).length == 1
+                        ?   (this.dataSet[0].children[1].children[1].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].goalsHomeTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].children[1].children[1].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].goalsAwayTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        // assign Semi Finals
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1).length == 1
+                        ?   (this.dataSet[0].children[0].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].goalsHomeTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    flagSize: 'medium',
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+
+                                },
+                                this.dataSet[0].children[0].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].goalsAwayTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    flagSize: 'medium',
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+
+                                }
+                            )
+                        : null;
+
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2).length == 1
+                        ?   (this.dataSet[0].children[1].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].goalsHomeTeam,
+
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    flagSize: 'medium',
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+
+                                },
+                                this.dataSet[0].children[1].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].goalsAwayTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    flagSize: 'medium',
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+                        // assign Final
+                        this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL).length == 1
+                        ?   (this.dataSet[0].data.homeTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].homeTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].goalsHomeTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    flagSize: 'large',
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                },
+                                this.dataSet[0].data.awayTeam =
+                                {
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].awayTeam.name,
+                                    goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].goalsAwayTeam,
+                                    isWinner: false,
+                                    isConfirmed: true,
+                                    flagSize: 'large',
+                                    winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
+                                }
+                            )
+                        : null;
+
+
+                }
+
             },
             error: error => {
                 console.log(error);

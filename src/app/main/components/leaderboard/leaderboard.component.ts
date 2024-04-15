@@ -41,7 +41,6 @@ export class LeaderboardComponent implements OnInit {
             },
             error: error => {
                 console.log(error);
-
             }
         })
     }

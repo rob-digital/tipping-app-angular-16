@@ -5,7 +5,7 @@
         <i class="pi pi-bars"></i>
     </button>
     <div class="flex justify-content-evenly w-full">
-        <span *ngIf="username != null && username != '' " class=" align-content-center flex-wrap flex">Hi, {{ username }}</span>
+        <span *ngIf="username != null && username != '' " class=" align-content-center flex-wrap flex">Hi, {{ presentableUsername }}</span>
         <span class="justify-content-center flex">
             <i class="pi pi-file mr-4 p-text-secondary cursor-pointer" [ngClass]="{'zoomin': slipItems.length == 1}"  (click)="openSlipDialog()" pBadge style="font-size: 2rem" value="{{ slipItems.length }}"></i>
         </span>

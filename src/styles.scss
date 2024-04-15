@@ -88,7 +88,7 @@ $gutter: 1rem; //for primeflex grid system
 // linear-gradient(45deg, #343702 0%, #184500 20%, #187546 30%, #006782 40%, #0b1284 50%, #760ea1 60%, #83096e 70%, #840b2a 80%, #b13e12 90%, #e27412 100%);
 // background-size: 470px 470px, 970px 970px, 410px 410px, 610px 610px, 530px 530px, 730px 730px, 100% 100%;
 
-background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+// background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
 }
 .dataCard2 {
     // background-color: #0093E9;
@@ -131,3 +131,6 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(
 :host ::ng-deep .p-speeddial-action-icon.one::before {
     content: '1' !important;
   }
+.quickFeedback {
+    background: rgba(2, 4, 109, 0.3);
+}

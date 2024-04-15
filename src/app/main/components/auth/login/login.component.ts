@@ -55,10 +55,8 @@ export class LoginComponent implements OnInit {
 
     constructor(public layoutService: LayoutService,
                 private renderer:Renderer2,
-                private router: Router,
                 private auth: AuthService,
-                private store: Store<AppUser>) {
-                }
+                ) {}
 
     ngOnInit(): void {
         this.isBackwards = true;

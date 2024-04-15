@@ -45,6 +45,7 @@ export class AppTopBarComponent implements OnInit {
     inTransit: boolean = false;
     darkMode: boolean;
     username: string;
+    presentableUsername: string;
     userId: number;
     boosters: number;
     allBoostersUsed: boolean;
@@ -78,6 +79,23 @@ export class AppTopBarComponent implements OnInit {
     ngOnInit(): void {
         this.userStore.select(getUsername).subscribe(user => this.username = user);
         this.configStore.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode);
+        let titles = ['mr', 'sir', 'master', 'lord', 'mrs', 'ms', 'miss', 'lady', 'super', 'dr'];
+
+        console.log(this.username.match(/\b(\w+)\b/g));
+        let extractedUserName = this.username.match(/\b(\w+)\b/g);
+
+        if (extractedUserName.length > 1) {
+            if (titles.filter(z => z == extractedUserName[0].toLowerCase()).length == 1) {
+                this.presentableUsername = extractedUserName.splice(0, 2).join(" ");
+                return;
+            } else {
+                this.presentableUsername = extractedUserName.splice(0, 1).join(" ");
+                console.log('this.presentableUsername:', this.presentableUsername)
+                return;
+            }
+        }
+
+        this.presentableUsername = this.username;
     }
 
     // initiatePage() {

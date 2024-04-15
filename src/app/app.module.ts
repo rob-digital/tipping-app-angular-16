@@ -7,10 +7,8 @@ import { AuthModule } from './main/components/auth/auth.module';
 import { CommonModule } from '@angular/common';
 import { NotfoundComponent } from './main/components/notfound/notfound.component';
 import { StoreModule } from '@ngrx/store';
-// import { PredictionComponent } from './main/components/prediction/prediction.component';
 import { PredictionModule } from './main/components/prediction/prediction.module';
 import { ButtonModule } from 'primeng/button';
-// import { ProductService } from './demo/service/product.service';
 import { CountryService } from './main/service/country.service';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RulesComponent } from './main/components/rules/rules.component';
@@ -28,13 +26,10 @@ import { LeaderboardComponent } from './main/components/leaderboard/leaderboard.
 import { KnockoutStageComponent } from './main/components/knockout-stage/knockout-stage.component';
 import { DividerModule } from 'primeng/divider';
 import { TagModule } from 'primeng/tag';
-// import { TablesComponent } from './main/components/tables/tables.component';
-// import { CustomerService } from './demo/service/customer.service';
-// import { EventService } from './demo/service/event.service';
-// import { IconService } from './demo/service/icon.service';
-// import { NodeService } from './demo/service/node.service';
-// import { PhotoService } from './demo/service/photo.service';
-// import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { TooltipModule } from 'primeng/tooltip';
+import { BadgeModule } from 'primeng/badge';
+
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -44,8 +39,6 @@ import { TagModule } from 'primeng/tag';
         LeaderboardComponent,
         KnockoutStageComponent,
 
-        // TablesComponent,
-        // PredictionComponent
     ],
     imports: [
         AppRoutingModule,
@@ -63,6 +56,8 @@ import { TagModule } from 'primeng/tag';
         OrganizationChartModule,
         DividerModule,
         TagModule,
+        TooltipModule,
+        BadgeModule,
         StoreModule.forRoot({}),   // everything loaded outside this module is LAZY LOADING
         EffectsModule.forRoot([GamesEffect]),  // everything loaded outside this module is LAZY LOADING
         StoreDevtoolsModule.instrument({ name: "Tipping APP !!!", maxAge: 25, logOnly: !isDevMode() }),  // must be last one on this list

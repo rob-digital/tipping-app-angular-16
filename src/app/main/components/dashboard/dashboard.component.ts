@@ -22,6 +22,7 @@ import { MegaMenuItem } from 'primeng/api';
 import { Game } from '../../api/game';
 import { Team } from '../../api/team';
 import { TeamForm } from '../../api/TeamForm';
+import  * as quotes from '../../../../assets/main/data/quotes.json';
 
 interface user {
     username: string;
@@ -84,6 +85,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     notifications: Notification[] | null = null;
     graphs: string[] = ["line", "bar"];
 
+    allQuotes: any;
+    inspirationalQuotesForLeaders: any[] | null = null;
+    inspirationalQuotesForPlayers: any[] | null = null;
+    randomQuoteForPlayer: string;
+
     userData: {
         id: number;
         createTime: string;
@@ -99,6 +105,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         { name: 'Not interested', key: 'P' },
         { name: 'Waste of time', key: 'R' }
     ];
+
 
     first: number = 1;
     rows: number = 10;
@@ -231,7 +238,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         // this.todaysDate = todaysDate;
         // console.log('this.todaysDate:', this.todaysDate)
-
+        this.allQuotes = quotes;
+        this.inspirationalQuotesForLeaders = this.allQuotes.data[0].leader;
+        this.inspirationalQuotesForPlayers = this.allQuotes.data[0].player;
+        this.randomQuoteForPlayer = this.inspirationalQuotesForPlayers[Math.floor(Math.random()*this.inspirationalQuotesForPlayers.length)].body;
+        console.log('randomQuoteForPlayer:', this.randomQuoteForPlayer)
 
         let storageUser;
         const storageUserAsObj = localStorage.getItem('currentUser');
@@ -284,6 +295,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                             game.performance = performance;
 
                             todaysPerformance.push(game);
+                            console.log('todaysPerformance:', todaysPerformance)
                         }
                         let todaysBestPerformance = todaysPerformance.reduce(
                             (prev, current) => {
@@ -368,9 +380,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                                                          : 10;
 
         let measureTeamForm = team.teamForm == TeamForm.UP
-                                                ? 4
+                                                ? 6
                                                 : team.teamForm == TeamForm.STABLE
-                                                    ? 2
+                                                    ? 3
                                                     : 0;
 
         return measureTeamClass + measureTeamForm;

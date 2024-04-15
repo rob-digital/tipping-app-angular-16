@@ -3,28 +3,45 @@
     <p-card class="cardChart"  header="Knockout stage">
 
         <div>
-            <p-organizationChart class="orgChart" [value]="dataSet">
-                <ng-template let-node pTemplate="koStage">
+            <p-organizationChart class="orgChart shadow-3" [value]="dataSet">
+                <ng-template let-node pTemplate="koStage" class="shadow-3">
                     <div class="p-2 text-center">
                         <div class="flex align-items-center justify-content-between koTeam">
-                            <div class="flex align-items-center">
-                                <img *ngIf="node.data.homeTeam.isConfirmed" src="assets/main/images/flagsPNG/{{ node.data.homeTeam.name }}.png" class="" style="width:31px"/>
+                            <div class="flex align-items-center" [class]="{ 'opacity-50' : node.data.awayTeam.goals > node.data.homeTeam.goals }">
+                                <img
+                                  *ngIf="node.data.homeTeam.isConfirmed"
+                                  src="assets/main/images/flagsPNG/{{ node.data.homeTeam.name.split(' ').join('') }}.png"
+                                  [class]="{ 'largeFlag': node.data.awayTeam.flagSize == 'large' , 'mediumFlag': node.data.awayTeam.flagSize == 'medium' , 'smallFlag': node.data.awayTeam.flagSize == null }"
+                                />
 
-                                <!-- <span class="ml-2 {{node.data.textSize}}">Czech Republic</span> -->
-                                <p-tag severity="success" ><span class="ml-2 {{node.data.textSize}}">Czech Republic</span></p-tag>
+                                <span [ngClass]="{ 'line-through' : node.data.awayTeam.goals > node.data.homeTeam.goals }" class="ml-2 {{node.data.textSize}}" >{{ node.data.homeTeam.name }}</span>
+                                <!-- <p-tag severity="success" ><span class="ml-2 {{node.data.textSize}}">Czech Republic</span></p-tag> -->
                             </div>
-                            <div class="px-2 ml-2  text-xl border-solid h-2rem border-round">{{ node.data.awayTeam.goals }}</div>
+                            <div class=" relative">
+                                <div class="scoreBox pb-1 ml-2 text-xl border-solid h-2rem border-round">{{ node.data.homeTeam.goals }}</div>
+                                <span *ngIf="node.data.awayTeam.winsAfterPenalties && node.data.awayTeam.goals < node.data.homeTeam.goals " class="text-5xl absolute font-bold ml-1 asterisks text-red-400" pTooltip="Wins after penalty shootout">&#x2a;</span>
+                            </div>
                         </div>
                         <p-divider class="KoDivider" align="center">
                             <b class="text-sm">VS</b>
                         </p-divider>
                         <div class="flex align-items-center justify-content-between koTeam">
-                            <div class="flex align-items-center">
-                                <img *ngIf="node.data.awayTeam.isConfirmed" src="assets/main/images/flagsPNG/{{ node.data.awayTeam.name }}.png" class="" style="width:31px"/>
-                               <p-tag severity="danger" > <span class="ml-2 {{node.data.textSize}}">{{ node.data.awayTeam.name }}</span></p-tag>
+                            <div class="flex align-items-center" [class]="{ 'opacity-50' : node.data.awayTeam.goals < node.data.homeTeam.goals }">
+                                <img
+                                  *ngIf="node.data.awayTeam.isConfirmed"
+                                  src="assets/main/images/flagsPNG/{{ node.data.awayTeam.name.split(' ').join('') }}.png"
+                                  [class]="{ 'largeFlag': node.data.awayTeam.flagSize == 'large' , 'mediumFlag': node.data.awayTeam.flagSize == 'medium' , 'smallFlag': node.data.awayTeam.flagSize == null }"
+                                />
+                               <span  [ngClass]="{ 'line-through' : node.data.awayTeam.goals < node.data.homeTeam.goals }" class="ml-2 {{node.data.textSize}}">{{ node.data.awayTeam.name }}</span>
+                               <!-- <p-tag severity="danger" > <span class="ml-2 {{node.data.textSize}}">{{ node.data.awayTeam.name }}</span></p-tag> -->
                             </div>
-                            <div class="px-2  ml-2 text-xl border-solid h-2rem border-round">{{ node.data.awayTeam.goals }}3</div>
+                            <div class=" relative">
+                                <div class="scoreBox pb-1 ml-2 text-xl border-solid h-2rem border-round">{{ node.data.awayTeam.goals }}</div>
+                                <span *ngIf="node.data.awayTeam.winsAfterPenalties && node.data.awayTeam.goals > node.data.homeTeam.goals " class="text-5xl absolute font-bold ml-1 asterisks text-red-400" pTooltip="Wins after penalty shootout">&#x2a;</span>
+                            </div>
+
                         </div>
+
                     </div>
                 </ng-template>
 

@@ -1,4 +1,4 @@
-import { Role } from "./role";
+import { Reward } from "./reward";
 
 export interface UserData {
     // token: string;
@@ -12,5 +12,5 @@ export interface UserData {
 export interface UserData2 {
     username:string;
     points: number;
-
+    reward: Reward;
 }

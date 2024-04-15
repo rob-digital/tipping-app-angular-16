@@ -8,6 +8,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { AppConfigComponent } from './app.config.component';
 import { StoreModule } from '@ngrx/store';
 import { configReducer } from './state/config.reducer';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { configReducer } from './state/config.reducer';
         RadioButtonModule,
         ButtonModule,
         InputSwitchModule,
+        TooltipModule,
         StoreModule.forFeature('configs', configReducer)
     ],
     declarations: [

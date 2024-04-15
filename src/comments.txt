@@ -8,7 +8,9 @@ style
 [tableStyle]="{'min-width': '50rem'}"
 [style]="{width: '450px'}"
 [class]="{ 'text-white' : darkMode }"
+[class]="{ 'opacity-50' : node.data.awayTeam.goals < node.data.homeTeam.goals }"
 [ngClass]="{ 'ng-invalid ng-dirty' : !canSubmitPasswordSignIn && canSubmitPasswordSignIn != null }"
+[ngClass]="{ 'line-through' : node.data.awayTeam.goals > node.data.homeTeam.goals }"
 ==================================================
 HTML tag
 

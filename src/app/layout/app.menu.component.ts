@@ -1,7 +1,12 @@
+import { Store } from '@ngrx/store';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 import { PredictionService } from '../main/components/prediction/prediction.service';
+import { AuthService } from '../main/components/auth/auth.service';
+import { AppUser, User } from '../main/api/user';
+import { getRole } from '../main/components/auth/state/user.reducer';
+import { Role } from '../main/api/role';
 
 @Component({
     selector: 'app-menu',
@@ -10,10 +15,17 @@ import { PredictionService } from '../main/components/prediction/prediction.serv
 export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
+    currentUser: User;
 
-    constructor(public layoutService: LayoutService, private predictionService: PredictionService) { }
+    constructor(public layoutService: LayoutService, private store: Store<AppUser>) { }
 
     ngOnInit() {
+
+        const storageUserAsObj = localStorage.getItem('currentUser');
+        if (storageUserAsObj) {
+            this.currentUser = JSON.parse(storageUserAsObj);
+        }
+
         this.model = [
             {
                 label: 'Home',
@@ -62,13 +74,21 @@ export class AppMenuComponent implements OnInit {
                     { label: 'My Hub', icon: 'pi pi-fw pi-user', routerLink: ['/dashboard/hub'] },
                 ]
             },
-            {
-                label: 'Admin',
-                items: [
-                    { label: 'Calculate', icon: 'pi pi-fw pi-plus-circle', routerLink: ['/admin/calculate'] },
-                    { label: 'Rules', icon: 'pi pi-fw pi-briefcase', routerLink: ['/dashboard/rules'] },
-                ]
-            },
+            this.currentUser.role == Role.ADMIN
+            ? {
+                    label: 'Admin',
+                    items: [
+                        { label: 'Calculate', icon: 'pi pi-fw pi-plus-circle', routerLink: ['/admin/calculate'] },
+                        { label: 'Rules', icon: 'pi pi-fw pi-briefcase', routerLink: ['/dashboard/rules'] },
+                    ]
+                }
+            :   {
+                    label: 'Admin',
+                    items: [
+                        { label: 'Rules', icon: 'pi pi-fw pi-briefcase', routerLink: ['/dashboard/rules'] },
+                    ]
+                }
+
         ];
     }
 }

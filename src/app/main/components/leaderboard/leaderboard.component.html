@@ -7,7 +7,7 @@
         </div>
         <div *ngIf="!inTransit">
 
-            <div *ngIf="allUsers.length > 0">
+            <div *ngIf="allUsers.length > 0 && allUsers[0].points > 0">
                 <p-table
                   #dt
                   dataKey="id"
@@ -39,8 +39,11 @@
                             <td class="w-1rem">
 
                             </td>
-                            <td class="" >
+                            <td class="flex justify-content-between align-items-center" >
                                 {{ positions[rowIndex] }}
+                               <img *ngIf="user.reward == 'WINNER'" src="assets/main/images/galleria/winner.png" class="" style="width:51px"/>
+                               <img *ngIf="user.reward == 'LEADER'" src="assets/main/images/galleria/leader.png" class="" pTooltip="{{ user.username }} received a yellow t-shirt as a leader after the group stage. Congratulations!" style="width:51px"/>
+
                             </td>
                             <td class="">
                                 <span>{{ user.username }}</span>
