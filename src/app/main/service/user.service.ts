@@ -17,7 +17,6 @@ export class UserService extends RequestBaseService {
        }
 
        getUserData(userId: number): Observable<any> {
-       console.log('userId:', userId)
 
         return this.http.get<UserData>(USER_URL + "/data/" + userId, { headers: this.getHeaders });
 

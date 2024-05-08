@@ -2,11 +2,9 @@ import { Store } from '@ngrx/store';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
-import { PredictionService } from '../main/components/prediction/prediction.service';
-import { AuthService } from '../main/components/auth/auth.service';
 import { AppUser, User } from '../main/api/user';
-import { getRole } from '../main/components/auth/state/user.reducer';
 import { Role } from '../main/api/role';
+import { AppConfig2, getShowDarkMode } from './config/state/config.reducer';
 
 @Component({
     selector: 'app-menu',
@@ -16,10 +14,13 @@ export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
     currentUser: User;
+    darkMode: boolean;
 
-    constructor(public layoutService: LayoutService, private store: Store<AppUser>) { }
+
+    constructor(public layoutService: LayoutService, private store: Store<AppUser>, private store2: Store<AppConfig2>) { }
 
     ngOnInit() {
+        this.store.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode);
 
         const storageUserAsObj = localStorage.getItem('currentUser');
         if (storageUserAsObj) {
@@ -39,29 +40,30 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Predict',
                         icon: 'pi pi-fw pi-check-square',
-                        items: [
-                            {
-                                label: 'Show all games',
-                                icon: 'pi pi-fw pi-th-large',
-                                routerLink: ['/dashboard/predict'],
-                                // routerLinkActiveOptions: this.isLinkActive(true)
-                            },
-                            {
-                                label: 'By date',
-                                items: [
-                                    { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                    { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                    { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
-                                ],
-                                icon: 'pi pi-fw pi-calendar-minus',
-                                routerLink: ['/auth/error']
-                            },
-                            {
-                                label: 'Access Denied',
-                                icon: 'pi pi-fw pi-lock',
-                                routerLink: ['/auth/access']
-                            }
-                        ]
+                        routerLink: ['/dashboard/predict'],
+                        // items: [
+                        //     {
+                        //         label: 'Show all games',
+                        //         icon: 'pi pi-fw pi-th-large',
+                        //         routerLink: ['/dashboard/predict'],
+                        //         // routerLinkActiveOptions: this.isLinkActive(true)
+                        //     },
+                        //     {
+                        //         label: 'By date',
+                        //         items: [
+                        //             { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
+                        //             { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
+                        //             { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
+                        //         ],
+                        //         icon: 'pi pi-fw pi-calendar-minus',
+                        //         routerLink: ['/auth/error']
+                        //     },
+                        //     {
+                        //         label: 'Access Denied',
+                        //         icon: 'pi pi-fw pi-lock',
+                        //         routerLink: ['/auth/access']
+                        //     }
+                        // ]
                      },
                 ]
             },

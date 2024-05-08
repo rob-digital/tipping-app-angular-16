@@ -1,20 +1,16 @@
 import { PredictionService } from './prediction.service';
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { CountryService } from '../../service/country.service';
 import { Router } from '@angular/router';
 import { PredictionPayload } from '../../api/predictionPayload';
 import { AuthService } from '../auth/auth.service';
 import { Store } from '@ngrx/store';
-import * as PredictionActions from  './state/prediction.actions';
 import { AppConfig2, getShowDarkMode } from 'src/app/layout/config/state/config.reducer';
-import * as AllGamesActions from './state/games.actions';
-import { GamesEffect } from './state/games.effect';
-import { Game } from '../../api/game';
 import { Observable, Subscription } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { getFullSlipState } from './state/slip-state.reducer';
 import  * as stadiums from '../../../../assets/main/data/stadiums.json';
 import { GameStage } from '../../api/gameStage';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-prediction',
@@ -43,6 +39,11 @@ export class PredictionComponent implements OnInit, OnDestroy{
     allDatesWithDays: any[] = [];
     timeZones: any[] = [];
     allDates: any[] = [];
+
+    // used for local time
+    allDatesWithDays2: any[] = [];
+    sortedGamesByDate2: any[] | null = null;
+    localTimeZone: string;
 
     gamesOnSlip: any[];
     stadiums: any;
@@ -81,11 +82,7 @@ export class PredictionComponent implements OnInit, OnDestroy{
             return;
         }
 
-        // let currentSlipState$ = this.predictionService.getSlipState().subscribe({
-        //     next: response => {
-        //         console.log(response);
-        //     }
-        // })
+
         let currentSlipState = this.predictionService.getSlipState();
         if (currentSlipState != null && currentSlipState.length > 0) {
             let isGameAlreadyInSlip = currentSlipState.some(el => el.gameId == gameId);
@@ -129,7 +126,8 @@ export class PredictionComponent implements OnInit, OnDestroy{
         this.inTransit = true
         // fetch('assets/main/data/stadiums.json').then(res => res.json()).then(data => this.stadiums = data.data)
 
-        this.stadiums = stadiums
+        this.stadiums = stadiums;
+
 
         this.predictionService.getAllGamesForUser(this.auth.readUserState().id).subscribe({
             // this.gamesEffect.loadAllGames$.subscribe({
@@ -144,81 +142,115 @@ export class PredictionComponent implements OnInit, OnDestroy{
                                                             : z.stage == GameStage.SEMIFINAL
                                                                 ? z.stage = 'Semi final'
                                                                 : z.stage = 'Final');
-                    console.log('this.allGames:', this.allGames);
-                    this.inTransit = false;
-                    const uniqueDates = new Set(this.allGames.map(el => el.matchDatetime.slice(0, -9)));
-                    let allUniqueDates = [...uniqueDates];
 
-                    this.allDates = allUniqueDates;
-
-                    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                    this.allDatesWithDays = [];
-
-                    let sortedGamesByDate = [];
-                    for(let i=0;i<allUniqueDates.length;i++){
-                    sortedGamesByDate.push(this.allGames.filter((el, j) =>el.matchDatetime.slice(0, -9) == allUniqueDates[i]));
-                    let day = days[new Date(allUniqueDates[i].split('-')).getDay()];
-                    let date = allUniqueDates[i].split('-').reverse().join('.');
-                    let obj = {};
-
-                    Object.assign(obj, { day: day, date: date});
-
-                    this.allDatesWithDays.push(obj);
-                }
-
-                for(let i = 0; i < sortedGamesByDate.length; i++) {
-                    // let copyArray = JSON.parse(JSON.stringify(sortedGamesByDate[i]))
-                    // this.gamesStore.dispatch(AllGamesActions.setGamesByDate({dailyGames: copyArray}));
-                    for(let j = 0; j < sortedGamesByDate[i].length; j++) {
-                      let obj = {};
-                      let buildPuneTimeHours = Number(sortedGamesByDate[i][j].matchDatetime.slice(11, -6)) + 5 == 24 ? "00": Number(sortedGamesByDate[i][j].matchDatetime.slice(11, -6)) + 5
-                      let buildZurichTimeHours = Number(sortedGamesByDate[i][j].matchDatetime.slice(11, -6)) + 1
-                      let buildPuneTimeMinutes = Number(sortedGamesByDate[i][j].matchDatetime.slice(14, -3)) + 30
-                      let buildPuneWholeTime = (sortedGamesByDate[i][j].matchDatetime).replace(sortedGamesByDate[i][j].matchDatetime.slice(11, -6), buildPuneTimeHours)
-                      let buildZurichWholeTime = (sortedGamesByDate[i][j].matchDatetime).replace(sortedGamesByDate[i][j].matchDatetime.slice(11, -6), buildZurichTimeHours)
-
-                      Object.assign(obj, {
-                        gameId: sortedGamesByDate[i][j].id,
-                        gameTimeGMT: sortedGamesByDate[i][j].matchDatetime,
-                        gameTimeIST: buildPuneWholeTime,
-                        gameTimeCET: buildZurichWholeTime,
-                      })
-                      this.timeZones[sortedGamesByDate[i][j].id] = obj
+                    for(let i = 0; i < this.allGames.length; i++) {
+                        // this.allGames.forEach(z => {
+                          let dateToUTC = moment.utc( this.allGames[i].matchDatetime ).subtract(2, 'hours');
+                          let localDateTime = moment(dateToUTC).local();
+                          let displayDateTime = localDateTime.format('YYYY-MM-DDTHH:mm:ss');
+                          let date = localDateTime.format('MMMM Do YYYY');
+                        //   onlyDates.push(date)
+                          this.allGames[i].matchDatetime = displayDateTime;
                     }
 
-                  }
+                    let uniqueNewDates = new Set(this.allGames.map(el => el.matchDatetime.slice(0, -9)));
+                    let allUniqueNewDates = [...uniqueNewDates];
 
-                  this.sortedGamesByDate = sortedGamesByDate;
-                  this.sortedGamesByDate.forEach(el => el.sort((a, b) => a.id - b.id));
+                    let days2 = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    this.allDatesWithDays2 = [];
 
+                    let sortedGamesByDate2 = [];
+                    for (let i=0;i<allUniqueNewDates.length;i++) {
+                        sortedGamesByDate2.push(this.allGames.filter((el, j) =>el.matchDatetime.slice(0, -9) == allUniqueNewDates[i]));
+                        let day = days2[new Date(allUniqueNewDates[i].split('-')).getDay()];
+                        let date = moment(allUniqueNewDates[i]).format('MMMM Do YYYY');
+                        let obj = {};
+
+                        Object.assign(obj, { day: day, date: date});
+
+                        this.allDatesWithDays2.push(obj);
+                    }
+
+                    this.sortedGamesByDate2 = sortedGamesByDate2;
+                    this.sortedGamesByDate2.forEach(el => el.sort((a, b) => a.id - b.id));
+
+                    for(let i = 0; i < this.sortedGamesByDate2.length; i++) {
+                        this.sortedGamesByDate2[i].forEach(z => {
+                            z.matchDatetime = moment(z.matchDatetime).format('MMMM Do YYYY, HH:mm');
+                        })
+                    }
+
+
+                    let localTime = moment().tz(moment.tz.guess());
+                    this.localTimeZone = localTime.format("z");
+
+
+                    // -------------- IMPORTANT ---------------------------------------------------------------------
+                    // -------------- display time and date only in one form i.e. GMT -------------------------------
+                //     const uniqueDates = new Set(this.allGames.map(el => el.matchDatetime.slice(0, -9)));
+                //     let allUniqueDates = [...uniqueDates];
+
+                //     this.allDates = allUniqueDates;
+
+                //     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                //     this.allDatesWithDays = [];
+
+                //     let sortedGamesByDate = [];
+                //     for(let i=0;i<allUniqueDates.length;i++){
+                //     sortedGamesByDate.push(this.allGames.filter((el, j) =>el.matchDatetime.slice(0, -9) == allUniqueDates[i]));
+                //     let day = days[new Date(allUniqueDates[i].split('-')).getDay()];
+                //     let date = allUniqueDates[i].split('-').reverse().join('.');
+                //     let obj = {};
+
+                //     Object.assign(obj, { day: day, date: date});
+
+                //     this.allDatesWithDays.push(obj);
+                // }
+
+                // for(let i = 0; i < sortedGamesByDate.length; i++) {
+                //     // let copyArray = JSON.parse(JSON.stringify(sortedGamesByDate[i]))
+                //     // this.gamesStore.dispatch(AllGamesActions.setGamesByDate({dailyGames: copyArray}));
+                //     for(let j = 0; j < sortedGamesByDate[i].length; j++) {
+                //       let obj = {};
+                //       let buildPuneTimeHours = Number(sortedGamesByDate[i][j].matchDatetime.slice(11, -6)) + 5 == 24 ? "00": Number(sortedGamesByDate[i][j].matchDatetime.slice(11, -6)) + 5
+                //       let buildZurichTimeHours = Number(sortedGamesByDate[i][j].matchDatetime.slice(11, -6)) + 1
+                //       let buildPuneTimeMinutes = Number(sortedGamesByDate[i][j].matchDatetime.slice(14, -3)) + 30
+                //       let buildPuneWholeTime = (sortedGamesByDate[i][j].matchDatetime).replace(sortedGamesByDate[i][j].matchDatetime.slice(11, -6), buildPuneTimeHours)
+                //       let buildZurichWholeTime = (sortedGamesByDate[i][j].matchDatetime).replace(sortedGamesByDate[i][j].matchDatetime.slice(11, -6), buildZurichTimeHours)
+
+                //       Object.assign(obj, {
+                //         gameId: sortedGamesByDate[i][j].id,
+                //         gameTimeGMT: sortedGamesByDate[i][j].matchDatetime,
+                //         gameTimeIST: buildPuneWholeTime,
+                //         gameTimeCET: buildZurichWholeTime,
+                //       })
+                //       this.timeZones[sortedGamesByDate[i][j].id] = obj
+                //     }
+                //   }
+
+                //   this.sortedGamesByDate = sortedGamesByDate;
+                //   this.sortedGamesByDate.forEach(el => el.sort((a, b) => a.id - b.id));
+
+                // -------------- ----------------------------------------------------------------------
+                // -------------- ----------------------------------------------------------------------
+
+                  this.inTransit = false;
             },
             error: error => console.log("Can't load games", error)
         });
     }
 
 
-    // ------- Toasts ------------------------
-    showSuccess() {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-    }
-
-    showInfo() {
-        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content' });
-    }
-
     showWarningToast(header: string, text: string) {
         this.messageService.add(
         {
             severity: 'warn',
             summary: header,
-            detail: text
+            detail: text,
+            key: 'bc'
         });
     }
 
-    showError() {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Message Content' });
-    }
-    // -------------------------------------------------
 
     onDropdownClear_Home(gameId) {
         this.selectedGoalsTeam1[gameId -1] = null;

@@ -2,23 +2,16 @@
     <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
 </div>
 
-<p-toast class="custom-toast"></p-toast>
-<!-- <button type="button" pButton pRipple (click)="showWarningToast()" label="Top Left"></button> -->
+<p-toast class="predictionsWarningToast" position="bottom-center" key="bc"></p-toast>
 
-<!-- <p-toast position="bottom-center" key="bc"></p-toast> -->
-<!-- <button type="button" pButton pRipple  label="Top Center" class="p-button-warning"></button> -->
-
-<!-- <p-toast position="top-center" key="tc"></p-toast> -->
-<!-- <button type="button" pButton pRipple  label="Bottom Center" class="p-button-success"></button> -->
-
-<div class="allgmaes" id="allgmaes" *ngFor="let dailyGames of sortedGamesByDate; let i = index">
-    <h5 class="text-center">{{ allDatesWithDays[i].day }} - {{ allDatesWithDays[i].date }}.</h5>
+<div class="allgmaes" id="allgmaes" *ngFor="let dailyGames of sortedGamesByDate2; let i = index">
+    <h5 class="text-center text-2xl">{{ allDatesWithDays2[i].day }} - {{ allDatesWithDays2[i].date }}</h5>
     <div class="wrapper flex gap-5 m-auto flex-wrap justify-content-evenly">
 
         <div class="card mb-0 shadow-2" id="game-{{ game.id }}" *ngFor="let game of dailyGames; let j = index">
             <div class="grid" >
                 <p-divider align="center"  type="solid" class="col-12 narrow">
-                    <b> {{ game.matchDatetime.slice(11, -3) }} GMT</b>
+                    <b> {{ game.matchDatetime.substr(game.matchDatetime.length - 5) }} {{ localTimeZone }}</b>
                 </p-divider>
                 <div class="col-12 align-items-center justify-content-center flex">
 

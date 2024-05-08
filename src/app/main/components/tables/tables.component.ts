@@ -37,38 +37,24 @@ export class TablesComponent implements OnInit {
 
             (response: Team[]) => {
                 this.teams = response;
-               
+
                 const groups = new Set(this.teams.map(z => z.groupName))
                 this.groupNames = [...groups]
 
                 this.allGroupsArray = sortIntoTables(this.teams);
 
-                console.log('this.allGroupsArray :', this.allGroupsArray)
                 this.inTransit = false;
-
 
               },
         ),
         (error) => {
             console.log("Tables component error: ", error);
-
         };
     }
 
     darkModeORLightMode() {
         this.store.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode)
-        console.log('this.darkMode:', this.darkMode)
     }
-    // getSeverity(status: string) {
-    //     switch (status) {
-    //         case 'INSTOCK':
-    //             return 'success';
-    //         case 'LOWSTOCK':
-    //             return 'warning';
-    //         case 'OUTOFSTOCK':
-    //             return 'danger';
-    //     }
-    // }
 
     applyTableBorder(i) {
         return `tableColor-${i}`
@@ -85,7 +71,7 @@ export function sortIntoTables(teams: Team[]) {
         teams.filter( (el, i) => el.groupName ==  "Group D").sort((a, b) => a.positionInTable - b.positionInTable),
         teams.filter( (el, i) => el.groupName ==  "Group E").sort((a, b) => a.positionInTable - b.positionInTable),
         teams.filter( (el, i) => el.groupName ==  "Group F").sort((a, b) => a.positionInTable - b.positionInTable),
-      //   teams.filter( (el, i) => el.groupName ==  "Group G").sort((a, b) => a.positionInTable - b.positionInTable),
+      //   teams.filter( (el, i) => el.groupName ==  "Group G").sort((a, b) => a.positionInTable - b.positionInTable),  // Could be used for other tournaments, where there is more groups
       //   teams.filter( (el, i) => el.groupName ==  "Group H").sort((a, b) => a.positionInTable - b.positionInTable),
       ]
 }

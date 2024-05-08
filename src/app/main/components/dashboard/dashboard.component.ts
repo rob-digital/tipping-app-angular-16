@@ -1,9 +1,7 @@
 import { NotificationService } from './../../service/notification.service';
 import { Store } from '@ngrx/store';
-import { Component, OnInit, OnDestroy, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-// import { Product } from '../../api/product';
-// import { ProductService } from '../../service/product.service';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Observable, Subscription, map } from 'rxjs';
 import { AppConfig, LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from '../auth/auth.service';
@@ -23,6 +21,9 @@ import { Game } from '../../api/game';
 import { Team } from '../../api/team';
 import { TeamForm } from '../../api/TeamForm';
 import  * as quotes from '../../../../assets/main/data/quotes.json';
+import { MODFeedbackService } from '../../service/mod-feedback.service';
+import * as moment from 'moment';
+import { modFeedbackToSubmit } from '../../api/mod-feedback';
 
 interface user {
     username: string;
@@ -45,7 +46,9 @@ interface PageEvent {
 
 @Component({
     templateUrl: './dashboard.component.html',
+    providers: [MessageService]
 })
+
 export class DashboardComponent implements OnInit, OnDestroy {
     // @ViewChild('charts') public chartEl: ElementRef;
 
@@ -89,6 +92,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     inspirationalQuotesForLeaders: any[] | null = null;
     inspirationalQuotesForPlayers: any[] | null = null;
     randomQuoteForPlayer: string;
+    selectedResponse: any;
 
     userData: {
         id: number;
@@ -99,11 +103,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         points: number;
         boosters: number;
     }
+
+    MoDFeedbackSubmitted: boolean = false;
+    removeFeedbackForm: boolean = false;
+    MoDAwaitingFeedback: boolean;
     quickFeedback: any[] = [
-        { name: "I'm going to watch", key: 'A' },
-        { name: 'Should be good', key: 'M' },
-        { name: 'Not interested', key: 'P' },
-        { name: 'Waste of time', key: 'R' }
+        { value: "Clash of the titans", key: 'A' },
+        { value: 'Should be good', key: 'B' },
+        { value: 'Not interested', key: 'C' },
+        { value: 'Waste of time', key: 'D' }
     ];
 
 
@@ -116,7 +124,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     // knob data
-    correctScore = 44;
+    correctScore = { width: '44%' };
     correctGoalsHome: number | null;
     correctGoalsAway: number | null;
     correctScoreHome: number | null;
@@ -131,6 +139,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private store: Store<AppConfig>,
         private userStore: Store<AppUser>,
         private userService: UserService,
+        private modFeedbackService: MODFeedbackService,
+        private messageService: MessageService,
         private leaderboardService: LeaderboardService,
         private notificationService: NotificationService,
         private dashboardStore: Store<any>) {
@@ -148,7 +158,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
             if (this.darkMode) {
                 this.initChart();
                 this.myPoints != null ? this.chartData.datasets[0].data = this.myPoints : null;
-                console.log('this.myPoints:', this.myPoints)
                 this.labels != null ? this.chartData.labels = this.labels : null;
             }
 
@@ -165,17 +174,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     chartValueChanged() {
         this.dashboardStore.dispatch(DashboardActions.setChartType({ chartType: this.selectedGraph }))
-        console.log('this.selectedGraph:', this.selectedGraph)
     }
-
-    // timeLimitations() {
-    //     setInterval(() => {
-
-
-
-
-    //       }, 1000)
-    // }
 
     loadData() {
         this.subscription = this.predictionService.getCalculatedPredictions(this.userData.id).subscribe({
@@ -218,7 +217,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
     }
 
-    ngOnInit() {
+    submitMoDFeedback() {
+        if (this.MoDAwaitingFeedback) {
+            let submitMe: modFeedbackToSubmit =
+                          {
+                             userId: this.userData.id,
+                             gameId: this.matchOfTheDay.id,
+                             feedbackCode: this.selectedResponse.key,
+                             feedbackText: this.selectedResponse.value
+                           }
+
+            this.modFeedbackService.insertModFeedback(submitMe).subscribe({
+                next: response => {
+                    this.showSuccessToast();
+                },
+                error: error => {
+                    console.log('error:', error)
+                }
+            })
+            this.MoDFeedbackSubmitted = true;
+            setTimeout(() => {
+                this.MoDAwaitingFeedback = false;
+            }, 900)
+
+        }
+        return;
+    }
+     ngOnInit() {
         this.inTransit_leaders   = true;
         this.inTransit_points    = true;
         this.inTransit_booster   = true;
@@ -226,23 +251,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.inTransit_graph     = true;
         this.inTransit_MoD       = true;
 
-        // var convertDateTime = function(num) { return ('00'+num).slice(-2) };
-        // var todaysDate;
-        // todaysDate = new Date();
-        // todaysDate = todaysDate.getUTCFullYear()         + '-' +
-        //               convertDateTime(todaysDate.getUTCMonth() + 1)  + '-' +
-        //               convertDateTime(todaysDate.getUTCDate())       + 'T' +
-        //               convertDateTime(todaysDate.getUTCHours())      + ':' +
-        //               convertDateTime(todaysDate.getUTCMinutes())    + ':' +
-        //               convertDateTime(todaysDate.getUTCSeconds());
-
-        // this.todaysDate = todaysDate;
-        // console.log('this.todaysDate:', this.todaysDate)
         this.allQuotes = quotes;
         this.inspirationalQuotesForLeaders = this.allQuotes.data[0].leader;
         this.inspirationalQuotesForPlayers = this.allQuotes.data[0].player;
         this.randomQuoteForPlayer = this.inspirationalQuotesForPlayers[Math.floor(Math.random()*this.inspirationalQuotesForPlayers.length)].body;
-        console.log('randomQuoteForPlayer:', this.randomQuoteForPlayer)
 
         let storageUser;
         const storageUserAsObj = localStorage.getItem('currentUser');
@@ -251,7 +263,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.userService.getUserData(storageUser.id).subscribe({
                 next: response => {
                         if (response) {
-                            console.log('response!!!!:', response)
                             this.store.dispatch(UserActions.setPoints({ points: response.points }));
                             this.store.dispatch(UserActions.setBoosters({ boosters: response.boosters }));
 
@@ -295,7 +306,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                             game.performance = performance;
 
                             todaysPerformance.push(game);
-                            console.log('todaysPerformance:', todaysPerformance)
                         }
                         let todaysBestPerformance = todaysPerformance.reduce(
                             (prev, current) => {
@@ -311,11 +321,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
         })
 
+        // check whether user submitted the Match of the day feedback
+        this.modFeedbackService.getMoDFeedback(this.userData.id).subscribe({
+            next: response => {
+                if (this.matchOfTheDay != null) {
+                    let currentTime = moment();
+                    let matchTimeToUTC = moment.utc( this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
+                    let localMatchTime = moment(matchTimeToUTC).local();
+                    if (currentTime.isAfter(localMatchTime)) {
+                        this.MoDAwaitingFeedback = false;
+                        return;
+                    }
+                }
+
+                if (response != null && response.length > 0 && this.matchOfTheDay != null) {
+                    let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
+                    feedbackExists ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
+                }
+                else {
+                    this.MoDAwaitingFeedback = true;
+                }
+            },
+            error: error => {console.log(error);}
+        })
         // get notifications
         this.notificationService.getNotifications().subscribe({
             next: response => {
                 this.notifications = response;
-                console.log('this.notifications:', this.notifications)
             },
             error: error => {
                 console.log(error);
@@ -325,7 +357,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.leaderboardService.getUsers().subscribe({
             next: response => {
-                console.log('responseAA:', response)
                 if (response != null && response[0].points > 0 && response.length > 1) {
                     let leaderPoints = response[0].points;
                     // this.currentLeader = response
@@ -364,20 +395,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.loadData();
 
     }
+
     secondPlayer(val, leaderPoints) {
-        console.log('val:', val)
         this.secondPlayerPoints = val.find(z => z.points < leaderPoints).points
-        console.log('this.secondPlayerPoints:', this.secondPlayerPoints)
      }
 
      teamPerformance(team: Team): number {
         let measureTeamClass = team.teamClass == "A"
-                                                    ? 40
-                                                    : team.teamClass == "B"
-                                                       ? 30
-                                                       : team.teamClass == "C"
-                                                         ? 20
-                                                         : 10;
+                                                ? 10
+                                                : team.teamClass == "B"
+                                                    ? 8
+                                                    : team.teamClass == "C"
+                                                        ? 6
+                                                        : 4;
 
         let measureTeamForm = team.teamForm == TeamForm.UP
                                                 ? 6
@@ -458,4 +488,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
+
+    // ----------------- message toast
+    showSuccessToast() {
+     this.messageService.add({ key: 'dashSuccess', severity: 'success', summary: 'Success', detail: 'Your feedback has been registered. Thank you!' });
+    }
 }
+
+

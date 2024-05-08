@@ -191,7 +191,6 @@ export class KnockoutStageComponent implements OnInit{
         this.predictionService.getKnockoutGames().subscribe({
             next: response => {
                 this.knockoutGames = response;
-                console.log('this.knockoutGames:', this.knockoutGames)
 
                 if (this.knockoutGames != null) {
 

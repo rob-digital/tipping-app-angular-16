@@ -49,9 +49,6 @@ export class AuthService {
         this.currentUser$ = this.currentUserSubject.asObservable();
     }
 
-    // public get currentUserValue(): AppUser {
-    //     return this.currentUserSubject.value;
-    // }
 
     setUserState(user: AppUser) {
         this.store.dispatch(UserActions.setId({id: user.id}));
@@ -95,7 +92,6 @@ export class AuthService {
                     this.router.navigate(['/dashboard']);
 
                     this.setUserState(response);
-                    console.log('response:', response)
                     this.setSessionUser(this.readUserState());
                 }
             })
@@ -135,7 +131,4 @@ export class AuthService {
         this.currentUserSubject.next(new User);
     }
 
-    // fetchUserData(): Observable<any> {
-    //     return this.http.get<any>(environment.BASE_URL + '/api/v1/user');
-    // }
 }

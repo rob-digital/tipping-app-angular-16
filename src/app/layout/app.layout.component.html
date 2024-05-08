@@ -2,7 +2,14 @@
 <!-- <div class="layout-wrapper" [ngClass]="{containerClass : darkMode, globalBgLight : !darkMode}" > -->
     <app-topbar></app-topbar>
     <div class="layout-sidebar" >
-        <app-sidebar></app-sidebar>
+        <div class="flex flex-column justify-content-between h-full" >
+
+            <app-sidebar></app-sidebar>
+            <div class="flex align-content-center w-full sideLogo mb-3">
+                <img src="assets/main/images/galleria/{{ darkMode ? 'LogoEuro2024White' : 'LogoEuro2024Black' }}.svg" class="" style="width:110px"/>
+            </div>
+        </div>
+
     </div>
     <div class="layout-main-container" >
         <div class="layout-main">

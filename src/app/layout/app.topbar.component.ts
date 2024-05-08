@@ -2,7 +2,7 @@ import { setBoosters } from './../main/components/auth/state/user.actions';
 import { PredictionService } from './../main/components/prediction/prediction.service';
 import { Store } from '@ngrx/store';
 import { Component, ElementRef, ViewChild, OnInit, Renderer2 } from '@angular/core';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem, Message, MessageService } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { AuthService } from '../main/components/auth/auth.service';
 import { Router } from '@angular/router';
@@ -41,6 +41,7 @@ export class AppTopBarComponent implements OnInit {
     slipWaitingToBeSubmitted: boolean;
     // created for the inputSwitch [(ngModel)]="slipItems_Copy[rowIndex].double"
     slipItems_Copy: PredictionPayload[];
+    msgs: Message[] = [];
 
     inTransit: boolean = false;
     darkMode: boolean;
@@ -77,11 +78,11 @@ export class AppTopBarComponent implements OnInit {
 
 
     ngOnInit(): void {
+
         this.userStore.select(getUsername).subscribe(user => this.username = user);
         this.configStore.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode);
         let titles = ['mr', 'sir', 'master', 'lord', 'mrs', 'ms', 'miss', 'lady', 'super', 'dr'];
 
-        console.log(this.username.match(/\b(\w+)\b/g));
         let extractedUserName = this.username.match(/\b(\w+)\b/g);
 
         if (extractedUserName.length > 1) {
@@ -90,28 +91,20 @@ export class AppTopBarComponent implements OnInit {
                 return;
             } else {
                 this.presentableUsername = extractedUserName.splice(0, 1).join(" ");
-                console.log('this.presentableUsername:', this.presentableUsername)
                 return;
             }
         }
 
         this.presentableUsername = this.username;
+
     }
 
-    // initiatePage() {
-    //     this.userStore.select(getUsername).subscribe(user => this.username = user);
-    //     this.configStore.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode);
-    //     setTimeout(() => {
-    //         window.location.reload();
-    //     }, 2000)
-    // }
 
     openSlipDialog() {
         if (this.slipItems.length == 0) return;
 
         if (this.boosters == 0) this.shouldShowBoostersColumn = false;
         this.slipItems_Copy = JSON.parse(JSON.stringify(this.slipItems));
-        console.log('this.slipItems_Copy:', this.slipItems_Copy)
         this.submitted = false;
         this.slipDialog = true;
     }
@@ -153,7 +146,6 @@ export class AppTopBarComponent implements OnInit {
         this.slipDialog = false;
         this.inTransit = false;
         this.slipWaitingToBeSubmitted = true;
-        console.log('slipWaitingToBeSubmitted:', this.slipWaitingToBeSubmitted)
     }
 
     onSubmit() {
@@ -161,31 +153,32 @@ export class AppTopBarComponent implements OnInit {
         this.inTransit = true;
         this.predictionService.submitPredictions(this.slipItems, this.userId).subscribe({
             next: (response) => {
-            console.log('response:', response)
+                if (response == 202) {
 
-                console.log('this.slipItems:', this.slipItems)
-                this.slipWaitingToBeSubmitted = false;
+                    this.slipWaitingToBeSubmitted = false;
 
-                let submittedIDs = this.slipItems.map(z => z.gameId);
-                console.log('submittedIDs:', submittedIDs)
-                this.userStore.dispatch(setBoosters({boosters: this.boosters}));
-                let newSessionData = JSON.parse(localStorage.getItem('currentUser'));
-                newSessionData.boosters = this.boosters;
-                localStorage.setItem('currentUser', JSON.stringify(newSessionData));
-                console.log('newSessionData:', newSessionData)
+                    let submittedIDs = this.slipItems.map(z => z.gameId);
+                    this.userStore.dispatch(setBoosters({boosters: this.boosters}));
+                    let newSessionData = JSON.parse(localStorage.getItem('currentUser'));
+                    newSessionData.boosters = this.boosters;
+                    localStorage.setItem('currentUser', JSON.stringify(newSessionData));
 
-                this.predictionService.setGameIdsSubmitted(submittedIDs);
-                submittedIDs.forEach(z =>  this.predictionService.removePayloadFromSlip(z));
-                this.closeDialog();
-                this.showSuccessToast();
-                this.slipWaitingToBeSubmitted = false;
-                this.predictionService.setGameIdsSubmitted([]);
+                    this.predictionService.setGameIdsSubmitted(submittedIDs);
+                    submittedIDs.forEach(z =>  this.predictionService.removePayloadFromSlip(z));
+                    this.closeDialog();
+                    this.showSuccessToast();
+                    this.predictionService.setGameIdsSubmitted([]);
 
-                // this.initiatePage();
+                }
+
+                if (response == 400) {
+                    this.showErrorViaMessages()
+                }
             },
             error: error => console.log("ERROR, can't submit: ", error)
         })
     }
+
 
     logout() {
         this.auth.logout();
@@ -194,6 +187,11 @@ export class AppTopBarComponent implements OnInit {
 
     // ----------------- message toast
     showSuccessToast() {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Your predictions have been submitted successfully. Good luck!' });
+        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: 'Your predictions have been submitted successfully. Good luck!' });
     }
+    showErrorViaMessages() {
+        this.msgs = [];
+        this.msgs.push({ severity: 'error', summary: 'Error!!!', detail: 'One or more of the matches in your bet slip have already started. Please reload the page and start again.' });
+    }
+
 }

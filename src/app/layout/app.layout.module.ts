@@ -27,6 +27,7 @@ import { ChipModule } from 'primeng/chip';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { MessageModule } from 'primeng/message';
         InputSwitchModule,
         ReactiveFormsModule,
         ToastModule,
-        MessageModule
+        MessageModule,
+        MessagesModule
     ],
     exports: [AppLayoutComponent]
 })

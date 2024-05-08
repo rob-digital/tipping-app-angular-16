@@ -14,9 +14,6 @@ import { MessageService } from 'primeng/api';
 export class CalculateComponent {
     games: any[] = [];
     dropdownItems: number[] = [0,1,2,3,4,5,6,7,8,9];
-    // dropdownItems: string[] = ["ddd", "fff"];
-    // goalsHome: number[] = [];
-    // goalsAway: number[] = [];
     successMessage: string = ""
     goalsHome: number[] = [];
     goalsAway: number[] = [];
@@ -33,7 +30,6 @@ initiatePage() {
     this.adminService.getGamesToCalculate().subscribe({
         next: (response) => {
             this.games = response;
-            console.log('this.allGames_NO_SCORE:', this.games)
         },
         error: (error) => {
          console.log("admin-all-games error", error);
@@ -53,7 +49,6 @@ initiatePage() {
             goalsAway: this.goalsAway[game.id - 1],
             status: GameStatus.NOT_CALCULATED
         }
-        console.log('payload:', payload)
         this.adminService.submitGameScore(game.id, payload).subscribe({
             next:  (res) => {
                 this.inTransit = true;
@@ -83,7 +78,6 @@ initiatePage() {
                 fetch(location.href).then(response => {
 
                     if (response.status == 200) {
-                        console.log(response);
                         this.initiatePage();
                         this.inTransit = false;
                         this.messageService.add({ severity: 'success', summary: 'Success', detail: `Points for game ${game.id} have been calculated.` });
@@ -94,48 +88,4 @@ initiatePage() {
         });
 
     }
-
-    // goToGamesWithScores() {
-    //   this.router.navigateByUrl('/admin/allgamesplayed');
-    // }
-
-    // goToAllUsers() {
-    //   this.router.navigateByUrl('/admin/allusers');
-    // }
-    // goToAllTeams() {
-    //   this.router.navigateByUrl('/admin/allteams');
-    // }
-
-    // onInsertClick(event, i) {
-
-    //   let gameId = this.games.find(el => el == this.games[i]).id;
-
-
-    // let payload: ScorePayload = {
-    //   goalsHome: this.goalsHome[gameId - 1],
-    //   goalsAway: this.goalsAway[gameId - 1],
-    //   status: GameStatus.CALCULATED
-    // }
-
-    // this.adminService.submitGameScore(gameId, payload).subscribe({
-    //     next:  (res) => {
-    //         fetch(location.href).then(response => {
-    //         console.log('ocation.href:', location.href)
-
-    //           if (response.status == 200) {
-    //             this.goalsHome = []
-    //             this.goalsAway = []
-    //             this.successMessage = "Score submitted successfully!";
-    //             setTimeout(() => {
-    //               this.successMessage = ""
-    //             }, 2000);
-    //           }
-    //         })
-    //       },
-
-    //   error: (error) => {
-    //     console.log("Error while submitting a score to a game ", error);
-    //   }
-    // });
-    // }
 }

@@ -48,10 +48,6 @@ export class PredictionService extends RequestBaseService {
     super(auth, http)
    }
 
-   isPredictionPageActive(isActive) {
-   console.log('isActive:', isActive)
-
-   }
 
    setPredictionState(obj) {
     this.predictionStore.dispatch(PredictionActions.setGameId({ gameId: obj.gameId }));
@@ -120,8 +116,7 @@ export class PredictionService extends RequestBaseService {
         return this.http.get<PredictionPayload[]>(PREDICTIONS_API_URL + "/calculated/user/" + userId, { headers: this.getHeaders });
     }
 
-    submitPredictions(payload: any[], userId: number): Observable<PredictionPayload[]> {
-    console.log('payload:', payload)
+    submitPredictions(payload: any[], userId: number): Observable<202 | 400> {
 
         interface ExtractedPayload {
             gameId: number,
@@ -151,9 +146,8 @@ export class PredictionService extends RequestBaseService {
 
             predictions.push(singlePayload);
         }
-        console.log('payloadToSubmit:', payloadToSubmit)
 
-        return this.http.post<PredictionPayload[]>(PREDICTIONS_API_URL + "/insert", payloadToSubmit, { headers: this.getHeaders });
+        return this.http.post<202 | 400>(PREDICTIONS_API_URL + "/insert", payloadToSubmit, { headers: this.getHeaders });
     }
 
 }

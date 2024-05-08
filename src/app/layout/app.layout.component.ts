@@ -23,16 +23,7 @@ export class AppLayoutComponent implements OnDestroy {
 
     constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router, private store: Store<AppConfig2>) {
 
-        store.select(getShowDarkMode).subscribe(darkMode => {
-            this.darkMode = darkMode
-        console.log('this.darkMode:', this.darkMode)
-        if (this.darkMode == true) {
-            console.log("Yes");
-
-        }else {
-            console.log("No");
-
-        }});
+        store.select(getShowDarkMode).subscribe(darkMode => {this.darkMode = darkMode});
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {

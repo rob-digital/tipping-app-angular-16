@@ -1,7 +1,7 @@
 
 
 <div>
-    <p-card class="flex justify-content-center" header="Leaderboard">
+    <p-card class="flex justify-content-center" header="Leaderboard" [style]="{ 'min-width': '60rem' }">
         <div  *ngIf="inTransit" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
             <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
         </div>

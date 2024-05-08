@@ -28,25 +28,4 @@
 div#allgmaes:not(:has(.card)) {
     display: none;
 }
-// :host ::ng-deep .p-panel .p-panel-content div.col-4{
-//     padding: 0 !important;
-// }//
 
-// :host ::ng-deep .custom-toast  {
-//     display: flex;
-//     background: red;
-//     width: 500px; // whatever width you need
-// }
-// .custom-toast .ui-toast {
-//     position: fixed;
-//     top: 20%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-//     width: 50%;
-//   }
-
-//   // adjusts font, color and other elements of the toast window if needed
-//   .custom-toast .ui-toast-message-content {
-//     font-family: 'Courier New', Courier, monospace;
-//     background: #FFD07B;
-//   }

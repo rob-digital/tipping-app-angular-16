@@ -1,9 +1,9 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { AppUser, User } from 'src/app/main/api/user';
+import {  User } from 'src/app/main/api/user';
 import { AuthService } from '../auth.service';
 import { Store } from '@ngrx/store';
+import { AppConfig2, getShowDarkMode } from 'src/app/layout/config/state/config.reducer';
 
 enum SubmitButton {
     SIGNIN = 'SIGNIN',
@@ -27,12 +27,6 @@ enum SubmitButton {
 export class LoginComponent implements OnInit {
 
     valCheck: string[] = ['remember'];
-
-    // usernameSignIn!: string;
-    // passwordSignIn!: string;
-
-    // username!: string;
-    // password!: string;
     registration: boolean | null;
     isBackwards: boolean;
     inTransit: boolean = false;
@@ -52,15 +46,20 @@ export class LoginComponent implements OnInit {
     canSubmitPasswordRegister: boolean | null;
     errorMessagePasswordRegister: string | null;
     errorMessageUsernameRegister: string | null;
+    darkMode: boolean;
 
     constructor(public layoutService: LayoutService,
                 private renderer:Renderer2,
                 private auth: AuthService,
+                private store: Store<AppConfig2>,
+
                 ) {}
 
     ngOnInit(): void {
         this.isBackwards = true;
         this.registration = null;
+        this.store.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode);
+
         // this.auth.loadSessionUser2()
     }
 
@@ -112,7 +111,6 @@ export class LoginComponent implements OnInit {
                 this.inTransit = true;
 
                 this.auth.register(this.userRegister, this.rememberMeLogin).subscribe(res => {
-                console.log('this.userRegister:', this.userRegister)
 
                         this.userRegister.username = '';
                         this.userRegister.password = '';

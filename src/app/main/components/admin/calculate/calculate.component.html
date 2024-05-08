@@ -14,7 +14,7 @@
 
 <div class="p-4">
     <p-card *ngIf="games.length > 0 " header="Submit scores" class="p-2">
-        <p-toast position="bottom-center" [life]="2000"></p-toast>
+        <p-toast class="successCalcToast" position="bottom-center" [life]="2000"></p-toast>
 
         <p-table [value]="games" [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template pTemplate="header">

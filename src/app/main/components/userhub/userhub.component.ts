@@ -25,10 +25,8 @@ export class UserhubComponent implements OnInit {
         this.predictionService.getUserPredictions(this.userId).subscribe({
             next: res => {
                 this.allPredictions = res;
-                console.log('this.allPredictions:', this.allPredictions)
                 let pointsArray = this.allPredictions.map(z => z.points);
                 this.totalPoints = pointsArray.reduce((prev, curr) => prev + curr, 0)
-                console.log('this.totalPoints:', this.totalPoints)
                 this.inTransit = false;
 
             }

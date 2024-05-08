@@ -36,7 +36,6 @@ export const slipStateReducer = createReducer(
         let modifiedGame = {...selectedGame}
         modifiedGame.boostScoreXTimes = action.boostScoreXTimes;
         modifiedGame.double = action.boostScoreXTimes == 2 ? true : false
-        console.log('modifiedGame:', modifiedGame)
         let index = state.predictions.findIndex(el => el == selectedGame)
 
         return {

@@ -25,7 +25,7 @@
 <!-- <form [formGroup]="slipForm"> -->
     <p-dialog
     [(visible)]="slipDialog"
-    [style]="{ 'min-width': '450px'}"
+    [style]="{ 'min-width': '450px', 'max-width': '600px'}"
     header="Your fixtures to submit"
     [modal]="true"
     class="p-fluid shadow-4"
@@ -44,19 +44,6 @@
                 <ng-template pTemplate="body" let-rowData let-slipItem let-rowIndex="rowIndex" $index *ngFor="let k of slipItems">
                     <tr class="fixtures">
                         <td>{{ slipItem.homeTeam.name }} - {{ slipItem.awayTeam.name }}</td>
-                        <!-- <td>
-                            <p-tag severity="success" value="Booster"></p-tag>
-                        </td> -->
-                        <!-- <td class="m-0 p-0">
-                            <p-chip
-                            label="Booster"
-                            styleClass="pt-0 pb-0"
-                            [styleClass]=" !darkMode ? 'boosterLight': 'boosterDark'"
-                            [removable]="true"
-                            (onRemove)="boosterRemoved($event)"
-                            ></p-chip>
-                            <p-tag icon="pi pi-times" severity="success" value="Booster" [rounded]="true"></p-tag>
-                        </td> -->
                         <td>{{ slipItem.homeTeam.goals }} : {{ slipItem.awayTeam.goals }}</td>
                         <td *ngIf="(boosters > 0 && boosters < 4) || shouldShowBoostersColumn || slipWaitingToBeSubmitted" class="">
                             <p-inputSwitch
@@ -79,16 +66,12 @@
             <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="closeDialog()"></button>
             <p-button type="submit" label="Submit" [loading]="inTransit"  (click)="onSubmit()"></p-button>
         </ng-template>
+        <p-messages [value]="msgs"></p-messages>
     </p-dialog>
 <!-- </form> -->
 
-<p-toast
-  [showTransformOptions]="'translateY(100%)'"
-  [showTransitionOptions]="'500ms'"
-  [hideTransitionOptions]="'500ms'"
-  [showTransformOptions]="'translateX(100%)'"
-></p-toast>
 
 
 
 
+<p-toast class="submitPredictionsSuccessToast" position="bottom-center" key="bc"></p-toast>

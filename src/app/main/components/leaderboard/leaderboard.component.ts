@@ -23,11 +23,9 @@ export class LeaderboardComponent implements OnInit {
             next: response => {
                 this.inTransit = false;
                 this.allUsers = response;
-                console.log('this.allUsers:', this.allUsers)
                 for (let i = 0; i < this.allUsers.length; i++) {
                     this.pointsArray.push(this.allUsers[i].points)
                 }
-                console.log('this.pointsArray:', this.pointsArray)
 
                   this.positions = this.pointsArray.reduce((acc, point, index) => {
                     if (point !== this.pointsArray[index - 1]) {

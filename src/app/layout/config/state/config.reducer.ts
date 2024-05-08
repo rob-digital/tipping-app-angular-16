@@ -48,7 +48,6 @@ export const configReducer = createReducer(
         };
     }) ,
     on(ConfigActions.darkModeActive, (state, action): AppConfig2 => {
-        console.log('state:', state)
         return {
             ...state,
             darkModeActive: action.darkMode

@@ -19,6 +19,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
         MegaMenuModule,
         RadioButtonModule,
         ProgressBarModule,
+        ToastModule,
         StoreModule.forFeature('chartType', dashboardReducer),
     ],
     declarations: [DashboardComponent]
