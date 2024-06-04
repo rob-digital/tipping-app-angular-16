@@ -256,14 +256,14 @@
                     <div *ngIf="inTransit_MoD" class="card spinnerCard flex justify-content-center w-full z-5 align-items-center bg-transparent">
                         <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
                     </div>
-                    <div *ngIf="!inTransit_MoD" class="flex justify-content-evenly w-full">
+                    <div *ngIf="!inTransit_MoD" class="flex justify-content-evenly flex-column w-full">
                         <div class="flex flex-column align-items-center">
                             <div class="text-white font-medium text-5xl mb-5">Match of the day</div>
                             <div class="col-12 align-items-center justify-content-center flex w-full">
 
                                 <div class=" flex align-items-center justify-content-end">
-                                    <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.homeTeam.name.split(' ').join('')  }}.png" class="" style="width:41px"/>
-                                    <span class="ml-3 mb-1 text-3xl text-white" >{{ matchOfTheDay.homeTeam.name }}</span>
+                                    <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.homeTeam.name.split(' ').join('')  }}.png" class="" style="width:61px"/>
+                                    <span class="ml-3 mb-1 text-4xl text-white" >{{ matchOfTheDay.homeTeam.name }}</span>
                                 </div>
                                 <div class="w-1rem p-fluid">
                                 </div>
@@ -273,13 +273,13 @@
                                 <div class="w-1rem p-fluid">
                                 </div>
                                 <div class="flex align-items-center justify-content-start">
-                                    <span class="mr-3 mb-1 text-3xl text-white" >{{ matchOfTheDay.awayTeam.name }}</span>
-                                    <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.awayTeam.name.split(' ').join('')  }}.png" class="" style="width:41px"/>
+                                    <span class="mr-3 mb-1 text-4xl text-white" >{{ matchOfTheDay.awayTeam.name }}</span>
+                                    <img src="assets/main/images/flagsPNG/{{ matchOfTheDay.awayTeam.name.split(' ').join('')  }}.png" class="" style="width:61px"/>
                                 </div>
                             </div>
 
-                                <div *ngIf="matchOfTheDay.oddsHome && matchOfTheDay.oddsDraw && matchOfTheDay.oddsAway" class="col-12 flex p-0">
-                                    <div class="col-4 align-items-center justify-content-center">
+                                <div *ngIf="matchOfTheDay.oddsHome && matchOfTheDay.oddsDraw && matchOfTheDay.oddsAway" class="col-8 flex p-0">
+                                    <div class="col-4 flex align-items-center justify-content-center">
                                         <p-divider layout="horizontal" align="center">
                                             <p-chip styleClass="pl-0 pr-0 flex flex-column" [styleClass]=" darkMode ? 'myChipDark': 'myChipLight'">
                                                 <span class="pl-3 pr-0 pb-1 font-medium text-white">Home: </span>
@@ -289,7 +289,7 @@
                                         </p-divider>
                                     </div>
 
-                                    <div class="col-4 align-items-center justify-content-center">
+                                    <div class="col-4 flex align-items-center justify-content-center">
                                         <p-divider layout="horizontal" align="center">
                                             <p-chip styleClass="pl-0 pr-0 flex flex-column" [styleClass]=" darkMode ? 'myChipDark': 'myChipLight'">
                                                 <span class="pl-3 pr-0 font-medium pb-1 text-white">Draw: </span>
@@ -298,7 +298,7 @@
                                         </p-divider>
                                     </div>
 
-                                    <div class="col-4 align-items-center justify-content-center">
+                                    <div class="col-4 flex align-items-center justify-content-center">
                                         <p-divider layout="horizontal" align="center">
                                             <p-chip styleClass="pl-0 pr-0 flex flex-column" [styleClass]=" darkMode ? 'myChipDark': 'myChipLight'">
                                                 <span class="pl-3  font-medium pb-1 text-white">Away: </span>
@@ -310,16 +310,16 @@
                                 </div>
 
 
-                            <button pButton pRipple type="button" [routerLink]="['/dashboard/predict']" label="Go to predictions" class="p-button-raised p-button-info mt-5"></button>
+                            <!-- <button pButton pRipple type="button" [routerLink]="['/dashboard/predict']" label="Go to predictions" class="p-button-raised p-button-info mt-5"></button> -->
 
                         </div>
-                        <div class="h-full align-self-center">
-                            <div  [ngClass]="{'fadeout animation-duration-1000 animation-iteration-1' : MoDFeedbackSubmitted }" class="flex flex-column gap-3 ml-3 quickFeedback px-2 py-4 border-round">
-                                <img *ngIf="!MoDAwaitingFeedback" src="assets/main/images/galleria/Euro2024LogoGif.gif"  style="width:211px; height: 211px;"/>
-
-                                <div *ngIf="MoDAwaitingFeedback">
-
-                                    <div  *ngFor="let category of quickFeedback" class="field-checkbox px-6 py-2 text-xl">
+                        <div class="h-full w-full align-self-center">
+                            <div  [ngClass]="{'fadeout animation-duration-1000 animation-iteration-1' : MoDFeedbackSubmitted }" class="flex py-2 mt-4 flex-column align-items-center quickFeedback border-round">
+                                <!-- <img *ngIf="!MoDAwaitingFeedback" src="assets/main/images/galleria/Euro2024LogoGif.gif"  style="width:211px; height: 211px;"/> -->
+                                <!-- <img *ngIf="!MoDAwaitingFeedback" src="assets/main/images/galleria/euroLogo.png" class="euroLogo" /> -->
+                                <p class="font-italic text-white-alpha-80" *ngIf="!MoDAwaitingFeedback">Ut eam qui vir optimus vincere</p>
+                                <div *ngIf="MoDAwaitingFeedback" class="field-checkbox feedbackCheckboxes px-6  py-3 block align-content-start text-xl">
+                                    <div class="py-1" *ngFor="let category of quickFeedback">
                                         <p-radioButton
                                         [inputId]="category.key"
                                         name="category"

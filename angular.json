@@ -26,7 +26,8 @@
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "allowedCommonJsDependencies": [
-                            "moment-timezone"
+                            "moment-timezone",
+                            "moment"
                         ],
                         "aot": true,
                         "assets": [

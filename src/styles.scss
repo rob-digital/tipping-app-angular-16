@@ -220,8 +220,10 @@ background-size: cover;
       color: #fff;
   }
 
-.quickFeedback {
+.feedbackCheckboxes {
     background: rgba(2, 4, 109, 0.3);
+    border-radius: 12px;
+    width: 90%;
 }
 
 .sideLogo img {
@@ -230,4 +232,9 @@ background-size: cover;
 }
 .logoIntro  {
     top: 8%;
+}
+.euroLogo{
+    width: 100%;
+    max-width: 480px;
+    opacity: .8;
 }

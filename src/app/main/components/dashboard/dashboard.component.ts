@@ -109,8 +109,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     MoDAwaitingFeedback: boolean;
     quickFeedback: any[] = [
         { value: "Clash of the titans", key: 'A' },
-        { value: 'Should be good', key: 'B' },
-        { value: 'Not interested', key: 'C' },
+        { value: 'I hope for a good spectacle', key: 'B' },
+        { value: 'I sense a surprise', key: 'C' },
         { value: 'Waste of time', key: 'D' }
     ];
 
@@ -238,7 +238,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.MoDFeedbackSubmitted = true;
             setTimeout(() => {
                 this.MoDAwaitingFeedback = false;
-            }, 900)
+            }, 1000)
 
         }
         return;
@@ -250,6 +250,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.inTransit_precision = true;
         this.inTransit_graph     = true;
         this.inTransit_MoD       = true;
+
+        console.log(this.MoDAwaitingFeedback);
+
 
         this.allQuotes = quotes;
         this.inspirationalQuotesForLeaders = this.allQuotes.data[0].leader;
@@ -324,6 +327,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         // check whether user submitted the Match of the day feedback
         this.modFeedbackService.getMoDFeedback(this.userData.id).subscribe({
             next: response => {
+                console.log('response:', response)
                 if (this.matchOfTheDay != null) {
                     let currentTime = moment();
                     let matchTimeToUTC = moment.utc( this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
@@ -341,6 +345,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 else {
                     this.MoDAwaitingFeedback = true;
                 }
+                console.log('MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
+
             },
             error: error => {console.log(error);}
         })
