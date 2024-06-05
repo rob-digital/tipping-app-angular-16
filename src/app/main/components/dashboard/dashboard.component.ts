@@ -65,11 +65,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     pieData: any;
     pieOptions: any;
     pieLabels: any[];
+    feedbackPresentInDB = false;
 
     subscription1!: Subscription;
     subscription2!: Subscription;
     subscription3!: Subscription;
     subscription4!: Subscription;
+    subscription5!: Subscription;
 
     myPoints: number[] = [];
     points: number;
@@ -243,7 +245,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.MoDFeedbackSubmitted = true;
                     setTimeout(() => {
                         this.MoDAwaitingFeedback = false;
-                        if (this.MoDAwaitingFeedback === false) {
+                        this.feedbackPresentInDB = true;
+                        if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
                             this.displayPieChart();
                         }
                     }, 1000)
@@ -347,14 +350,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     let matchTimeToUTC = moment.utc( this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
                     let localMatchTime = moment(matchTimeToUTC).local();
                     if (currentTime.isAfter(localMatchTime)) {
-                        this.MoDAwaitingFeedback = false;
-                        if (this.MoDAwaitingFeedback === false) {
-                            this.displayPieChart();
-                        }
-                        return;
+                        console.log('this.MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
+                        this.subscription5 = this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id).subscribe({
+                            next: res => {
+                                this.MoDAwaitingFeedback = false;
+                                res.length > 0 ? this.feedbackPresentInDB = true : null;
+                                if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
+
+                                    this.displayPieChart();
+                                }
+                                return;
+                            }
+                        });
                     }
 
                     if (response != null && response.length > 0) {
+                        this.feedbackPresentInDB = true;
                         let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
                         feedbackExists === true ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
                     }
@@ -362,8 +373,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                         this.MoDAwaitingFeedback = true;
                     }
 
-                    console.log('this.MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
-                    if (this.MoDAwaitingFeedback === false) {
+                    if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true)  {
                         this.displayPieChart();
                     }
                 }
@@ -514,7 +524,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     displayPieChart() {
         this.subscription4 = this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id).subscribe({
             next: res => {
-                if (res != null) {
+                if (res != null && res.length > 0) {
                     this.initPieChart();
 
                     // this.pieLabels = response.map(z => z.homeTeam.name + " - " + z.awayTeam.name);
@@ -530,6 +540,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.pieData.datasets[0].data[1] = total_B;
                     this.pieData.datasets[0].data[2] = total_C;
                     this.pieData.datasets[0].data[3] = total_D;
+                } else {
+                    return;
                 }
             },
             error: error => console.log("Quick feedback for game - error", error)
@@ -585,6 +597,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
         if (this.subscription4) {
             this.subscription4.unsubscribe();
+        }
+        if (this.subscription5) {
+            this.subscription5.unsubscribe();
         }
     }
 

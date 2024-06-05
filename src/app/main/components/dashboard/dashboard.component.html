@@ -319,7 +319,7 @@
                                 <!-- <img *ngIf="!MoDAwaitingFeedback" src="assets/main/images/galleria/euroLogo.png" class="euroLogo" /> -->
                                 <!-- <p class="font-italic text-white-alpha-80" *ngIf="!MoDAwaitingFeedback">Ut eam qui vir optimus vincere</p> -->
 
-                                <p-chart *ngIf="!MoDAwaitingFeedback" type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+                                <p-chart *ngIf="!MoDAwaitingFeedback && feedbackPresentInDB" type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
 
                                 <div *ngIf="MoDAwaitingFeedback" class="field-checkbox feedbackCheckboxes px-6  py-3 block align-content-start text-xl">
                                     <div class="py-1" *ngFor="let category of quickFeedback">
