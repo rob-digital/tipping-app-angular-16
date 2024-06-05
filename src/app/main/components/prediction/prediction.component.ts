@@ -34,6 +34,8 @@ export class PredictionComponent implements OnInit, OnDestroy{
     darkMode: boolean;
     slipGames: PredictionPayload[];
     subscription!: Subscription;
+    subscription2!: Subscription;
+    subscription3!: Subscription;
 
     numberOfElementsInEachArray: number[];
     allDatesWithDays: any[] = [];
@@ -50,6 +52,7 @@ export class PredictionComponent implements OnInit, OnDestroy{
 
     allGames$: Observable<any>;
 
+
     constructor(
         private predictionService: PredictionService,
         public router: Router,
@@ -62,7 +65,7 @@ export class PredictionComponent implements OnInit, OnDestroy{
         ) {
             this.slipStore.select(getFullSlipState).subscribe(z => this.slipGames = z);
 
-            this.predictionService.getGameIdRemovedFromSlip.subscribe(gameId => {
+          this.subscription2 =  this.predictionService.getGameIdRemovedFromSlip.subscribe(gameId => {
                 this.onDropdownClear_Home(gameId);
                 this.onDropdownClear_Away(gameId);
             });
@@ -129,7 +132,7 @@ export class PredictionComponent implements OnInit, OnDestroy{
         this.stadiums = stadiums;
 
 
-        this.predictionService.getAllGamesForUser(this.auth.readUserState().id).subscribe({
+        this.subscription3 = this.predictionService.getAllGamesForUser(this.auth.readUserState().id).subscribe({
             // this.gamesEffect.loadAllGames$.subscribe({
             next: response => {
                     this.allGames = response;
@@ -262,5 +265,15 @@ export class PredictionComponent implements OnInit, OnDestroy{
 
     ngOnDestroy(): void {
         this.predictionService.setGameIdsSubmitted([]);
+
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+        if (this.subscription2) {
+            this.subscription2.unsubscribe();
+        }
+        if (this.subscription3) {
+            this.subscription3.unsubscribe();
+        }
     }
 }

@@ -1,25 +1,27 @@
-import {  Component, OnInit, Renderer2 } from '@angular/core';
+import {  Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { LeaderboardService } from './leaderboard.service';
 import { UserData2 } from '../../api/userData';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-leaderboard',
   templateUrl: './leaderboard.component.html',
   styleUrls: ['./leaderboard.component.scss']
 })
-export class LeaderboardComponent implements OnInit {
+export class LeaderboardComponent implements OnInit, OnDestroy {
 
     allUsers: UserData2[] = [];
     inTransit: boolean = false;
     pointsArray: any[] = [];
     positions: any[] = [];
+    subscription!: Subscription;
 
     constructor(private leaderboardService: LeaderboardService, private renderer: Renderer2) {}
 
     ngOnInit(): void {
         this.inTransit = true;
 
-        this.leaderboardService.getUsers().subscribe({
+       this.subscription = this.leaderboardService.getUsers().subscribe({
             next: response => {
                 this.inTransit = false;
                 this.allUsers = response;
@@ -41,5 +43,11 @@ export class LeaderboardComponent implements OnInit {
                 console.log(error);
             }
         })
+    }
+
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }

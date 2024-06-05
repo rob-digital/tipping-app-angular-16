@@ -346,22 +346,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     let currentTime = moment();
                     let matchTimeToUTC = moment.utc( this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
                     let localMatchTime = moment(matchTimeToUTC).local();
-                    // if (currentTime.isAfter(localMatchTime)) {
-                    //     this.MoDAwaitingFeedback = false;
-                    //     return;
-                    // }
+                    if (currentTime.isAfter(localMatchTime)) {
+                        this.MoDAwaitingFeedback = false;
+                        if (this.MoDAwaitingFeedback === false) {
+                            this.displayPieChart();
+                        }
+                        return;
+                    }
 
-                    console.log('response:', response)
                     if (response != null && response.length > 0) {
                         let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
-                        console.log('feedbackExists:', feedbackExists)
                         feedbackExists === true ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
                     }
                     else {
                         this.MoDAwaitingFeedback = true;
                     }
-                    console.log('MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
 
+                    console.log('this.MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
                     if (this.MoDAwaitingFeedback === false) {
                         this.displayPieChart();
                     }
@@ -513,7 +514,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     displayPieChart() {
         this.subscription4 = this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id).subscribe({
             next: res => {
-                console.log('res:', res)
                 if (res != null) {
                     this.initPieChart();
 

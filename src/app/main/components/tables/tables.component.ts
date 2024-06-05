@@ -1,9 +1,10 @@
-import {  Component, OnInit, Renderer2 } from '@angular/core';
+import {  Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { TablesService } from './tables.service';
 import { Team } from '../../api/team';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Store } from '@ngrx/store';
 import { AppConfig2, getShowDarkMode } from 'src/app/layout/config/state/config.reducer';
+import { Subscription } from 'rxjs';
 
 
 
@@ -12,7 +13,7 @@ import { AppConfig2, getShowDarkMode } from 'src/app/layout/config/state/config.
   templateUrl: './tables.component.html',
   styleUrls: ['./tables.component.scss']
 })
-export class TablesComponent implements OnInit {
+export class TablesComponent implements OnInit, OnDestroy {
 
     constructor(
         private tableService: TablesService,
@@ -26,13 +27,15 @@ export class TablesComponent implements OnInit {
     allGroupsArray: any[] = null;
     inTransit: boolean = false;
     darkMode: boolean;
+    subscription!: Subscription;
+
     colors: string[] = ['blue', 'green', 'red', 'yellow', 'pink', 'orange', 'purple'];
     ngOnInit() {
 
         this.store.select(getShowDarkMode).subscribe(darkMode => this.darkMode = darkMode);
 
         this.inTransit = true;
-        this.tableService.getAllTeams().subscribe(
+        this.subscription = this.tableService.getAllTeams().subscribe(
             // this.registration ? (this.renderer.addClass(box2, "blockElement"), this.renderer.removeClass(box2, "hiddenElement")) : null
 
             (response: Team[]) => {
@@ -58,6 +61,12 @@ export class TablesComponent implements OnInit {
 
     applyTableBorder(i) {
         return `tableColor-${i}`
+    }
+
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }
 
