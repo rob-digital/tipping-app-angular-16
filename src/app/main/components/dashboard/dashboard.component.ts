@@ -60,7 +60,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartData: any;
     chartOptions: any;
     chartType: string;
-    subscription!: Subscription;
+    labels: any[];
+
+    pieData: any;
+    pieOptions: any;
+    pieLabels: any[];
+
+    subscription1!: Subscription;
+    subscription2!: Subscription;
+    subscription3!: Subscription;
+    subscription4!: Subscription;
 
     myPoints: number[] = [];
     points: number;
@@ -77,11 +86,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     inTransit_graph: boolean = false;
     inTransit_MoD: boolean = false;
 
-    labels: any[];
     darkMode: boolean = false;
     boosters: number;
     selectedGraph: any;
     serverData: any;
+    quickFeedbackData: any;
     matchOfTheDay: Game | null = null;
     todaysDate: Date;
     todaysGames: Game[] | null = null;
@@ -151,7 +160,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         // });
 
 
-        this.subscription = this.store.select(getShowDarkMode).subscribe(darkMode => {
+        this.subscription2 = this.store.select(getShowDarkMode).subscribe(darkMode => {
             this.darkMode = darkMode
             this.initChart();
 
@@ -177,7 +186,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     loadData() {
-        this.subscription = this.predictionService.getCalculatedPredictions(this.userData.id).subscribe({
+        this.subscription1 = this.predictionService.getCalculatedPredictions(this.userData.id).subscribe({
             next: response => {
                 this.inTransit_precision = false;
                 this.inTransit_graph = false;
@@ -230,15 +239,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.modFeedbackService.insertModFeedback(submitMe).subscribe({
                 next: response => {
                     this.showSuccessToast();
+
+                    this.MoDFeedbackSubmitted = true;
+                    setTimeout(() => {
+                        this.MoDAwaitingFeedback = false;
+                        if (this.MoDAwaitingFeedback === false) {
+                            this.displayPieChart();
+                        }
+                    }, 1000)
+
+
                 },
                 error: error => {
                     console.log('error:', error)
                 }
             })
-            this.MoDFeedbackSubmitted = true;
-            setTimeout(() => {
-                this.MoDAwaitingFeedback = false;
-            }, 1000)
 
         }
         return;
@@ -325,30 +340,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
 
         // check whether user submitted the Match of the day feedback
-        this.modFeedbackService.getMoDFeedback(this.userData.id).subscribe({
+        this.subscription3 = this.modFeedbackService.getMoDFeedbackForUser(this.userData.id).subscribe({
             next: response => {
-                console.log('response:', response)
                 if (this.matchOfTheDay != null) {
                     let currentTime = moment();
                     let matchTimeToUTC = moment.utc( this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
                     let localMatchTime = moment(matchTimeToUTC).local();
-                    if (currentTime.isAfter(localMatchTime)) {
-                        this.MoDAwaitingFeedback = false;
-                        return;
+                    // if (currentTime.isAfter(localMatchTime)) {
+                    //     this.MoDAwaitingFeedback = false;
+                    //     return;
+                    // }
+
+                    console.log('response:', response)
+                    if (response != null && response.length > 0) {
+                        let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
+                        console.log('feedbackExists:', feedbackExists)
+                        feedbackExists === true ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
+                    }
+                    else {
+                        this.MoDAwaitingFeedback = true;
+                    }
+                    console.log('MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
+
+                    if (this.MoDAwaitingFeedback === false) {
+                        this.displayPieChart();
                     }
                 }
 
-                if (response != null && response.length > 0 && this.matchOfTheDay != null) {
-                    let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
-                    feedbackExists ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
-                }
-                else {
-                    this.MoDAwaitingFeedback = true;
-                }
-                console.log('MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
 
             },
-            error: error => {console.log(error);}
+            error: error => console.log(error)
         })
         // get notifications
         this.notificationService.getNotifications().subscribe({
@@ -416,9 +437,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                                                         : 4;
 
         let measureTeamForm = team.teamForm == TeamForm.UP
-                                                ? 6
+                                                ? 8
                                                 : team.teamForm == TeamForm.STABLE
-                                                    ? 3
+                                                    ? 4
                                                     : 0;
 
         return measureTeamClass + measureTeamForm;
@@ -489,9 +510,81 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
     }
 
+    displayPieChart() {
+        this.subscription4 = this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id).subscribe({
+            next: res => {
+                console.log('res:', res)
+                if (res != null) {
+                    this.initPieChart();
+
+                    // this.pieLabels = response.map(z => z.homeTeam.name + " - " + z.awayTeam.name);
+                    this.pieData.labels[0] = this.quickFeedback[0].value;
+                    this.pieData.labels[1] = this.quickFeedback[1].value;
+                    this.pieData.labels[2] = this.quickFeedback[2].value;
+                    this.pieData.labels[3] = this.quickFeedback[3].value;
+                    let total_A = res.filter(z => z.feedbackCode == "A").length;
+                    let total_B = res.filter(z => z.feedbackCode == "B").length;
+                    let total_C = res.filter(z => z.feedbackCode == "C").length;
+                    let total_D = res.filter(z => z.feedbackCode == "D").length;
+                    this.pieData.datasets[0].data[0] = total_A;
+                    this.pieData.datasets[0].data[1] = total_B;
+                    this.pieData.datasets[0].data[2] = total_C;
+                    this.pieData.datasets[0].data[3] = total_D;
+                }
+            },
+            error: error => console.log("Quick feedback for game - error", error)
+        });
+     }
+
+    initPieChart() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('#fff');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        this.pieData = {
+            labels: [],
+            datasets: [
+                {
+                    data: [],
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--red-500'),
+                        documentStyle.getPropertyValue('--yellow-500'),
+                        documentStyle.getPropertyValue('--purple-500'),
+                        documentStyle.getPropertyValue('--green-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--red-400'),
+                        documentStyle.getPropertyValue('--yellow-400'),
+                        documentStyle.getPropertyValue('--purple-400'),
+                        documentStyle.getPropertyValue('--green-400'),
+                    ]
+                }]
+        };
+
+        this.pieOptions = {
+            plugins: {
+                legend: {
+                    labels: {
+                        usePointStyle: true,
+                        color: "#fff"
+                    }
+                }
+            }
+        };
+    }
+
     ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
+        if (this.subscription1) {
+            this.subscription1.unsubscribe();
+        }
+        if (this.subscription2) {
+            this.subscription2.unsubscribe();
+        }
+        if (this.subscription3) {
+            this.subscription3.unsubscribe();
+        }
+        if (this.subscription4) {
+            this.subscription4.unsubscribe();
         }
     }
 

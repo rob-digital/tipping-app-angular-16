@@ -19,8 +19,11 @@ export class MODFeedbackService extends RequestBaseService {
 
     constructor(http: HttpClient, auth: AuthService) { super(auth, http) }
 
-    getMoDFeedback(userId: number): Observable<modFeedback[]> {
-        return this.http.get<modFeedback[]>(API_URL + `/${userId}`, { headers: this.getHeaders });
+    getMoDFeedbackForUser(userId: number): Observable<modFeedback[]> {
+        return this.http.get<modFeedback[]>(API_URL + `/user/${userId}`, { headers: this.getHeaders });
+    }
+    getMoDFeedbackForGame(gameId: number): Observable<modFeedback[]> {
+        return this.http.get<modFeedback[]>(API_URL + `/game/${gameId}`, { headers: this.getHeaders });
     }
 
     insertModFeedback(payload: modFeedbackToSubmit) {
