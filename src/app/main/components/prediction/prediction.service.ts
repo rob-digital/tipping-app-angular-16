@@ -10,11 +10,12 @@ import { Store } from '@ngrx/store';
 import * as PredictionActions from  './state/prediction.actions';
 import * as SlipActions from  './state/slip-state.actions';
 import { getAwayTeamPrediction, getBoostScoreXTimes, getGameId, getHomeTeamPrediction } from './state/prediction.reducer';
-import { GamesEffect } from './state/games.effect';
 import { getFullSlipState } from './state/slip-state.reducer';
+import { PredictionToUpdate } from '../../api/predictionToUpdate';
 
 const GAMES_API_URL: string = environment.BASE_URL + '/api/v1/games';
 const PREDICTIONS_API_URL: string = environment.BASE_URL + '/api/v1/predictions';
+
 
 @Injectable({
   providedIn: 'root'
@@ -114,6 +115,14 @@ export class PredictionService extends RequestBaseService {
 
     getCalculatedPredictions(userId: number): Observable<any[]> {
         return this.http.get<PredictionPayload[]>(PREDICTIONS_API_URL + "/calculated/user/" + userId, { headers: this.getHeaders });
+    }
+
+    getTopPerformance(): Observable<any> {
+        return this.http.get<any>(PREDICTIONS_API_URL + "/topPerformance", { headers: this.getHeaders });
+    }
+
+    updatePrediction(payload: PredictionToUpdate): Observable<any> {
+        return this.http.put<202 | 400>(PREDICTIONS_API_URL + `/update/${payload.id}`, payload, { headers: this.getHeaders });
     }
 
     submitPredictions(payload: any[], userId: number): Observable<202 | 400> {

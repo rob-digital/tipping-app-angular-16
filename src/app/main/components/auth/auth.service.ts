@@ -70,7 +70,7 @@ export class AuthService {
             username: "",
             points: 0,
             boosters: 0,
-            guestNumberOfGoals: null
+            guessedNumberOfGoals: null
         }
 
         this.store.select(getUserId).subscribe(id => myAppUser.id = id);

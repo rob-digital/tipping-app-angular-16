@@ -13,7 +13,7 @@ export class User {
     username: string = ""
     points: number = 0
     boosters: number = 3
-    guestNumberOfGoals = null
+    guessedNumberOfGoals = null
 
   }
 
@@ -26,7 +26,7 @@ export class User {
     username: string;
     points: number;
     boosters: number;
-    guestNumberOfGoals: number | null;
+    guessedNumberOfGoals: number | null;
 
 }
 

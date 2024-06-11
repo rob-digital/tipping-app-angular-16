@@ -11,6 +11,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ReactiveFormsModule } from "@angular/forms";
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ToastModule } from 'primeng/toast';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -24,6 +26,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
         ProgressSpinnerModule,
         ReactiveFormsModule,
         InputNumberModule,
+        ToastModule,
     ],
     declarations: [LoginComponent]
 })

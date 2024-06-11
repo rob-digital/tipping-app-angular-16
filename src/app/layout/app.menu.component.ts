@@ -74,6 +74,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Tables', icon: 'pi pi-fw pi-table', routerLink: ['/dashboard/tables'] },
                     { label: 'Knockout stage', icon: 'pi pi-fw pi-align-center', routerLink: ['/dashboard/knockout'] },
                     { label: 'My Hub', icon: 'pi pi-fw pi-user', routerLink: ['/dashboard/hub'] },
+                    { label: 'Top performance', icon: 'pi pi-fw pi-flag', routerLink: ['/dashboard/topPerformance'] },
                 ]
             },
             this.currentUser.role == Role.ADMIN

@@ -16,8 +16,11 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
     pointsArray: any[] = [];
     positions: any[] = [];
     subscription!: Subscription;
-    subscription2!: Subscription;
 
+    chartData: any;
+    chartOptions: any;
+    chartType: string;
+    labels: any[];
 
         constructor(private leaderboardService: LeaderboardService, private predictionService: PredictionService, private renderer: Renderer2) {}
 
@@ -28,7 +31,6 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
             next: response => {
                 this.inTransit = false;
                 this.allUsers = response;
-                console.log('response:', response)
                 for (let i = 0; i < this.allUsers.length; i++) {
                     this.pointsArray.push(this.allUsers[i].points)
                 }
@@ -47,10 +49,8 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
                 console.log(error);
             }
         });
-
-        // this.subscription2 = this.predictionService.getCalculatedPredictions(this.allUsers[0].)
-
     }
+
 
     ngOnDestroy() {
         if (this.subscription) {

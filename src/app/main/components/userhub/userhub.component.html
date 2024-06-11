@@ -1,16 +1,20 @@
 
 
-<div>
-    <p-card class="flex justify-content-center" [style]="{ 'min-width': '60rem' }"  header="My hub">
-        <div  *ngIf="inTransit" class="card flex justify-content-center  z-5 align-items-center bg-transparent">
+<!-- <p-card class="flex justify-content-center" [style]="{ 'min-width': '100%' }" > -->
+
+    <p-card class="flex justify-content-center relative myHub" [style]="{ 'min-width': '60rem' }" >
+    <h5>My hub</h5>
+
+        <div  *ngIf="inTransit" class="flex justify-content-center  z-5 align-items-center bg-transparent">
             <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
         </div>
+        <i *ngIf="showPadlock" class="pi pi-lock text-gray-200 text-7xl absolute top-50 left-50 myLock"></i>
 
         <p-table
           #dt
           dataKey="id"
           [value]="allPredictions"
-          *ngIf="allPredictions != null && allPredictions.length > 0"
+          *ngIf="allPredictions != null && allPredictions.length > 0 && !inTransit"
           class="justify-content-center flex align-content-center text-center text-xl"
           [tableStyle]="{'min-width': '60rem', 'font-size' : '16px'}"
           [globalFilterFields]="['game.homeTeam.name', 'game.awayTeam.name']"
@@ -30,11 +34,12 @@
                     <th class="text-center">Actual score</th>
                     <th class="text-center">Booster used</th>
                     <th class="text-center">Points</th>
+                    <th class="text-center">Edit</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-prediction let-rowIndex="rowIndex">
                 <tr class="text-center">
-                    <td class="flex justify-content-start align-content-center text-center flex-wrap">
+                    <td class="">
                         <span>{{ prediction.game.homeTeam.name }} &nbsp;</span>
                             <span>  -  </span>
                         <span>&nbsp; {{ prediction.game.awayTeam.name }}</span>
@@ -64,18 +69,76 @@
                             {{ prediction.points }}
                           </span>
                     </td>
+                    <td>
+                        <div *ngIf="prediction.game.status !== 'CALCULATED' && prediction.canEdit === true" class="flex justify-content-center">
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success" (click)="editPrediction(prediction)"></button>
+                        </div>
+                    </td>
                 </tr>
-                <tr class="bg-gray-100" *ngIf=" allPredictions?.length - 1  == rowIndex ">
+                <tr [ngClass]="{'bg-gray-100' : !darkMode}" *ngIf=" allPredictions?.length - 1  == rowIndex ">
                     <td class="font-bold">Total</td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td class="text-center font-bold">{{ totalPoints }}</td>
+                    <td></td>
                 </tr>
+
             </ng-template>
         </p-table>
 
 
+        <p-dialog [(visible)]="predictionDialog" id="prediction.id" [style]="{width: '550px'}" header="Edit fixture" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="">
+
+
+                    <p-table selectionMode="single">
+                        <ng-template pTemplate="header" let-rowIndex="rowIndex">
+                            <tr>
+                                <th style="width:40%; text-align: center;" class=" justify-content-center">Match</th>
+                                <th style="width:40%; text-align: center;" class=" justify-content-center">Score</th>
+                                <th *ngIf="displayBoostersColumn" style="width:20%; text-align: center;" class=" justify-content-center">Booster</th>
+                            </tr>
+                            <tr>
+                                <td style="width:40%" class="pt-3 pb-3 " [ngClass]="[!darkMode ? 'border-bottom-1 border-gray-300' : 'border-bottom-1 border-bluegray-100', displayBoostersColumn ? 'pl-5' : 'pl-7']">
+                                    <span class="text-xl">{{ prediction.game.homeTeam.name }} - {{ prediction.game.awayTeam.name }}</span>
+                                </td>
+                                <td style="width:40%" class="pt-3  pb-3 " [ngClass]="[!darkMode ? 'border-bottom-1 border-gray-300' : 'border-bottom-1 border-bluegray-100', displayBoostersColumn ? 'pl-5' : 'pl-7']">
+                                    <p-inputNumber
+                                      class="w-3rem text-center ml-5"
+                                      id="goal1"
+                                      [min]="0"
+                                      [max]="9"
+                                      [(ngModel)]="prediction.predictionHome"
+                                     (keydown.enter)="triggerUpdate()"
+                                    ></p-inputNumber>
+                                    <span class="text-4xl"> : </span>
+                                    <p-inputNumber
+                                      class="w-3rem text-center"
+                                      id="goal2"
+                                      [min]="0"
+                                      [max]="9"
+                                      [(ngModel)]="prediction.predictionAway"
+                                     (keydown.enter)="triggerUpdate()"
+                                    ></p-inputNumber>
+                                </td>
+                                <td *ngIf="displayBoostersColumn" style="width:20%" class="pt-3 pl-5 pb-3 " [ngClass]="!darkMode ? 'border-bottom-1 border-gray-300' : 'border-bottom-1 border-bluegray-100'">
+                                    <p-inputSwitch [(ngModel)]="checked" />
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" id="update" icon="pi pi-check" class="p-button-text" (click)="savePrediction(prediction)"></button>
+            </ng-template>
+        </p-dialog>
 
     </p-card>
-</div>
+<!-- </p-card> -->
+
+<p-toast class="updatePredictionsSuccessToast" position="bottom-center" key="bc"></p-toast>

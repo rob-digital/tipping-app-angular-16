@@ -7,6 +7,7 @@ import { CalculateComponent } from './main/components/admin/calculate/calculate.
 import { UserhubComponent } from './main/components/userhub/userhub.component';
 import { LeaderboardComponent } from './main/components/leaderboard/leaderboard.component';
 import { KnockoutStageComponent } from './main/components/knockout-stage/knockout-stage.component';
+import { TopPerformanceComponent } from './main/components/top-performance/top-performance.component';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { KnockoutStageComponent } from './main/components/knockout-stage/knockou
                     { path: 'leaderboard', component: LeaderboardComponent },
                     { path: "rules", component: RulesComponent},
                     { path: "knockout", component: KnockoutStageComponent},
+                    { path: "topPerformance", component: TopPerformanceComponent},
                 ]
             },
             { path: 'notfound', component: NotfoundComponent },

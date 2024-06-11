@@ -97,7 +97,7 @@
                             <span >{{game.stage }}</span>
                         </div>
                         <div>
-                            <a type="link" pLink label="Image" class="cursor-pointer" (click)="op1.toggle($event)">Stadium: {{ game.city }} </a>
+                            <a type="link" pLink label="Image" class="cursor-pointer" (click)="op1.toggle($event)">Stadium: {{ game.city }} <i class="pi pi-info-circle"></i> </a>
                             <p-overlayPanel #op1 [showCloseIcon]="true" [style]="{width: '450px'}">
                                 <img src="assets/main/images/galleria/{{ game.city }}.jpg" alt="{{ game.city }} stadium" style="width:100%"/>
                                 <div class="flex flex-column mt-2">

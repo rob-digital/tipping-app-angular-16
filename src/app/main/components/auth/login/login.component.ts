@@ -4,6 +4,7 @@ import {  User } from 'src/app/main/api/user';
 import { AuthService } from '../auth.service';
 import { Store } from '@ngrx/store';
 import { AppConfig2, getShowDarkMode } from 'src/app/layout/config/state/config.reducer';
+import { MessageService } from 'primeng/api';
 
 enum SubmitButton {
     SIGNIN = 'SIGNIN',
@@ -20,7 +21,9 @@ enum SubmitButton {
             margin-right: 1rem;
             color: var(--primary-color) !important;
         }
-    `]
+    `],
+  providers: [MessageService]
+
 })
 
 
@@ -52,6 +55,7 @@ export class LoginComponent implements OnInit {
                 private renderer:Renderer2,
                 private auth: AuthService,
                 private store: Store<AppConfig2>,
+                private messageService: MessageService
 
                 ) {}
 
@@ -121,6 +125,7 @@ export class LoginComponent implements OnInit {
     }
 
     SignIn(e) {
+
         if (e.currentTarget.id.toUpperCase() == SubmitButton.SIGNIN) {
 
             let action = e.currentTarget.id.toString().toUpperCase().toLowerCase().charAt(0).toUpperCase() + e.currentTarget.id.toString().toUpperCase().slice(1);
@@ -149,8 +154,24 @@ export class LoginComponent implements OnInit {
                         this.userSignIn.password = '';
                         this.inTransit = false;
                     }
+                },
+                error => {
+                    this.showErrorToast();
                 })
             }
+        }
+    }
+
+    triggerSignIn() {
+        if (this.canSubmitUsernameSignIn === true && this.canSubmitPasswordSignIn === true) {
+            let submit = document.getElementById('SignIn');
+                submit.click();
+        }
+    }
+     triggerRegister() {
+        if (this.canSubmitPasswordRegister === true && this.canSubmitUsernameRegister === true) {
+            let submit = document.getElementById('register');
+                submit.click();
         }
     }
 
@@ -173,4 +194,9 @@ export class LoginComponent implements OnInit {
         this.userSignIn.password == null || this.userSignIn.password == '' ? this.canSubmitPasswordSignIn = false : this.canSubmitPasswordSignIn = true;
         this.canSubmitPasswordSignIn == false ? this.errorMessagePasswordSignIn = "Password cannot be empty" : this.errorMessagePasswordSignIn = null;
     }
+
+        // ----------------- message toast
+        showErrorToast() {
+            this.messageService.add({ key: 'wrongCredentials', severity: 'error', life: 999999999, summary: 'Error', detail: 'Credentials you have entered are incorrect. Please refresh this page and try again.' });
+        }
 }

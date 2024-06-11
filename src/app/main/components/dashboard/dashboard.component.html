@@ -108,7 +108,9 @@
                 <div  *ngIf="inTransit_graph" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
                     <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
                 </div>
-                <div *ngIf="!inTransit_graph">
+                <div *ngIf="!inTransit_graph" class="relative">
+                    <i *ngIf="showPadlock" class="pi pi-lock text-gray-200 text-7xl absolute top-50 left-50"></i>
+
                     <div class="flex justify-content-between" *ngIf="myPoints != null">
                         <h5>Progress</h5>
                         <p-dropdown
@@ -319,7 +321,7 @@
                                 <!-- <img *ngIf="!MoDAwaitingFeedback" src="assets/main/images/galleria/euroLogo.png" class="euroLogo" /> -->
                                 <!-- <p class="font-italic text-white-alpha-80" *ngIf="!MoDAwaitingFeedback">Ut eam qui vir optimus vincere</p> -->
 
-                                <p-chart *ngIf="!MoDAwaitingFeedback && feedbackPresentInDB" type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+                                <p-chart *ngIf="!MoDAwaitingFeedback && feedbackPresentInDB" type="pie" [data]="pieData" valueTemplate="{value}%" [options]="pieOptions"></p-chart>
 
                                 <div *ngIf="MoDAwaitingFeedback" class="field-checkbox feedbackCheckboxes px-6  py-3 block align-content-start text-xl">
                                     <div class="py-1" *ngFor="let category of quickFeedback">

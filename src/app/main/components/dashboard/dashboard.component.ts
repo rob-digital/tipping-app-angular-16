@@ -61,6 +61,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartOptions: any;
     chartType: string;
     labels: any[];
+    showPadlock: boolean = false;
 
     pieData: any;
     pieOptions: any;
@@ -72,6 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     subscription3!: Subscription;
     subscription4!: Subscription;
     subscription5!: Subscription;
+    subscription6!: Subscription;
 
     myPoints: number[] = [];
     points: number;
@@ -214,7 +216,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
                     this.myPoints = this.serverData.myPoints;
                     this.myPoints != null ? this.chartData.datasets[0].data = this.myPoints : null;
-
+                    if (this.myPoints.length > 0) this.showPadlock = false;
                     this.labels = this.serverData.games.map(z => z.homeTeam.name + " - " + z.awayTeam.name);
                     this.labels != null ? this.chartData.labels = this.labels : null;
 
@@ -268,10 +270,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.inTransit_precision = true;
         this.inTransit_graph     = true;
         this.inTransit_MoD       = true;
-
-        console.log(this.MoDAwaitingFeedback);
-
-
+        this.MoDAwaitingFeedback = true;
+        if (this.myPoints.length == 0) this.showPadlock = true;
         this.allQuotes = quotes;
         this.inspirationalQuotesForLeaders = this.allQuotes.data[0].leader;
         this.inspirationalQuotesForPlayers = this.allQuotes.data[0].player;
@@ -281,7 +281,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const storageUserAsObj = localStorage.getItem('currentUser');
         if (storageUserAsObj) {
             storageUser = JSON.parse(storageUserAsObj);
-            this.userService.getUserData(storageUser.id).subscribe({
+          this.subscription6 = this.userService.getUserData(storageUser.id).subscribe({
                 next: response => {
                         if (response) {
                             this.store.dispatch(UserActions.setPoints({ points: response.points }));
@@ -350,7 +350,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     let matchTimeToUTC = moment.utc( this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
                     let localMatchTime = moment(matchTimeToUTC).local();
                     if (currentTime.isAfter(localMatchTime)) {
-                        console.log('this.MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
                         this.subscription5 = this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id).subscribe({
                             next: res => {
                                 this.MoDAwaitingFeedback = false;
@@ -462,13 +461,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-
-
         this.chartData = {
             labels: [],
             datasets: [
                 {
-                    label: "",
+                    label: "points",
                     data: [],
                     fill: true,
                     backgroundColor: this.selectedGraph == 'line' ? 'rgba(82,220,238,0.2)': documentStyle.getPropertyValue('--cyan-500'),
@@ -532,10 +529,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.pieData.labels[1] = this.quickFeedback[1].value;
                     this.pieData.labels[2] = this.quickFeedback[2].value;
                     this.pieData.labels[3] = this.quickFeedback[3].value;
-                    let total_A = res.filter(z => z.feedbackCode == "A").length;
-                    let total_B = res.filter(z => z.feedbackCode == "B").length;
-                    let total_C = res.filter(z => z.feedbackCode == "C").length;
-                    let total_D = res.filter(z => z.feedbackCode == "D").length;
+                    let total_A = res.filter(z => z.feedbackCode == "A").length / res.length * 100;
+                    let total_B = res.filter(z => z.feedbackCode == "B").length / res.length * 100;
+                    let total_C = res.filter(z => z.feedbackCode == "C").length / res.length * 100;
+                    let total_D = res.filter(z => z.feedbackCode == "D").length / res.length * 100;
                     this.pieData.datasets[0].data[0] = total_A;
                     this.pieData.datasets[0].data[1] = total_B;
                     this.pieData.datasets[0].data[2] = total_C;
@@ -557,6 +554,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             labels: [],
             datasets: [
                 {
+                    label: '%',
                     data: [],
                     backgroundColor: [
                         documentStyle.getPropertyValue('--red-500'),
@@ -600,6 +598,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
         if (this.subscription5) {
             this.subscription5.unsubscribe();
+        }
+        if (this.subscription6) {
+            this.subscription6.unsubscribe();
         }
     }
 

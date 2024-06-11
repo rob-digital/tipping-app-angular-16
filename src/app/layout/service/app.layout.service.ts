@@ -52,6 +52,7 @@ export class LayoutService {
 
     onMenuToggle() {
         if (this.isOverlay()) {
+
             this.state.overlayMenuActive = !this.state.overlayMenuActive;
             if (this.state.overlayMenuActive) {
                 this.overlayOpen.next(null);

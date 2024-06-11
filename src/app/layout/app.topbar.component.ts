@@ -1,7 +1,7 @@
 import { setBoosters } from './../main/components/auth/state/user.actions';
 import { PredictionService } from './../main/components/prediction/prediction.service';
 import { Store } from '@ngrx/store';
-import { Component, ElementRef, ViewChild, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, Renderer2, OnDestroy } from '@angular/core';
 import { MenuItem, Message, MessageService } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { AuthService } from '../main/components/auth/auth.service';
@@ -12,6 +12,7 @@ import { AppUser } from '../main/api/user';
 import { getBoosters, getUserId, getUsername } from '../main/components/auth/state/user.reducer';
 import { AppConfig2, getShowDarkMode } from './config/state/config.reducer';
 import * as SlipStateActions from '../main/components/prediction/state/slip-state.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-topbar',
@@ -32,7 +33,7 @@ import * as SlipStateActions from '../main/components/prediction/state/slip-stat
     ],
     providers: [MessageService]
 })
-export class AppTopBarComponent implements OnInit {
+export class AppTopBarComponent implements OnInit, OnDestroy {
 
     items!: MenuItem[];
     slipItems: PredictionPayload[];
@@ -42,6 +43,8 @@ export class AppTopBarComponent implements OnInit {
     // created for the inputSwitch [(ngModel)]="slipItems_Copy[rowIndex].double"
     slipItems_Copy: PredictionPayload[];
     msgs: Message[] = [];
+    subscription!: Subscription;
+
 
     inTransit: boolean = false;
     darkMode: boolean;
@@ -102,8 +105,10 @@ export class AppTopBarComponent implements OnInit {
 
     openSlipDialog() {
         if (this.slipItems.length == 0) return;
-
+        this.userStore.select(getBoosters).subscribe(z => this.boosters = z);
+        if (this.boosters == 0) this.slipWaitingToBeSubmitted = false;
         if (this.boosters == 0) this.shouldShowBoostersColumn = false;
+
         this.slipItems_Copy = JSON.parse(JSON.stringify(this.slipItems));
         this.submitted = false;
         this.slipDialog = true;
@@ -151,7 +156,7 @@ export class AppTopBarComponent implements OnInit {
     onSubmit() {
 
         this.inTransit = true;
-        this.predictionService.submitPredictions(this.slipItems, this.userId).subscribe({
+      this.subscription =   this.predictionService.submitPredictions(this.slipItems, this.userId).subscribe({
             next: (response) => {
                 if (response == 202) {
 
@@ -192,6 +197,13 @@ export class AppTopBarComponent implements OnInit {
     showErrorViaMessages() {
         this.msgs = [];
         this.msgs.push({ severity: 'error', summary: 'Error!!!', detail: 'One or more of the matches in your bet slip have already started. Please reload the page and start again.' });
+    }
+
+
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
 }

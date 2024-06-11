@@ -28,6 +28,15 @@ import { DividerModule } from 'primeng/divider';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { BadgeModule } from 'primeng/badge';
+import { ChartModule } from 'primeng/chart';
+import { TopPerformanceComponent } from './main/components/top-performance/top-performance.component';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToastModule } from 'primeng/toast';
+
+
+
 
 
 @NgModule({
@@ -38,6 +47,7 @@ import { BadgeModule } from 'primeng/badge';
         UserhubComponent,
         LeaderboardComponent,
         KnockoutStageComponent,
+        TopPerformanceComponent,
 
     ],
     imports: [
@@ -58,6 +68,11 @@ import { BadgeModule } from 'primeng/badge';
         TagModule,
         TooltipModule,
         BadgeModule,
+        ChartModule,
+        DialogModule,
+        InputNumberModule,
+        InputSwitchModule,
+        ToastModule,
         StoreModule.forRoot({}),   // everything loaded outside this module is LAZY LOADING
         EffectsModule.forRoot([GamesEffect]),  // everything loaded outside this module is LAZY LOADING
         StoreDevtoolsModule.instrument({ name: "Tipping APP !!!", maxAge: 25, logOnly: !isDevMode() }),  // must be last one on this list

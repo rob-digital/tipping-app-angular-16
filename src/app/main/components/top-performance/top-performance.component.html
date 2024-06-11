@@ -1,0 +1,27 @@
+
+
+<div  class="col-12 topPerformance">
+    <div class="card relative flex flex-column progressChart shadow-1 " >
+        <h5>Top performance</h5>
+        <div  *ngIf="inTransit" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+            <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+        </div>
+        <i *ngIf="showPadlock" class="pi pi-lock text-gray-200 text-7xl absolute top-50 left-50"></i>
+
+        <div *ngIf="performance != null && performance.length > 0 && allGames != null && allGames.length > 1 ">
+            <div class="flex justify-content-between">
+                <!-- <p-dropdown
+                [options]="graphs"
+                class="col-2 score1 p-fluid"
+                id="GraphDropdown"
+                [(ngModel)]="selectedGraph"
+                (ngModelChange)="chartValueChanged()"
+                *ngIf="myPoints != null && myPoints.length > 0"
+              ></p-dropdown> -->
+            </div>
+            <p-chart id="myGraph"  [data]="chartData" [height]="800" [options]="chartOptions" type="line">
+            </p-chart>
+        </div>
+    </div>
+</div>
+

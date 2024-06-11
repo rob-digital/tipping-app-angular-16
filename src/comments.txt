@@ -11,6 +11,7 @@ style
 [class]="{ 'opacity-50' : node.data.awayTeam.goals < node.data.homeTeam.goals }"
 [ngClass]="{ 'ng-invalid ng-dirty' : !canSubmitPasswordSignIn && canSubmitPasswordSignIn != null }"
 [ngClass]="{ 'line-through' : node.data.awayTeam.goals > node.data.homeTeam.goals }"
+[ngClass]="!darkMode ? 'border-bottom-1 border-gray-300' : null"
 ==================================================
 HTML tag
 
@@ -23,3 +24,4 @@ valueColor="var(--cyan-300)"
 =================================================
 remove whole line with specific text:
 ^.*dateAdded.*?\n  -> date added
+

@@ -17,9 +17,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 
     constructor(
         private tableService: TablesService,
-        private layoutService: LayoutService,
         private store: Store<AppConfig2>,
-        private renderer: Renderer2
         ) {}
 
     teams: Team[] | null;
