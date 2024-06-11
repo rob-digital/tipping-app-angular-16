@@ -46,8 +46,65 @@ export class TopPerformanceComponent implements OnInit, OnDestroy {
 
                         let gamesToDisplayID = []
                         for (let i = 0; i < this.allGames.length; i++) {
-                            gamesToDisplayID.push(this.allGames[i].id)
+                            gamesToDisplayID.push(this.allGames[i].id);
                         }
+                        let user1_predictions = this.performance[0] != null && this.performance[0].predictions != null ?  this.performance[0].predictions : null;
+                        let user2_predictions = this.performance[1] != null && this.performance[1].predictions != null ?  this.performance[1].predictions : null;
+                        let user3_predictions = this.performance[2] != null && this.performance[2].predictions != null ?  this.performance[2].predictions : null;
+                        let user4_predictions = this.performance[3] != null && this.performance[3].predictions != null ?  this.performance[3].predictions : null;
+                        let user5_predictions = this.performance[4] != null && this.performance[4].predictions != null ?  this.performance[4].predictions : null;
+                        let user3GameIds = []
+
+                        let missingIds_User1 = user1_predictions != null ? gamesToDisplayID.filter((id) => user1_predictions.indexOf(id) === -1) : null;
+                        let missingIds_User2 = user2_predictions != null ? gamesToDisplayID.filter((id) => user2_predictions.indexOf(id) === -1) : null;
+                        let missingIds_User3 = user3_predictions != null ? gamesToDisplayID.filter((id) => user3_predictions.indexOf(id) === -1) : null;
+                        let missingIds_User4 = user4_predictions != null ? gamesToDisplayID.filter((id) => user4_predictions.indexOf(id) === -1) : null;
+                        let missingIds_User5 = user5_predictions != null ? gamesToDisplayID.filter((id) => user5_predictions.indexOf(id) === -1) : null;
+
+                        for (const gameId of gamesToDisplayID) {
+                            if (user1_predictions != null) {
+                                if (!user1_predictions.some((pred) => pred.game.id === gameId)) {
+                                    user1_predictions.push({ id: missingIds_User1.splice(0,1)[0], game: { id: gameId }, points: 0 });
+                                }
+                            }
+
+                            if (user2_predictions != null) {
+                                if (!user2_predictions.some((pred) => pred.game.id === gameId)) {
+                                    user2_predictions.push({ id: missingIds_User2.splice(0,1)[0], game: { id: gameId }, points: 0 });
+                                }
+                            }
+
+                            if (user3_predictions != null) {
+                                if (!user3_predictions.some((pred) => pred.game.id === gameId)) {
+                                    user3_predictions.push({ id: missingIds_User3.splice(0,1)[0], game: { id: gameId }, points: 0 });
+                                }
+                            }
+
+                            if (user4_predictions != null) {
+                                if (!user4_predictions.some((pred) => pred.game.id === gameId)) {
+                                    user4_predictions.push({ id: missingIds_User4.splice(0,1)[0], game: { id: gameId }, points: 0 });
+                                }
+                            }
+
+                            if (user5_predictions != null) {
+                                if (!user5_predictions.some((pred) => pred.game.id === gameId)) {
+                                    user5_predictions.push({ id: missingIds_User5.splice(0,1)[0], game: { id: gameId }, points: 0 });
+                                }
+                            }
+
+                        }
+
+                        if (user1_predictions != null)
+                            user1_predictions.sort((a, b) => a.game.id - b.game.id);
+                        if (user2_predictions != null)
+                            user2_predictions.sort((a, b) => a.game.id - b.game.id);
+                        if (user3_predictions != null)
+                            user3_predictions.sort((a, b) => a.game.id - b.game.id);
+                        if (user4_predictions != null)
+                            user4_predictions.sort((a, b) => a.game.id - b.game.id);
+                        if (user5_predictions != null)
+                            user5_predictions.sort((a, b) => a.game.id - b.game.id);
+
 
                           for (let i = 0; i < this.performance.length; i++) {
                               let arr = [];
