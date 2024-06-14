@@ -245,8 +245,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.showSuccessToast();
 
                     this.MoDFeedbackSubmitted = true;
+                    this.MoDAwaitingFeedback = false;
                     setTimeout(() => {
-                        this.MoDAwaitingFeedback = false;
                         this.feedbackPresentInDB = true;
                         if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
                             this.displayPieChart();
@@ -270,7 +270,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.inTransit_precision = true;
         this.inTransit_graph     = true;
         this.inTransit_MoD       = true;
-        this.MoDAwaitingFeedback = true;
         if (this.myPoints.length == 0) this.showPadlock = true;
         this.allQuotes = quotes;
         this.inspirationalQuotesForLeaders = this.allQuotes.data[0].leader;
@@ -357,18 +356,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
                                 if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
 
                                     this.displayPieChart();
+                                    return;
                                 }
-                                return;
                             }
                         });
                     }
 
+                    console.log('response:', response)
                     if (response != null && response.length > 0) {
                         this.feedbackPresentInDB = true;
                         let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
                         feedbackExists === true ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
                     }
-                    else {
+                    else if (response != null && response.length == 0) {
                         this.MoDAwaitingFeedback = true;
                     }
 
