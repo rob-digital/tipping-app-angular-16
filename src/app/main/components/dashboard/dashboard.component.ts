@@ -245,9 +245,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.showSuccessToast();
 
                     this.MoDFeedbackSubmitted = true;
-                    this.MoDAwaitingFeedback = false;
                     setTimeout(() => {
                         this.feedbackPresentInDB = true;
+                        this.MoDAwaitingFeedback = false;
                         if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
                             this.displayPieChart();
                         }
@@ -345,12 +345,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.subscription3 = this.modFeedbackService.getMoDFeedbackForUser(this.userData.id).subscribe({
             next: response => {
                 if (this.matchOfTheDay != null) {
+                    this.MoDAwaitingFeedback = false;
                     let currentTime = moment();
                     let matchTimeToUTC = moment.utc( this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
                     let localMatchTime = moment(matchTimeToUTC).local();
                     if (currentTime.isAfter(localMatchTime)) {
                         this.subscription5 = this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id).subscribe({
                             next: res => {
+                                console.log('res:', res)
                                 this.MoDAwaitingFeedback = false;
                                 res.length > 0 ? this.feedbackPresentInDB = true : null;
                                 if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
@@ -362,19 +364,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
                         });
                     }
 
-                    console.log('response:', response)
+                    console.log('this.MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
                     if (response != null && response.length > 0) {
                         this.feedbackPresentInDB = true;
                         let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
                         feedbackExists === true ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
                     }
+                    if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true)  {
+                        this.displayPieChart();
+                    }
                     else if (response != null && response.length == 0) {
                         this.MoDAwaitingFeedback = true;
                     }
 
-                    if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true)  {
-                        this.displayPieChart();
-                    }
                 }
 
 
