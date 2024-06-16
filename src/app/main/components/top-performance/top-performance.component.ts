@@ -32,6 +32,7 @@ export class TopPerformanceComponent implements OnInit, OnDestroy {
        this.inTransit = true;
        this.subscription = this.predictionService.getTopPerformance().subscribe({
             next: res => {
+                console.log('res:', res)
                 this.inTransit = false;
                 if (res.calculatedGames[0].length == 0) this.showPadlock = true;
 
@@ -43,12 +44,15 @@ export class TopPerformanceComponent implements OnInit, OnDestroy {
                       let sum = [0,0,0,0,0];
                       if (res.performanceData != null && res.performanceData[0].predictions != null && res.performanceData[0].predictions.length > 0) {
                         this.performance = res.performanceData;
+                        console.log('this.performance:', this.performance)
 
                         let gamesToDisplayID = []
+                        console.log('this.allGames.length:', this.allGames.length)
                         for (let i = 0; i < this.allGames.length; i++) {
                             gamesToDisplayID.push(this.allGames[i].id);
                         }
                         let user1_predictions = this.performance[0] != null && this.performance[0].predictions != null ?  this.performance[0].predictions : null;
+                        console.log('user1_predictions:', user1_predictions)
                         let user2_predictions = this.performance[1] != null && this.performance[1].predictions != null ?  this.performance[1].predictions : null;
                         let user3_predictions = this.performance[2] != null && this.performance[2].predictions != null ?  this.performance[2].predictions : null;
                         let user4_predictions = this.performance[3] != null && this.performance[3].predictions != null ?  this.performance[3].predictions : null;
@@ -106,13 +110,15 @@ export class TopPerformanceComponent implements OnInit, OnDestroy {
                             user5_predictions.sort((a, b) => a.game.id - b.game.id);
 
 
+                          console.log('this.performance.:', this.performance)
                           for (let i = 0; i < this.performance.length; i++) {
                               let arr = [];
                               for (let j = 0; j < this.performance[i].predictions.length; j++) {
                                     arr.push(sum[i]+=this.performance[i].predictions[j].points)
                                 }
                               userData.push(arr);
-                          }
+                            }
+                            console.log('userData:', userData)
 
                           this.initChart();
 

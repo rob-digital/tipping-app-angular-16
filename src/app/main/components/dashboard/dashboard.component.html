@@ -316,14 +316,17 @@
 
                         </div>
                         <div class="h-full w-full align-self-center">
+                            <div  *ngIf="inTransit_MoD_Polls" class="card spinnerCard flex justify-content-center  z-5 align-items-center bg-transparent">
+                                <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+                            </div>
                             <div  [ngClass]="{'fadeout animation-duration-1000 animation-iteration-1' : MoDFeedbackSubmitted }" class="flex py-2 mt-4 flex-column align-items-center quickFeedback border-round">
                                 <!-- <img *ngIf="!MoDAwaitingFeedback" src="assets/main/images/galleria/Euro2024LogoGif.gif"  style="width:211px; height: 211px;"/> -->
                                 <!-- <img *ngIf="!MoDAwaitingFeedback" src="assets/main/images/galleria/euroLogo.png" class="euroLogo" /> -->
                                 <!-- <p class="font-italic text-white-alpha-80" *ngIf="!MoDAwaitingFeedback">Ut eam qui vir optimus vincere</p> -->
 
-                                <p-chart *ngIf="!MoDAwaitingFeedback && feedbackPresentInDB" type="pie" [data]="pieData" valueTemplate="{value}%" [options]="pieOptions"></p-chart>
+                                <p-chart *ngIf="!MoDAwaitingFeedback && feedbackPresentInDB && !inTransit_MoD_Polls" type="pie" [data]="pieData" valueTemplate="{value}%" [options]="pieOptions"></p-chart>
 
-                                <div *ngIf="MoDAwaitingFeedback" class="field-checkbox feedbackCheckboxes px-6  py-3 block align-content-start text-xl">
+                                <div *ngIf="MoDAwaitingFeedback && !inTransit_MoD_Polls" class="field-checkbox feedbackCheckboxes px-6  py-3 block align-content-start text-xl">
                                     <div class="py-1" *ngFor="let category of quickFeedback">
                                         <p-radioButton
                                         [inputId]="category.key"

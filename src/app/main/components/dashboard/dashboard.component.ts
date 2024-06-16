@@ -2,7 +2,7 @@ import { NotificationService } from './../../service/notification.service';
 import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, Subscription, map, switchMap } from 'rxjs';
 import { AppConfig, LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from '../auth/auth.service';
 import { Role } from '../../api/role';
@@ -89,6 +89,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     inTransit_precision: boolean = false;
     inTransit_graph: boolean = false;
     inTransit_MoD: boolean = false;
+    inTransit_MoD_Polls: boolean = false;
 
     darkMode: boolean = false;
     boosters: number;
@@ -270,6 +271,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.inTransit_precision = true;
         this.inTransit_graph     = true;
         this.inTransit_MoD       = true;
+        this.inTransit_MoD_Polls = true;
         if (this.myPoints.length == 0) this.showPadlock = true;
         this.allQuotes = quotes;
         this.inspirationalQuotesForLeaders = this.allQuotes.data[0].leader;
@@ -306,83 +308,167 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.userStore.select(getPoints).subscribe(points => this.points = points);
         this.userStore.select(getBoosters).subscribe(boosters => this.boosters = boosters);
 
+        //! keep it in case the new solution doesn't work
         // choose match of the day
-        this.predictionService.getTodaysGames().subscribe({
-            next: response => {
-                this.inTransit_MoD = false;
-                this.todaysGames = response;
+        // this.predictionService.getTodaysGames().subscribe({
+        //     next: response => {
+        //         this.inTransit_MoD = false;
+        //         this.todaysGames = response;
 
-                if (this.todaysGames != null) {
+        //         if (this.todaysGames != null) {
 
-                    if (this.todaysGames.length == 1) {
-                        this.matchOfTheDay = this.todaysGames[0];
-                    } else if (this.todaysGames.length > 1) {
+        //             if (this.todaysGames.length == 1) {
+        //                 this.matchOfTheDay = this.todaysGames[0];
+        //             } else if (this.todaysGames.length > 1) {
 
-                        let todaysPerformance: any[] = [];
-                        for (let match of this.todaysGames) {
-                            let game = { id: 0, performance: 0};
-                            let performance =  this.teamPerformance(match.homeTeam) + this.teamPerformance(match.awayTeam);
-                            game.id = match.id;
-                            game.performance = performance;
+        //                 let todaysPerformance: any[] = [];
+        //                 for (let match of this.todaysGames) {
+        //                     let game = { id: 0, performance: 0};
+        //                     let performance =  this.teamPerformance(match.homeTeam) + this.teamPerformance(match.awayTeam);
+        //                     game.id = match.id;
+        //                     game.performance = performance;
 
-                            todaysPerformance.push(game);
-                        }
-                        let todaysBestPerformance = todaysPerformance.reduce(
-                            (prev, current) => {
-                              return prev.performance > current.performance ? prev : current;
-                            }
-                        );
-                        this.matchOfTheDay = this.todaysGames.filter(z => z.id == todaysBestPerformance.id)[0];
-                    }
-                }
-            },
-            error: error => {
-                console.log(error);
-            }
-        })
+        //                     todaysPerformance.push(game);
+        //                 }
+        //                 let todaysBestPerformance = todaysPerformance.reduce(
+        //                     (prev, current) => {
+        //                       return prev.performance > current.performance ? prev : current;
+        //                     }
+        //                 );
+        //                 this.matchOfTheDay = this.todaysGames.filter(z => z.id == todaysBestPerformance.id)[0];
+        //             }
+        //         }
+        //     },
+        //     error: error => {
+        //         console.log(error);
+        //     }
+        // })
+
+       this.predictionService.getTodaysGames()
+                    .pipe(
+                            map(response => {
+
+                                if (response != null) {
+                                    this.inTransit_MoD = false;
+                                    if (response.length == 1) {
+                                        this.matchOfTheDay = response[0];
+                                    } else if (response.length > 1) {
+
+                                        let todaysPerformance: any[] = [];
+                                        for (let match of response) {
+                                            let game = { id: 0, performance: 0};
+                                            let performance =  this.teamPerformance(match.homeTeam) + this.teamPerformance(match.awayTeam);
+                                            game.id = match.id;
+                                            game.performance = performance;
+
+                                            todaysPerformance.push(game);
+                                        }
+                                        let todaysBestPerformance = todaysPerformance.reduce(
+                                            (prev, current) => {
+                                                return prev.performance > current.performance ? prev : current;
+                                            }
+                                        );
+                                        this.matchOfTheDay = response.filter(z => z.id == todaysBestPerformance.id)[0];
+                                    }
+                                }
+                            }),
+                            switchMap((response) => this.modFeedbackService.getMoDFeedbackForUser(this.userData.id)
+                            .pipe(
+                                map(response => {
+                                    if (this.matchOfTheDay != null) {
+
+                                        if (response != null && response.length == 0) {
+                                            this.MoDAwaitingFeedback = true;
+                                            this.inTransit_MoD_Polls = false;
+                                            this.feedbackPresentInDB = false;
+                                        }
+                                        else if (response != null && response.length >= 1) {
+                                            this.feedbackPresentInDB = true;
+                                            this.inTransit_MoD_Polls = false;
+                                            let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
+                                            feedbackExists === true ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
+                                        }
+                                        if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true)  {
+                                            this.displayPieChart();
+                                        }
+                                        this.inTransit_MoD_Polls = false;
+                                    }
+                                })
+                            )),
+                            switchMap(() => this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id)
+                                .pipe(
+                                    map(response => {
+                                        let currentTime = moment();
+                                        let matchTimeToUTC = moment.utc(this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
+                                        let localMatchTime = moment(matchTimeToUTC).local();
+                                        if (currentTime.isAfter(localMatchTime)) {
+                                            if (response != null && response.length >= 1) {
+                                                this.inTransit_MoD_Polls = false;
+                                                this.MoDAwaitingFeedback = false;
+                                                this.feedbackPresentInDB = true;
+                                                if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
+                                                    this.displayPieChart();
+                                                    return;
+                                                }
+                                            } else {
+                                                this.inTransit_MoD_Polls = false;
+                                                this.MoDAwaitingFeedback = false;
+                                                this.feedbackPresentInDB = false;
+                                            }
+
+                                        }
+                                    })
+                                )
+                            )).subscribe();
+
+        //! keep it in case the new solution doesn't work
 
         // check whether user submitted the Match of the day feedback
-        this.subscription3 = this.modFeedbackService.getMoDFeedbackForUser(this.userData.id).subscribe({
-            next: response => {
-                if (this.matchOfTheDay != null) {
-                    this.MoDAwaitingFeedback = false;
-                    let currentTime = moment();
-                    let matchTimeToUTC = moment.utc( this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
-                    let localMatchTime = moment(matchTimeToUTC).local();
-                    if (currentTime.isAfter(localMatchTime)) {
-                        this.subscription5 = this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id).subscribe({
-                            next: res => {
-                                console.log('res:', res)
-                                this.MoDAwaitingFeedback = false;
-                                res.length > 0 ? this.feedbackPresentInDB = true : null;
-                                if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
+        // this.subscription3 = this.modFeedbackService.getMoDFeedbackForUser(this.userData.id).subscribe({
+        //     next: response => {
+        //         if (this.matchOfTheDay != null) {
+        //             let currentTime = moment();
+        //             let matchTimeToUTC = moment.utc(this.matchOfTheDay.matchDatetime ).subtract(2, 'hours');
+        //             let localMatchTime = moment(matchTimeToUTC).local();
+        //             if (currentTime.isAfter(localMatchTime)) {
+        //                 this.subscription5 = this.modFeedbackService.getMoDFeedbackForGame(this.matchOfTheDay.id).subscribe({
+        //                     next: res => {
+        //                         if (res != null && res.length >= 1) {
+        //                             this.inTransit_MoD_Polls = false;
+        //                             this.MoDAwaitingFeedback = false;
+        //                             this.feedbackPresentInDB = true;
+        //                             if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true) {
+        //                                 this.displayPieChart();
+        //                                 return;
+        //                             }
+        //                         }
+        //                     }
+        //                 });
+        //             }
 
-                                    this.displayPieChart();
-                                    return;
-                                }
-                            }
-                        });
-                    }
-
-                    console.log('this.MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
-                    if (response != null && response.length > 0) {
-                        this.feedbackPresentInDB = true;
-                        let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
-                        feedbackExists === true ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
-                    }
-                    if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true)  {
-                        this.displayPieChart();
-                    }
-                    else if (response != null && response.length == 0) {
-                        this.MoDAwaitingFeedback = true;
-                    }
-
-                }
+        //             console.log('this.MoDAwaitingFeedback:', this.MoDAwaitingFeedback)
+        //             console.log('response:', response)
+        //             if (response != null && response.length == 0) {
+        //                 this.MoDAwaitingFeedback = true;
+        //                 this.inTransit_MoD_Polls = false;
+        //                 this.feedbackPresentInDB = false;
+        //             }
+        //             else if (response != null && response.length >= 1) {
+        //                 this.feedbackPresentInDB = true;
+        //                 this.inTransit_MoD_Polls = false;
+        //                 let feedbackExists = response.map(z => z.game.id).includes(this.matchOfTheDay.id)
+        //                 feedbackExists === true ? this.MoDAwaitingFeedback = false : this.MoDAwaitingFeedback = true;
+        //             }
+        //             if (this.MoDAwaitingFeedback === false && this.feedbackPresentInDB === true)  {
+        //                 this.displayPieChart();
+        //             }
+        //             this.inTransit_MoD_Polls = false;
+        //         }
 
 
-            },
-            error: error => console.log(error)
-        })
+        //     },
+        //     error: error => console.log(error)
+        // })
         // get notifications
         this.notificationService.getNotifications().subscribe({
             next: response => {
