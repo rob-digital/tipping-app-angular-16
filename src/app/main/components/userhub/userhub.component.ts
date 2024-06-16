@@ -135,7 +135,11 @@ export class UserhubComponent implements OnInit, OnDestroy {
                         this.loadPredictions();
                         this.hideDialog();
                         this.showSuccessToast();
-                }
+
+                    } else if (res == 400 || res == 402) {
+                        this.showErrorToast();
+                    }
+
 
             },
             error: error => console.log(error)
@@ -145,6 +149,9 @@ export class UserhubComponent implements OnInit, OnDestroy {
     // ----------------- message toast
     showSuccessToast() {
         this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: 'Your prediction has been updated successfully. Good luck!' });
+    }
+    showErrorToast() {
+        this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', life: 999999999, detail: 'You cannot edit this fixture any more. Please refresh this page to continue.' });
     }
 
     ngOnDestroy() {

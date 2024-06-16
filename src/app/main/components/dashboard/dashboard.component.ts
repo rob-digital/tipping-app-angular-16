@@ -344,7 +344,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         //     }
         // })
 
-       this.predictionService.getTodaysGames()
+     this.subscription3 =  this.predictionService.getTodaysGames()
                     .pipe(
                             map(response => {
 
