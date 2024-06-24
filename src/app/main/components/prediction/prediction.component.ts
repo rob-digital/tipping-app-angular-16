@@ -135,7 +135,7 @@ export class PredictionComponent implements OnInit, OnDestroy{
         this.subscription3 = this.predictionService.getAllGamesForUser(this.auth.readUserState().id).subscribe({
             // this.gamesEffect.loadAllGames$.subscribe({
             next: response => {
-                    this.allGames = response;
+                    this.allGames = response.filter(z => z.awayTeam != null && z.homeTeam != null);
                     this.allGames.forEach(z => z.stage == GameStage.GROUP
                                                     ? z.stage = 'Group stage'
                                                     : z.stage == GameStage.ROUND_16

@@ -198,18 +198,26 @@ export class KnockoutStageComponent implements OnInit{
                     this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1).length == 1
                         ?   (this.dataSet[0].children[0].children[0].children[0].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].homeTeam.name
+                                            : this.dataSet[0].children[0].children[0].children[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[0].children[0].children[0].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].awayTeam.name
+                                            : this.dataSet[0].children[0].children[0].children[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].goalsAwayTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -218,18 +226,26 @@ export class KnockoutStageComponent implements OnInit{
                     this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2).length == 1
                         ?   (this.dataSet[0].children[0].children[0].children[1].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].homeTeam.name
+                                            : this.dataSet[0].children[0].children[0].children[1].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[0].children[0].children[1].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].awayTeam.name
+                                            : this.dataSet[0].children[0].children[0].children[1].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].goalsAwayTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -238,19 +254,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3).length == 1
                         ?   (this.dataSet[0].children[0].children[1].children[0].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].homeTeam.name
+                                            : this.dataSet[0].children[0].children[1].children[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[0].children[1].children[0].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].awayTeam.name
+                                            : this.dataSet[0].children[0].children[1].children[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].goalsAwayTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME3)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -259,19 +283,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4).length == 1
                         ?   (this.dataSet[0].children[0].children[1].children[1].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].homeTeam.name
+                                            : this.dataSet[0].children[0].children[1].children[1].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[0].children[1].children[1].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].awayTeam.name
+                                            : this.dataSet[0].children[0].children[1].children[1].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].goalsAwayTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME4)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -280,19 +312,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5).length == 1
                         ?   (this.dataSet[0].children[1].children[0].children[0].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].homeTeam.name
+                                            : this.dataSet[0].children[1].children[0].children[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[1].children[0].children[0].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].awayTeam.name
+                                            : this.dataSet[0].children[1].children[0].children[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].goalsAwayTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME5)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -301,19 +341,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6).length == 1
                         ?   (this.dataSet[0].children[1].children[0].children[1].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].homeTeam.name
+                                            : this.dataSet[0].children[1].children[0].children[1].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[1].children[0].children[1].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].awayTeam.name
+                                            : this.dataSet[0].children[1].children[0].children[1].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].goalsAwayTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME6)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -322,19 +370,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7).length == 1
                         ?   (this.dataSet[0].children[1].children[1].children[0].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].homeTeam.name
+                                            : this.dataSet[0].children[1].children[1].children[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[1].children[1].children[0].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].awayTeam.name
+                                            : this.dataSet[0].children[1].children[1].children[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].goalsAwayTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME7)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -343,19 +399,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8).length == 1
                         ?   (this.dataSet[0].children[1].children[1].children[1].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].homeTeam.name
+                                            : this.dataSet[0].children[1].children[1].children[1].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[1].children[1].children[1].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].awayTeam.name
+                                            : this.dataSet[0].children[1].children[1].children[1].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].goalsAwayTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.ROUND_16_GAME8)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -365,19 +429,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1).length == 1
                         ?   (this.dataSet[0].children[0].children[0].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam.name != null
+                                            ? this.dataSet[0].children[1].children[1].children[0].data.awayTeam.name
+                                            : this.dataSet[0].children[0].children[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[0].children[0].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam.name  != null
+                                            ? this.dataSet[0].children[1].children[1].children[0].data.awayTeam.name
+                                            : this.dataSet[0].children[0].children[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].goalsAwayTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -386,18 +458,26 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2).length == 1
                         ?   (this.dataSet[0].children[0].children[1].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].homeTeam.name
+                                            : this.dataSet[0].children[0].children[1].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[0].children[1].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].awayTeam.name
+                                            : this.dataSet[0].children[0].children[1].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].goalsAwayTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -406,20 +486,28 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3).length == 1
                         ?   (this.dataSet[0].children[1].children[0].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].homeTeam.name
+                                            : this.dataSet[0].children[1].children[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].goalsHomeTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[1].children[0].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].awayTeam.name
+                                            : this.dataSet[0].children[1].children[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].goalsAwayTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME3)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -428,19 +516,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4).length == 1
                         ?   (this.dataSet[0].children[1].children[1].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].homeTeam.name
+                                            : this.dataSet[0].children[1].children[1].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].goalsHomeTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].children[1].children[1].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].awayTeam.name
+                                            : this.dataSet[0].children[1].children[1].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].goalsAwayTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME4)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
                             )
@@ -450,21 +546,29 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1).length == 1
                         ?   (this.dataSet[0].children[0].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].homeTeam.name
+                                            : this.dataSet[0].children[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].goalsHomeTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     flagSize: 'medium',
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
 
                                 },
                                 this.dataSet[0].children[0].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].awayTeam.name
+                                            : this.dataSet[0].children[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].goalsAwayTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     flagSize: 'medium',
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME1)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
 
@@ -475,21 +579,29 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2).length == 1
                         ?   (this.dataSet[0].children[1].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].homeTeam.name
+                                            : this.dataSet[0].children[1].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].goalsHomeTeam,
 
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     flagSize: 'medium',
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
 
                                 },
                                 this.dataSet[0].children[1].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].awayTeam.name
+                                            : this.dataSet[0].children[1].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].goalsAwayTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     flagSize: 'medium',
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.SEMIFINAL_GAME2)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
@@ -500,19 +612,27 @@ export class KnockoutStageComponent implements OnInit{
                         this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL).length == 1
                         ?   (this.dataSet[0].data.homeTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].homeTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].homeTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].homeTeam.name
+                                            : this.dataSet[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].goalsHomeTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].homeTeam.name != null
+                                                    ? true
+                                                    : false,
                                     flagSize: 'large',
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 },
                                 this.dataSet[0].data.awayTeam =
                                 {
-                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].awayTeam.name,
+                                    name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].awayTeam.name != null
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].awayTeam.name
+                                            : this.dataSet[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].goalsAwayTeam,
                                     isWinner: false,
-                                    isConfirmed: true,
+                                    isConfirmed: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].awayTeam.name != null
+                                                    ? true
+                                                    : false,
                                     flagSize: 'large',
                                     winsAfterPenalties: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.FINAL)[0].winsAfterPenalties == YesOrNo.YES ? true : false,
                                 }
