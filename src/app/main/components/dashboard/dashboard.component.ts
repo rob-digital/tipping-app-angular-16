@@ -2,7 +2,7 @@ import { NotificationService } from './../../service/notification.service';
 import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
-import { Observable, Subscription, map, switchMap } from 'rxjs';
+import { Subscription, map, switchMap } from 'rxjs';
 import { AppConfig, LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from '../auth/auth.service';
 import { Role } from '../../api/role';

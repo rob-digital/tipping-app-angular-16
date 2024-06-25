@@ -11,3 +11,6 @@
 .leaderBoard {
     min-height: 80vh;
 }
+:host ::ng-deep .p-tag-value {
+    font-size: 16px !important;
+}

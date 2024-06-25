@@ -48,7 +48,10 @@
 
                             </td>
                             <td class="">
-                                <span>{{ user.username }}</span>
+                                <span *ngIf="user.username != myName">{{ user.username  }}</span>
+                                <span>
+                                    <p-tag *ngIf="user.username == myName"  severity="success" value="{{ user.username  }}" [rounded]="true"></p-tag>
+                                </span>
                             </td>
                             <td class="text-center">
                                 <span>{{ user.points }}</span>

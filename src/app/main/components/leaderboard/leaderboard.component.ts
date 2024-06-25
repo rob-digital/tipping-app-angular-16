@@ -1,8 +1,11 @@
+import { Store } from '@ngrx/store';
 import {  Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { LeaderboardService } from './leaderboard.service';
 import { UserData2 } from '../../api/userData';
 import { Subscription } from 'rxjs';
 import { PredictionService } from '../prediction/prediction.service';
+import { AppUser } from '../../api/user';
+import { getUserId, getUsername } from '../auth/state/user.reducer';
 
 @Component({
   selector: 'app-leaderboard',
@@ -22,10 +25,15 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
     chartType: string;
     labels: any[];
 
-        constructor(private leaderboardService: LeaderboardService, private predictionService: PredictionService, private renderer: Renderer2) {}
+    userId: number;
+    myName: string;
+
+        constructor(private leaderboardService: LeaderboardService, private predictionService: PredictionService, private renderer: Renderer2, private userStore: Store<AppUser> ) {}
 
     ngOnInit(): void {
         this.inTransit = true;
+        // this.userStore.select(getUserId).subscribe(id => this.userId = id);
+        this.userStore.select(getUsername).subscribe(user => this.myName = user);
 
        this.subscription = this.leaderboardService.getUsers().subscribe({
             next: response => {
