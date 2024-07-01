@@ -191,6 +191,7 @@ export class KnockoutStageComponent implements OnInit{
         this.predictionService.getKnockoutGames().subscribe({
             next: response => {
                 this.knockoutGames = response;
+                console.log('this.knockoutGames:', this.knockoutGames)
 
                 if (this.knockoutGames != null) {
 
@@ -430,7 +431,7 @@ export class KnockoutStageComponent implements OnInit{
                         ?   (this.dataSet[0].children[0].children[0].data.homeTeam =
                                 {
                                     name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam.name != null
-                                            ? this.dataSet[0].children[1].children[1].children[0].data.awayTeam.name
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].homeTeam.name
                                             : this.dataSet[0].children[0].children[0].data.homeTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].goalsHomeTeam,
                                     isWinner: false,
@@ -442,7 +443,7 @@ export class KnockoutStageComponent implements OnInit{
                                 this.dataSet[0].children[0].children[0].data.awayTeam =
                                 {
                                     name: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam != null && this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam.name  != null
-                                            ? this.dataSet[0].children[1].children[1].children[0].data.awayTeam.name
+                                            ? this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].awayTeam.name
                                             : this.dataSet[0].children[0].children[0].data.awayTeam.name,
                                     goals: this.knockoutGames.filter(z => z.knockoutStageGame == KnockoutStageGame.QUARTERFINAL_GAME1)[0].goalsAwayTeam,
 
