@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PredictionService } from '../prediction/prediction.service';
 import { Subscription } from 'rxjs';
 import { Game } from '../../api/game';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-top-performance',
@@ -39,6 +40,7 @@ export class TopPerformanceComponent implements OnInit, OnDestroy {
                     this.showPadlock = false;
 
                       this.allGames = res.calculatedGames;
+                      this.allGames = this.allGames.sort((a, b) => moment(a.matchDatetime).valueOf() - moment(b.matchDatetime).valueOf());
                       let userData: any = [];
                       let sum = [0,0,0,0,0];
                       if (res.performanceData != null && res.performanceData[0].predictions != null && res.performanceData[0].predictions.length > 0) {
